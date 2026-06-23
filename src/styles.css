@@ -1502,6 +1502,34 @@ p + p {
     margin: 0 auto;
     margin-top: var(--space-8);
   }
+  .hero__collage-col:nth-child(1),
+  .hero__collage-col:nth-child(2),
+  .hero__collage-col:nth-child(3) {
+    animation: none !important;
+  }
+  /* Disable infinite drifting/morphing animations on photo grids on mobile to avoid repaint/frame drops */
+  .photo-grid__card--circle-anim-1,
+  .photo-grid__card--circle-anim-2,
+  .photo-grid__card,
+  .photo-grid__secondary-card {
+    animation: none !important;
+  }
+  /* Disable will-change on mobile screens to prevent GPU layer memory exhaustion */
+  .reveal,
+  body.js-enabled section,
+  body.js-enabled .service-block,
+  body.js-enabled .process__step,
+  body.js-enabled .testimonial-primary,
+  body.js-enabled .testimonial-secondary,
+  body.js-enabled .plan-card,
+  body.js-enabled .about__stat,
+  body.js-enabled .calc-container,
+  body.js-enabled .form-card,
+  body.js-enabled .why__item,
+  body.js-enabled .claim-step,
+  body.js-enabled .trust-bar__inner span {
+    will-change: auto !important;
+  }
 }
 @media (max-width: 600px) {
   .hero__collage {
