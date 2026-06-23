@@ -230,7 +230,6 @@ const FAQ = [
   },
 ];
 
-const W = { maxWidth: "1180px", margin: "0 auto", padding: "0 32px" };
 
 function StepList({ steps }: { steps: { title: string; body: string }[] }) {
   return (
@@ -290,7 +289,7 @@ function ClaimsPage() {
           borderBottom: "1px solid #E2E8F0",
         }}
       >
-        <div style={{ ...W, maxWidth: "860px", textAlign: "center" }}>
+        <div className="container" style={{ maxWidth: "860px", textAlign: "center" }}>
           <nav
             style={{
               display: "flex",
@@ -380,7 +379,7 @@ function ClaimsPage() {
         aria-labelledby="first24-heading"
         style={{ padding: "clamp(5rem,10vw,8rem) 0", background: "#F8FAFC" }}
       >
-        <div style={W}>
+        <div className="container">
           <div style={{ marginBottom: "clamp(3rem,6vw,5rem)" }}>
             <div className="section-label">Immediate Action</div>
             <h2 id="first24-heading" style={{ margin: "0 0 16px", maxWidth: "28ch" }}>
@@ -448,7 +447,7 @@ function ClaimsPage() {
         aria-labelledby="categories-heading"
         style={{ padding: "clamp(5rem,10vw,8rem) 0", background: "#FFFFFF" }}
       >
-        <div style={W}>
+        <div className="container">
           <div style={{ marginBottom: "clamp(3rem,6vw,5rem)" }}>
             <div className="section-label">All Claim Types</div>
             <h2 id="categories-heading" style={{ margin: "0 0 16px", maxWidth: "28ch" }}>
@@ -539,7 +538,7 @@ function ClaimsPage() {
         aria-labelledby="claim-types-heading"
         style={{ padding: "clamp(5rem,10vw,8rem) 0", background: "#F8FAFC" }}
       >
-        <div style={W}>
+        <div className="container">
           <div style={{ marginBottom: "clamp(3rem,6vw,5rem)" }}>
             <div className="section-label">Step-by-Step Guides</div>
             <h2 id="claim-types-heading" style={{ margin: "0 0 16px", maxWidth: "28ch" }}>
@@ -623,7 +622,7 @@ function ClaimsPage() {
         aria-labelledby="rejection-heading"
         style={{ padding: "clamp(5rem,10vw,8rem) 0", background: "#FFFFFF" }}
       >
-        <div style={W}>
+        <div className="container">
           <div style={{ marginBottom: "clamp(3rem,6vw,5rem)" }}>
             <div className="section-label">Prevention Guide</div>
             <h2 id="rejection-heading" style={{ margin: "0 0 16px", maxWidth: "34ch" }}>
@@ -638,6 +637,7 @@ function ClaimsPage() {
           <div
             style={{
               overflow: "auto",
+              width: "100%",
               maxWidth: "100%",
               borderRadius: "16px",
               border: "1px solid #E2E8F0",
