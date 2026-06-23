@@ -234,13 +234,12 @@ export function UnifiedLoginPortal({ onAdvisorLoginSuccess }: UnifiedLoginPortal
       {/* RIGHT — Form */}
       <div className="login-portal-form-container">
         <div style={{ width: "100%", maxWidth: "400px" }}>
-          {/* Card */}
           <div
             style={{
               background: "#FFFFFF",
               borderRadius: "20px",
               border: "1px solid #E2E8F0",
-              padding: "42px 36px",
+              padding: "clamp(1.5rem, 5vw, 2.5rem)",
               boxShadow: "0 4px 24px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04)",
             }}
           >
@@ -444,6 +443,57 @@ export function UnifiedLoginPortal({ onAdvisorLoginSuccess }: UnifiedLoginPortal
                   )}
                 </button>
               </form>
+            </div>
+
+            {/* Staging Credentials Helper */}
+            <div
+              style={{
+                marginTop: "24px",
+                paddingTop: "20px",
+                borderTop: "1px dashed #E2E8F0",
+                textAlign: "center",
+              }}
+            >
+              <div
+                style={{
+                  fontSize: "0.68rem",
+                  color: "#64748B",
+                  fontWeight: 700,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.06em",
+                  marginBottom: "6px",
+                }}
+              >
+                Staging Credentials
+              </div>
+              <div style={{ fontSize: "0.78rem", color: "#475569" }}>
+                Username:{" "}
+                <code
+                  style={{
+                    background: "#F1F5F9",
+                    padding: "2px 6px",
+                    borderRadius: "4px",
+                    fontSize: "0.75rem",
+                    fontFamily: "monospace",
+                    fontWeight: 600,
+                  }}
+                >
+                  admin
+                </code>{" "}
+                · Password:{" "}
+                <code
+                  style={{
+                    background: "#F1F5F9",
+                    padding: "2px 6px",
+                    borderRadius: "4px",
+                    fontSize: "0.75rem",
+                    fontFamily: "monospace",
+                    fontWeight: 600,
+                  }}
+                >
+                  admin123
+                </code>
+              </div>
             </div>
           </div>
         </div>
