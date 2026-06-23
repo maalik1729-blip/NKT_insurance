@@ -1318,7 +1318,7 @@ function Home() {
             <div
               style={{
                 background: "var(--color-white)",
-                padding: "clamp(2rem, 4vw, 3rem)",
+                padding: "clamp(1.25rem, 4vw, 3rem)",
                 borderRadius: "16px",
                 border: "1px solid var(--color-border)",
                 boxShadow: "0 4px 24px rgba(0,0,0,0.04)",
@@ -2123,7 +2123,7 @@ function Home() {
         aria-labelledby="lead-title"
         style={{ paddingBlock: "clamp(5rem, 10vw, 8rem)", background: "var(--color-dark)" }}
       >
-        <div style={{ maxWidth: "1180px", margin: "0 auto", padding: "0 32px" }}>
+        <div className="container" style={{ maxWidth: "1180px" }}>
           <div
             style={{
               display: "grid",
@@ -2185,7 +2185,7 @@ function Home() {
             <div
               style={{
                 background: "#FFFFFF",
-                padding: "clamp(2rem,4vw,3rem)",
+                padding: "clamp(1.25rem,4vw,3rem)",
                 borderRadius: "20px",
                 boxShadow: "0 24px 64px rgba(0,0,0,0.25)",
               }}

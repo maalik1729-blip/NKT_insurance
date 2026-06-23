@@ -676,7 +676,7 @@ function MotorInsurancePage() {
                   background: "#F8FAFC",
                   border: "1px solid #E2E8F0",
                   borderRadius: "20px",
-                  padding: "clamp(2rem,4vw,2.5rem)",
+                  padding: "clamp(1.25rem,4vw,2.5rem)",
                   boxShadow: "0 4px 24px rgba(0,0,0,0.04)",
                 }}
               >
