@@ -1,0 +1,181 @@
+{
+  "market_share": [
+    {
+      "name": "ICICI Lombard",
+      "value": 14.5,
+      "type": "Private General",
+      "color": "#0284c7"
+    },
+    {
+      "name": "New India Assurance",
+      "value": 12.2,
+      "type": "Public General",
+      "color": "#0369a1"
+    },
+    {
+      "name": "Bajaj Allianz",
+      "value": 9.8,
+      "type": "Private General",
+      "color": "#ea580c"
+    },
+    {
+      "name": "Tata AIG",
+      "value": 8.5,
+      "type": "Private General",
+      "color": "#c2410c"
+    },
+    {
+      "name": "HDFC ERGO",
+      "value": 8.1,
+      "type": "Private General",
+      "color": "#f97316"
+    },
+    {
+      "name": "Go Digit",
+      "value": 6.2,
+      "type": "Private General",
+      "color": "#3b82f6"
+    },
+    {
+      "name": "National Insurance",
+      "value": 5.8,
+      "type": "Public General",
+      "color": "#075985"
+    },
+    {
+      "name": "Reliance General",
+      "value": 5.2,
+      "type": "Private General",
+      "color": "#b45309"
+    },
+    {
+      "name": "United India",
+      "value": 4.9,
+      "type": "Public General",
+      "color": "#0c4a6e"
+    },
+    {
+      "name": "Oriental Insurance",
+      "value": 4.5,
+      "type": "Public General",
+      "color": "#1e3a8a"
+    },
+    {
+      "name": "Others",
+      "value": 20.3,
+      "type": "Other",
+      "color": "#64748b"
+    }
+  ],
+  "claim_settlement_ratios": [
+    {
+      "name": "HDFC ERGO",
+      "csr": 99.12,
+      "color": "#f97316"
+    },
+    {
+      "name": "ACKO General",
+      "csr": 98.85,
+      "color": "#ec4899"
+    },
+    {
+      "name": "Bajaj Allianz",
+      "csr": 98.48,
+      "color": "#ea580c"
+    },
+    {
+      "name": "Reliance General",
+      "csr": 98.15,
+      "color": "#b45309"
+    },
+    {
+      "name": "Go Digit",
+      "csr": 96.82,
+      "color": "#3b82f6"
+    },
+    {
+      "name": "Cholamandalam MS",
+      "csr": 96.12,
+      "color": "#10b981"
+    },
+    {
+      "name": "New India Assurance",
+      "csr": 95.45,
+      "color": "#0369a1"
+    },
+    {
+      "name": "ICICI Lombard",
+      "csr": 94.8,
+      "color": "#0284c7"
+    },
+    {
+      "name": "Tata AIG",
+      "csr": 93.5,
+      "color": "#c2410c"
+    }
+  ],
+  "claim_categories": [
+    {
+      "type": "Accidental Damage (Collision)",
+      "volume": 68.0,
+      "description": "Minor fender-benders, major crashes, or animal collisions.",
+      "color": "#4f8ef7"
+    },
+    {
+      "type": "Glass & Windshield Damage",
+      "volume": 18.0,
+      "description": "Minor glass breakage, gravel chips on windshield.",
+      "color": "#10b981"
+    },
+    {
+      "type": "Natural Calamities (Floods)",
+      "volume": 7.0,
+      "description": "Damage caused by torrential rains, water ingress, and falling trees.",
+      "color": "#f59e0b"
+    },
+    {
+      "type": "Theft / Total Loss",
+      "volume": 4.0,
+      "description": "Stolen vehicles or damage exceeding 75% of the vehicle's IDV.",
+      "color": "#ef4444"
+    },
+    {
+      "type": "Engine & Water Ingress",
+      "volume": 3.0,
+      "description": "Hydrostatic lock from driving through flooded roads.",
+      "color": "#a855f7"
+    }
+  ],
+  "rejection_reasons": [
+    {
+      "reason": "Invalid License / Under Influence",
+      "percentage": 32,
+      "color": "#ef4444"
+    },
+    {
+      "reason": "Lapsed Policy / Out of Term",
+      "percentage": 24,
+      "color": "#f97316"
+    },
+    {
+      "reason": "Delayed Intimation to Insurer",
+      "percentage": 18,
+      "color": "#f59e0b"
+    },
+    {
+      "reason": "Consequential Damage (Ignition on flood)",
+      "percentage": 14,
+      "color": "#a855f7"
+    },
+    {
+      "reason": "Misrepresentation / Commercial Use",
+      "percentage": 12,
+      "color": "#64748b"
+    }
+  ],
+  "industry_totals": {
+    "total_motor_premiums_cr": 92000,
+    "grievance_rate_pct": 24.8,
+    "overall_industry_csr": 96.5
+  }
+}
