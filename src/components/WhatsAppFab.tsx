@@ -19,25 +19,6 @@ export function WhatsAppFab() {
     setTimeStr(`${hours}:${minutes} ${ampm}`);
   }, []);
 
-  // Prevent background scroll when the widget is open
-  useEffect(() => {
-    if (!isOpen) return;
-
-    // Save current body & html overflow values
-    const originalBodyOverflow = document.body.style.overflow;
-    const originalHtmlOverflow = document.documentElement.style.overflow;
-
-    // Disable scrolling
-    document.body.style.overflow = "hidden";
-    document.documentElement.style.overflow = "hidden";
-
-    return () => {
-      // Restore original scrolling styles
-      document.body.style.overflow = originalBodyOverflow;
-      document.documentElement.style.overflow = originalHtmlOverflow;
-    };
-  }, [isOpen]);
-
   // Handle clicking outside to close the widget
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -53,6 +34,64 @@ export function WhatsAppFab() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
+
+  // Prevent background scroll when touching/scrolling inside the WhatsApp widget on mobile
+  useEffect(() => {
+    const el = widgetRef.current;
+    if (!el || !isOpen) return;
+
+    let touchStartY = 0;
+
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartY = e.touches[0].clientY;
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      let target = e.target as HTMLElement | null;
+      let isScrollable = false;
+      let scrollEl: HTMLElement | null = null;
+
+      while (target && target !== el) {
+        const isBody = target.classList.contains("wa-widget-body");
+        const isTextarea = target.classList.contains("wa-textarea");
+        if (isBody || isTextarea) {
+          isScrollable = true;
+          scrollEl = target;
+          break;
+        }
+        target = target.parentElement;
+      }
+
+      if (!isScrollable || !scrollEl) {
+        // Not a scrollable element (e.g. header, chips wrapper, background), lock scroll
+        if (e.cancelable) e.preventDefault();
+      } else {
+        // Scrollable element. We want to allow scroll, but lock when hitting limits (top/bottom)
+        const scrollTop = scrollEl.scrollTop;
+        const scrollHeight = scrollEl.scrollHeight;
+        const clientHeight = scrollEl.clientHeight;
+        const touchY = e.touches[0].clientY;
+        const direction = touchY - touchStartY; // positive: swipe down, negative: swipe up
+
+        // Hitting top limit and swiping down (scrolling up)
+        const hittingTop = scrollTop <= 0 && direction > 0;
+        // Hitting bottom limit and swiping up (scrolling down)
+        const hittingBottom = scrollTop + clientHeight >= scrollHeight && direction < 0;
+
+        if (hittingTop || hittingBottom) {
+          if (e.cancelable) e.preventDefault();
+        }
+      }
+    };
+
+    el.addEventListener("touchstart", handleTouchStart, { passive: true });
+    el.addEventListener("touchmove", handleTouchMove, { passive: false });
+
+    return () => {
+      el.removeEventListener("touchstart", handleTouchStart);
+      el.removeEventListener("touchmove", handleTouchMove);
     };
   }, [isOpen]);
 
