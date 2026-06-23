@@ -361,137 +361,132 @@ export function SiteNav() {
         }}
         className={`nav__mobile ${menuOpen ? "nav__mobile--open" : ""}`}
       >
+        <div style={{ padding: "16px 24px", display: "flex", flexDirection: "column", gap: "2px" }}>
           <div
-            style={{ padding: "16px 24px", display: "flex", flexDirection: "column", gap: "2px" }}
+            style={{
+              fontSize: "0.67rem",
+              fontWeight: 700,
+              color: "#94A3B8",
+              textTransform: "uppercase",
+              letterSpacing: "0.08em",
+              padding: "12px 8px 6px",
+            }}
           >
-            <div
-              style={{
-                fontSize: "0.67rem",
-                fontWeight: 700,
-                color: "#94A3B8",
-                textTransform: "uppercase",
-                letterSpacing: "0.08em",
-                padding: "12px 8px 6px",
-              }}
-            >
-              Insurance Plans
-            </div>
-            {[
-              {
-                to: "/life-insurance",
-                icon: <ShieldCheck size={14} />,
-                label: "Life Insurance (LIC)",
-              },
-              { to: "/health-insurance", icon: <Heart size={14} />, label: "Health Insurance" },
-              { to: "/motor-insurance", icon: <Car size={14} />, label: "Motor Insurance" },
-            ].map((item) => (
-              <Link
-                key={item.to}
-                to={item.to}
-                onClick={() => setMenuOpen(false)}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "10px",
-                  padding: "12px 10px",
-                  borderRadius: "10px",
-                  textDecoration: "none",
-                  fontSize: "0.95rem",
-                  fontWeight: 500,
-                  color: "#475569",
-                  transition: "background 150ms",
-                }}
-                className="nav__mobile-link"
-              >
-                <span style={{ color: "var(--color-accent)" }}>{item.icon}</span> {item.label}
-              </Link>
-            ))}
-
-            <div style={{ height: "1px", background: "#F1F5F9", margin: "8px 0" }} />
-
-            {[
-              { to: "/claims", label: "Claims" },
-              { to: "/about", label: "About" },
-              { to: "/contact", label: "Contact" },
-            ].map((link) => (
-              <Link
-                key={link.to}
-                to={link.to}
-                onClick={() => setMenuOpen(false)}
-                style={{
-                  padding: "12px 10px",
-                  borderRadius: "10px",
-                  textDecoration: "none",
-                  fontSize: "0.95rem",
-                  fontWeight: 500,
-                  color: "#475569",
-                  transition: "background 150ms",
-                }}
-                className="nav__mobile-link"
-              >
-                {link.label}
-              </Link>
-            ))}
+            Insurance Plans
+          </div>
+          {[
+            {
+              to: "/life-insurance",
+              icon: <ShieldCheck size={14} />,
+              label: "Life Insurance (LIC)",
+            },
+            { to: "/health-insurance", icon: <Heart size={14} />, label: "Health Insurance" },
+            { to: "/motor-insurance", icon: <Car size={14} />, label: "Motor Insurance" },
+          ].map((item) => (
             <Link
-              to="/insurance-dashboard"
+              key={item.to}
+              to={item.to}
               onClick={() => setMenuOpen(false)}
               style={{
                 display: "flex",
                 alignItems: "center",
-                gap: "8px",
+                gap: "10px",
                 padding: "12px 10px",
                 borderRadius: "10px",
                 textDecoration: "none",
                 fontSize: "0.95rem",
-                fontWeight: 600,
-                color: "var(--color-accent)",
+                fontWeight: 500,
+                color: "#475569",
                 transition: "background 150ms",
               }}
               className="nav__mobile-link"
             >
-              <BarChart2 size={14} /> Insurance Dashboard
+              <span style={{ color: "var(--color-accent)" }}>{item.icon}</span> {item.label}
             </Link>
+          ))}
 
-            <div style={{ height: "1px", background: "#F1F5F9", margin: "8px 0" }} />
+          <div style={{ height: "1px", background: "#F1F5F9", margin: "8px 0" }} />
 
-            <div
-              style={{ display: "flex", flexDirection: "column", gap: "10px", padding: "8px 0" }}
+          {[
+            { to: "/claims", label: "Claims" },
+            { to: "/about", label: "About" },
+            { to: "/contact", label: "Contact" },
+          ].map((link) => (
+            <Link
+              key={link.to}
+              to={link.to}
+              onClick={() => setMenuOpen(false)}
+              style={{
+                padding: "12px 10px",
+                borderRadius: "10px",
+                textDecoration: "none",
+                fontSize: "0.95rem",
+                fontWeight: 500,
+                color: "#475569",
+                transition: "background 150ms",
+              }}
+              className="nav__mobile-link"
             >
-              <Link
-                to="/contact"
-                onClick={() => setMenuOpen(false)}
-                className="btn btn-primary"
-                style={{
-                  width: "100%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: "6px",
-                  height: "46px",
-                }}
-              >
-                Get a Free Quote <ArrowRight size={14} />
-              </Link>
-              <a
-                href={`tel:${TEL}`}
-                style={{
-                  textAlign: "center",
-                  fontSize: "0.85rem",
-                  color: "#64748B",
-                  fontWeight: 600,
-                  padding: "8px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: "6px",
-                }}
-              >
-                <Phone size={13} /> {TEL_DISPLAY}
-              </a>
-            </div>
+              {link.label}
+            </Link>
+          ))}
+          <Link
+            to="/insurance-dashboard"
+            onClick={() => setMenuOpen(false)}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              padding: "12px 10px",
+              borderRadius: "10px",
+              textDecoration: "none",
+              fontSize: "0.95rem",
+              fontWeight: 600,
+              color: "var(--color-accent)",
+              transition: "background 150ms",
+            }}
+            className="nav__mobile-link"
+          >
+            <BarChart2 size={14} /> Insurance Dashboard
+          </Link>
+
+          <div style={{ height: "1px", background: "#F1F5F9", margin: "8px 0" }} />
+
+          <div style={{ display: "flex", flexDirection: "column", gap: "10px", padding: "8px 0" }}>
+            <Link
+              to="/contact"
+              onClick={() => setMenuOpen(false)}
+              className="btn btn-primary"
+              style={{
+                width: "100%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "6px",
+                height: "46px",
+              }}
+            >
+              Get a Free Quote <ArrowRight size={14} />
+            </Link>
+            <a
+              href={`tel:${TEL}`}
+              style={{
+                textAlign: "center",
+                fontSize: "0.85rem",
+                color: "#64748B",
+                fontWeight: 600,
+                padding: "8px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "6px",
+              }}
+            >
+              <Phone size={13} /> {TEL_DISPLAY}
+            </a>
           </div>
         </div>
-
+      </div>
 
       <style>{`
         @media (max-width: 1024px) { .nav__links { display: none !important; } .nav__phone { display: none !important; } .nav__actions .btn-sm { display: none !important; } .nav__hamburger { display: flex !important; } }

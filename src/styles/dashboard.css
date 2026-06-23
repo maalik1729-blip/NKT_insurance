@@ -292,6 +292,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  flex-wrap: wrap;
   flex-shrink: 0;
 }
 
@@ -841,6 +842,11 @@
 
   .db-csr-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+  @media (max-width: 460px) {
+    .db-csr-grid {
+      grid-template-columns: 1fr;
+    }
   }
 
   .db-chart-card {
