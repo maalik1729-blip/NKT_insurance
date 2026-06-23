@@ -5789,4 +5789,9 @@ body.js-enabled .trust-bar__inner span.reveal--visible {
   .estimator__grid {
     grid-template-columns: 1fr !important;
   }
+  .estimator__grid > div,
+  .hero__grid > div {
+    position: static !important;
+    top: auto !important;
+  }
 }
