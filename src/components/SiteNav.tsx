@@ -12,7 +12,7 @@ import {
   BarChart2,
 } from "lucide-react";
 import { WA_NUMBER, TEL, TEL_DISPLAY } from "./icons";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import logoImg from "../assets/images/logo.png";
 
 export function SiteNav() {
@@ -20,6 +20,7 @@ export function SiteNav() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const router = useRouter();
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 8);
@@ -43,6 +44,51 @@ export function SiteNav() {
     return () => {
       document.body.style.overflow = "";
       document.documentElement.style.overflow = "";
+    };
+  }, [menuOpen]);
+
+  // Prevent background scroll when touching/scrolling inside the mobile navigation menu on mobile
+  useEffect(() => {
+    const el = mobileMenuRef.current;
+    if (!el || !menuOpen) return;
+
+    let touchStartY = 0;
+
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartY = e.touches[0].clientY;
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      const scrollEl = el;
+      const scrollTop = scrollEl.scrollTop;
+      const scrollHeight = scrollEl.scrollHeight;
+      const clientHeight = scrollEl.clientHeight;
+
+      // If the content is not actually scrollable (it fits within the viewport), prevent scroll entirely
+      if (scrollHeight <= clientHeight) {
+        if (e.cancelable) e.preventDefault();
+        return;
+      }
+
+      const touchY = e.touches[0].clientY;
+      const direction = touchY - touchStartY; // positive: swipe down, negative: swipe up
+
+      // Hitting top limit and swiping down (scrolling up)
+      const hittingTop = scrollTop <= 0 && direction > 0;
+      // Hitting bottom limit and swiping up (scrolling down)
+      const hittingBottom = scrollTop + clientHeight >= scrollHeight && direction < 0;
+
+      if (hittingTop || hittingBottom) {
+        if (e.cancelable) e.preventDefault();
+      }
+    };
+
+    el.addEventListener("touchstart", handleTouchStart, { passive: true });
+    el.addEventListener("touchmove", handleTouchMove, { passive: false });
+
+    return () => {
+      el.removeEventListener("touchstart", handleTouchStart);
+      el.removeEventListener("touchmove", handleTouchMove);
     };
   }, [menuOpen]);
 
@@ -358,6 +404,7 @@ export function SiteNav() {
 
       {/* Mobile menu overlay */}
       <div
+        ref={mobileMenuRef}
         style={{
           position: "fixed",
           inset: 0,
@@ -365,6 +412,7 @@ export function SiteNav() {
           background: "#FFFFFF",
           zIndex: 49,
           overflowY: "auto",
+          overscrollBehavior: "contain",
           borderTop: "1px solid #E2E8F0",
           transition: "transform 320ms ease, opacity 240ms ease, visibility 240ms ease",
         }}
