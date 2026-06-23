@@ -1296,6 +1296,7 @@ p + p {
   }
   .nav__hamburger {
     display: flex;
+    margin-left: auto;
   }
 }
 @media (max-width: 480px) {

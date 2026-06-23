@@ -344,6 +344,7 @@ export function SiteNav() {
               cursor: "pointer",
               color: "#0F172A",
               transition: "background 160ms",
+              marginLeft: "auto",
             }}
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
@@ -501,7 +502,7 @@ export function SiteNav() {
           .nav__links { display: none !important; }
           .nav__phone { display: none !important; }
           .nav__actions .btn-sm { display: none !important; }
-          .nav__hamburger { display: flex !important; }
+          .nav__hamburger { display: flex !important; margin-left: auto !important; }
           .nav__container { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
         }
         .nav__link:hover, .nav__dropdown-toggle:hover { background: #F8FAFC !important; color: #0F172A !important; }
