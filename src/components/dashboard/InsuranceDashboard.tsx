@@ -140,7 +140,7 @@ export function InsuranceDashboard() {
           </div>
         </Link>
 
-        <div className="db-nav-section">
+        <div className="db-nav-section db-nav-section--tabs">
           <div className="db-nav-section-label">Analytics</div>
           <nav className="db-nav">
             {(
@@ -168,7 +168,7 @@ export function InsuranceDashboard() {
 
         <div className="db-sidebar-divider" />
 
-        <div className="db-nav-section">
+        <div className="db-nav-section db-nav-section--nav">
           <div className="db-nav-section-label">Navigation</div>
           <nav className="db-nav">
             <Link to="/" className="db-nav-btn back-btn">

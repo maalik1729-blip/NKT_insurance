@@ -764,54 +764,110 @@
     position: sticky;
     top: 0;
     z-index: 40;
+    display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
-    padding: 12px 20px;
-    gap: 12px;
+    justify-content: space-between;
+    padding: 12px 20px 8px;
+    gap: 8px;
     border-right: none;
     border-bottom: 1px solid var(--db-border);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     box-shadow: var(--db-shadow-sm);
     overflow: visible !important;
+  }
+
+  .db-logo-link {
+    order: 1;
   }
 
   .db-logo {
     border-bottom: none;
     padding: 0;
-    margin-right: 12px;
   }
 
-  .db-nav-section {
+  /* Back to home section */
+  .db-nav-section.db-nav-section--nav {
+    order: 2;
     padding: 0;
+    margin: 0;
+  }
+
+  .db-nav-section.db-nav-section--nav .db-nav {
+    display: flex;
+    flex-direction: row;
+    overflow: visible;
+  }
+
+  .db-nav-section.db-nav-section--nav .db-nav-btn.back-btn {
+    padding: 6px 12px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    border: 1px solid var(--db-border);
+    border-radius: 8px;
+    background: var(--db-surface);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--db-text-secondary);
+  }
+
+  /* Tabs Section on separate row */
+  .db-nav-section.db-nav-section--tabs {
+    order: 3;
+    width: 100%;
+    padding: 8px 0 4px;
+    margin-top: 4px;
+    border-top: 1px solid var(--db-border-soft);
   }
 
   .db-nav-section-label {
     display: none;
   }
 
-  .db-nav {
+  .db-nav-section.db-nav-section--tabs .db-nav {
+    display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
     overflow-x: auto;
     gap: 6px;
     width: 100%;
     -webkit-overflow-scrolling: touch;
-    -ms-overflow-style: none;
     scrollbar-width: none;
   }
-  .db-nav::-webkit-scrollbar {
+
+  .db-nav-section.db-nav-section--tabs .db-nav::-webkit-scrollbar {
     display: none;
   }
 
-  .db-nav-btn {
-    padding: 12px 14px;
-    font-size: 0.8125rem;
-    border-radius: 8px;
+  .db-nav-section.db-nav-section--tabs .db-nav-btn {
+    padding: 6px 12px;
+    font-size: 0.78rem;
+    border-radius: 99px; /* Premium Pill style on mobile */
+    border: 1px solid var(--db-border);
+    background: var(--db-surface);
+    color: var(--db-text-secondary);
+    white-space: nowrap;
     flex-shrink: 0;
   }
 
+  .db-nav-section.db-nav-section--tabs .db-nav-btn.active {
+    background: var(--db-accent);
+    color: #ffffff;
+    border-color: var(--db-accent);
+    box-shadow: 0 4px 10px rgba(136, 19, 55, 0.18);
+    font-weight: 600;
+  }
+
+  .db-nav-section.db-nav-section--tabs .db-nav-btn.active svg {
+    color: #ffffff;
+  }
+
   .db-nav-btn-dot {
-    display: none; /* Hide the vertical bar dot in horizontal view */
+    display: none;
   }
 
   .db-sidebar-divider,
@@ -826,7 +882,7 @@
 
   .db-kpi-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+    gap: 12px;
   }
 
   .db-csr-grid {
@@ -834,20 +890,71 @@
   }
 }
 
+@media (max-width: 640px) {
+  .db-kpi-card {
+    padding: 12px 14px;
+    gap: 10px;
+    align-items: center;
+    border-radius: 12px;
+  }
+  .db-kpi-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+  }
+  .db-kpi-icon svg {
+    width: 16px;
+    height: 16px;
+  }
+  .db-kpi-value {
+    font-size: 1.15rem;
+  }
+  .db-kpi-label {
+    font-size: 0.62rem;
+  }
+  .db-kpi-delta {
+    font-size: 0.65rem;
+  }
+
+  .db-topbar {
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    gap: 12px;
+  }
+  .db-page-title {
+    font-size: 1.4rem;
+  }
+  .db-page-sub {
+    font-size: 0.78rem;
+  }
+  .db-topbar-right {
+    width: 100%;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .db-chart-header {
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+  .db-chart-header h3 {
+    font-size: 0.88rem;
+  }
+  .db-chart-src {
+    align-self: flex-start;
+    font-size: 0.65rem;
+    padding: 2px 6px;
+  }
+}
+
 @media (max-width: 540px) {
   .db-sidebar {
-    padding: 12px 16px;
-    justify-content: space-between;
+    padding: 8px 12px 4px;
   }
 
   .db-logo-sub {
     display: none;
-  }
-
-  .db-nav {
-    width: 100%;
-    margin-top: 8px;
-    justify-content: flex-start;
   }
 
   .db-main {
@@ -855,20 +962,42 @@
   }
 
   .db-kpi-grid {
-    grid-template-columns: 1fr;
-    gap: 12px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
   }
 
   .db-csr-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
   }
-  @media (max-width: 460px) {
-    .db-csr-grid {
-      grid-template-columns: 1fr;
-    }
+
+  .db-csr-item {
+    padding: 8px 4px;
+    gap: 4px;
+    border-radius: 8px;
+  }
+
+  .db-csr-ring-wrap {
+    width: 48px;
+    height: 48px;
+  }
+
+  .db-csr-ring-val {
+    font-size: 0.68rem;
+  }
+
+  .db-csr-label {
+    font-size: 0.62rem;
   }
 
   .db-chart-card {
-    padding: 12px;
+    padding: 14px;
+    border-radius: 14px;
+  }
+}
+
+@media (max-width: 460px) {
+  .db-csr-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
