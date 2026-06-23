@@ -772,6 +772,7 @@
     border-right: none;
     border-bottom: 1px solid var(--db-border);
     box-shadow: var(--db-shadow-sm);
+    overflow: visible !important;
   }
 
   .db-logo {
@@ -811,6 +812,7 @@
 
   .db-main {
     padding: 20px;
+    overflow: visible !important;
   }
 
   .db-kpi-grid {

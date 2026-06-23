@@ -5716,6 +5716,9 @@ body.js-enabled .trust-bar__inner span.reveal--visible {
   .advisor-main-container {
     overflow: visible;
   }
+  .advisor-main-container > main {
+    overflow: visible !important;
+  }
   .advisor-header {
     height: auto;
     padding: 16px;
