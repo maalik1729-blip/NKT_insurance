@@ -1682,7 +1682,7 @@ export function AdvisorWorkspace({
           {/* ANALYTICS */}
           {activeTab === "analytics" && (
             <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "16px" }}>
+              <div className="advisor-kpi-grid" style={{ gap: "16px" }}>
                 {[
                   { label: "Total Leads", value: leads.length, color: "var(--color-accent)" },
                   { label: "Conversion Rate", value: convRate + "%", color: "#10B981" },
@@ -1720,7 +1720,7 @@ export function AdvisorWorkspace({
                   </div>
                 ))}
               </div>
-              <div style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr", gap: "20px" }}>
+              <div className="advisor-charts-grid" style={{ gap: "20px" }}>
                 <div
                   style={{
                     background: "#FFFFFF",
@@ -1859,7 +1859,7 @@ export function AdvisorWorkspace({
                     NKT Insurance Solutions · Licensed Advisor
                   </div>
                 </div>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "24px" }}>
+                <div className="advisor-services-grid" style={{ gap: "24px" }}>
                   {[
                     { label: "Total Leads", value: leads.length },
                     { label: "Closed", value: convertedLeads.length },

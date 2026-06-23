@@ -1284,7 +1284,7 @@ p + p {
   color: var(--color-accent);
 }
 
-@media (max-width: 860px) {
+@media (max-width: 1024px) {
   .nav__links {
     display: none;
   }
