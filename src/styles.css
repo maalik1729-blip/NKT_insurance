@@ -5795,3 +5795,10 @@ body.js-enabled .trust-bar__inner span.reveal--visible {
     top: auto !important;
   }
 }
+
+/* Utility to justify text on mobile viewports */
+@media (max-width: 600px) {
+  .justify-text-mobile {
+    text-align: justify !important;
+  }
+}

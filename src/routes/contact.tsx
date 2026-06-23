@@ -126,6 +126,7 @@ function ContactPage() {
             <span style={{ color: "var(--color-accent)" }}>within 30 minutes</span>
           </h1>
           <p
+            className="justify-text-mobile"
             style={{
               fontSize: "1.1rem",
               color: "#475569",

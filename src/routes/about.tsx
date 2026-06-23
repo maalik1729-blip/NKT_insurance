@@ -260,6 +260,7 @@ function AboutPage() {
                 Why we started NKT Insurance
               </h2>
               <p
+                className="justify-text-mobile"
                 style={{
                   color: "#475569",
                   marginBottom: "20px",
@@ -272,6 +273,7 @@ function AboutPage() {
                 clearly.
               </p>
               <p
+                className="justify-text-mobile"
                 style={{
                   color: "#475569",
                   marginBottom: "20px",
@@ -284,6 +286,7 @@ function AboutPage() {
                 what genuinely fits.
               </p>
               <p
+                className="justify-text-mobile"
                 style={{
                   color: "#475569",
                   marginBottom: "40px",
