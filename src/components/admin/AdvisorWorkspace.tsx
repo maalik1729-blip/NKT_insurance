@@ -530,6 +530,7 @@ export function AdvisorWorkspace({
             <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
               {/* Welcoming Header Banner */}
               <div
+                className="advisor-banner"
                 style={{
                   background: "linear-gradient(135deg, #3B0712 0%, #1A050B 100%)",
                   borderRadius: "16px",
@@ -583,7 +584,7 @@ export function AdvisorWorkspace({
                     · <strong style={{ color: "#FCD34D" }}>{convRate}%</strong> conversion rate
                   </p>
                 </div>
-                <div style={{ display: "flex", gap: "12px" }}>
+                <div className="advisor-banner-actions" style={{ display: "flex", gap: "12px" }}>
                   <button
                     type="button"
                     onClick={() => setIsAddOpen(true)}
@@ -1452,6 +1453,7 @@ export function AdvisorWorkspace({
               </div>
 
               <div
+                className="leads-table-container"
                 style={{
                   background: "#FFFFFF",
                   borderRadius: "12px",
@@ -1675,6 +1677,238 @@ export function AdvisorWorkspace({
                     )}
                   </tbody>
                 </table>
+              </div>
+
+              {/* Mobile Card List */}
+              <div className="leads-cards-container">
+                {filteredLeads.length === 0 ? (
+                  <div
+                    style={{
+                      padding: "48px 24px",
+                      textAlign: "center",
+                      color: "#94A3B8",
+                      background: "#FFFFFF",
+                      borderRadius: "12px",
+                      border: "1px solid #E2E8F0",
+                    }}
+                  >
+                    No leads found.{" "}
+                    <button
+                      type="button"
+                      onClick={() => setIsAddOpen(true)}
+                      style={{
+                        color: "var(--color-accent)",
+                        fontWeight: 700,
+                        background: "none",
+                        border: "none",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Add one?
+                    </button>
+                  </div>
+                ) : (
+                  filteredLeads.map((lead) => {
+                    const s = sc[lead.status] || sc.new;
+                    const isOverdue = lead.followUpDate && lead.followUpDate < todayStr;
+                    const isToday = lead.followUpDate === todayStr;
+                    return (
+                      <div
+                        key={lead.id}
+                        onClick={() => setSelectedLead(lead)}
+                        className="lead-mobile-card"
+                        style={{
+                          background: "#FFFFFF",
+                          borderRadius: "12px",
+                          border: "1px solid #E2E8F0",
+                          padding: "16px",
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "12px",
+                          cursor: "pointer",
+                          boxShadow: "0 1px 3px rgba(0,0,0,0.02)",
+                          position: "relative",
+                        }}
+                      >
+                        {/* Top Section: Name and Status */}
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "flex-start",
+                          }}
+                        >
+                          <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+                            <div
+                              style={{
+                                width: "36px",
+                                height: "36px",
+                                borderRadius: "50%",
+                                background: "var(--color-accent-bg)",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                fontSize: "0.85rem",
+                                fontWeight: 700,
+                                color: "var(--color-accent)",
+                                flexShrink: 0,
+                              }}
+                            >
+                              {lead.name.charAt(0)}
+                            </div>
+                            <div>
+                              <div
+                                style={{
+                                  fontSize: "0.9rem",
+                                  fontWeight: 700,
+                                  color: "#0F172A",
+                                }}
+                              >
+                                {lead.name}
+                              </div>
+                              <div
+                                style={{ fontSize: "0.75rem", color: "#64748B", marginTop: "1px" }}
+                              >
+                                {lead.phone}
+                              </div>
+                            </div>
+                          </div>
+                          <span
+                            style={{
+                              fontSize: "0.68rem",
+                              fontWeight: 700,
+                              padding: "3px 10px",
+                              borderRadius: "99px",
+                              background: s.bg,
+                              color: s.text,
+                              border: `1px solid ${s.border}`,
+                              whiteSpace: "nowrap",
+                            }}
+                          >
+                            {lead.status}
+                          </span>
+                        </div>
+
+                        {/* Middle Section: Product and Follow-up */}
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            paddingTop: "10px",
+                            borderTop: "1px dashed #F1F5F9",
+                            fontSize: "0.8rem",
+                          }}
+                        >
+                          <span style={{ fontWeight: 600, color: "#475569" }}>
+                            {lead.interest === "life"
+                              ? "🛡️"
+                              : lead.interest === "health"
+                                ? "🏥"
+                                : "🚗"}{" "}
+                            {lead.interest.charAt(0).toUpperCase() + lead.interest.slice(1)}
+                          </span>
+                          <div>
+                            {lead.followUpDate ? (
+                              <span
+                                style={{
+                                  fontWeight: 600,
+                                  color: isOverdue ? "#DC2626" : isToday ? "#D97706" : "#10B981",
+                                }}
+                              >
+                                {isOverdue
+                                  ? "⚠️ Overdue: "
+                                  : isToday
+                                    ? "⏰ Today: "
+                                    : "✅ Follow-up: "}
+                                {lead.followUpDate}
+                              </span>
+                            ) : (
+                              <span style={{ color: "#CBD5E1" }}>No follow-up</span>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Bottom Section: Source and Actions */}
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            paddingTop: "10px",
+                            borderTop: "1px dashed #F1F5F9",
+                          }}
+                        >
+                          <span style={{ fontSize: "0.72rem", color: "#94A3B8" }}>
+                            Source:{" "}
+                            <strong style={{ color: "#64748B", textTransform: "capitalize" }}>
+                              {lead.source || "—"}
+                            </strong>
+                          </span>
+                          <div
+                            style={{ display: "flex", gap: "8px" }}
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <a
+                              href={`https://wa.me/${lead.phone.replace(/[^0-9]/g, "")}`}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="table-action-btn action-wa"
+                              style={{
+                                width: "32px",
+                                height: "32px",
+                                borderRadius: "8px",
+                                background: "#ECFDF5",
+                                border: "1px solid #A7F3D0",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                textDecoration: "none",
+                              }}
+                            >
+                              <MessageCircle size={14} color="#10B981" />
+                            </a>
+                            <a
+                              href={`tel:${lead.phone}`}
+                              className="table-action-btn action-phone"
+                              style={{
+                                width: "32px",
+                                height: "32px",
+                                borderRadius: "8px",
+                                background: "var(--color-accent-bg)",
+                                border: "1px solid var(--color-accent-line)",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                textDecoration: "none",
+                              }}
+                            >
+                              <Phone size={14} color="var(--color-accent)" />
+                            </a>
+                            <button
+                              type="button"
+                              onClick={() => handleDeleteLead(lead.id)}
+                              className="table-action-btn action-delete"
+                              style={{
+                                width: "32px",
+                                height: "32px",
+                                borderRadius: "8px",
+                                background: "#FEF2F2",
+                                border: "1px solid #FCA5A5",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                cursor: "pointer",
+                              }}
+                            >
+                              <X size={14} color="#EF4444" />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })
+                )}
               </div>
             </div>
           )}
@@ -2792,6 +3026,66 @@ export function AdvisorWorkspace({
         }
         .action-delete:hover svg {
           color: #FFFFFF !important;
+        }
+
+        /* Responsive Mobile Layout adjustments */
+        .leads-cards-container {
+          display: none;
+        }
+
+        @media (max-width: 768px) {
+          .leads-table-container {
+            display: none !important;
+          }
+          .leads-cards-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+          }
+          .lead-mobile-card {
+            transition: transform 150ms ease, border-color 150ms ease;
+          }
+          .lead-mobile-card:active {
+            transform: scale(0.99);
+            border-color: var(--color-accent-line) !important;
+          }
+
+          /* Banner Mobile Layout */
+          .advisor-banner {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            padding: 20px !important;
+            gap: 16px !important;
+            text-align: center !important;
+          }
+          .advisor-banner-actions {
+            width: 100% !important;
+            display: flex !important;
+            gap: 10px !important;
+          }
+          .advisor-banner-actions > button {
+            flex: 1 !important;
+            justify-content: center !important;
+            padding-inline: 8px !important;
+          }
+
+          /* Bottom sheet drawer for selected lead detail */
+          .portal-modal-overlay {
+            justify-content: center !important;
+            align-items: flex-end !important;
+          }
+          .portal-modal-overlay > div {
+            max-width: 100% !important;
+            height: 82% !important;
+            border-top-left-radius: 20px !important;
+            border-top-right-radius: 20px !important;
+            animation: bottomSheetSlide 280ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+          }
+        }
+
+        @keyframes bottomSheetSlide {
+          from { transform: translateY(100%); }
+          to { transform: translateY(0); }
         }
       `}</style>
     </div>
