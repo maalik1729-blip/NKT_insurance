@@ -495,7 +495,7 @@ export function SiteNav() {
       )}
 
       <style>{`
-        @media (max-width: 860px) { .nav__links { display: none !important; } .nav__phone { display: none !important; } .nav__actions .btn-sm { display: none !important; } .nav__hamburger { display: flex !important; } }
+        @media (max-width: 1024px) { .nav__links { display: none !important; } .nav__phone { display: none !important; } .nav__actions .btn-sm { display: none !important; } .nav__hamburger { display: flex !important; } }
         .nav__link:hover, .nav__dropdown-toggle:hover { background: #F8FAFC !important; color: #0F172A !important; }
         .dashboard-btn:hover { background: var(--color-accent-line) !important; color: var(--color-accent) !important; }
         .nav__dropdown-item:hover { background: #F8FAFC !important; }
