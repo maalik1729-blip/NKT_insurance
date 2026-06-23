@@ -791,14 +791,23 @@
 
   .db-nav {
     flex-direction: row;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    overflow-x: auto;
     gap: 6px;
+    width: 100%;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .db-nav::-webkit-scrollbar {
+    display: none;
   }
 
   .db-nav-btn {
     padding: 12px 14px;
     font-size: 0.8125rem;
     border-radius: 8px;
+    flex-shrink: 0;
   }
 
   .db-nav-btn-dot {
@@ -819,6 +828,10 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 16px;
   }
+
+  .db-csr-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 540px) {
@@ -837,6 +850,10 @@
     justify-content: flex-start;
   }
 
+  .db-main {
+    padding: 12px;
+  }
+
   .db-kpi-grid {
     grid-template-columns: 1fr;
     gap: 12px;
@@ -852,6 +869,6 @@
   }
 
   .db-chart-card {
-    padding: 16px;
+    padding: 12px;
   }
 }
