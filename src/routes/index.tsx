@@ -458,7 +458,7 @@ function CoverageCalculator({
             ]}
           />
           {/* Family members */}
-          <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
+          <div style={{ display: "flex", gap: "16px", alignItems: "center", flexWrap: "wrap" }}>
             <label
               style={{
                 display: "flex",
@@ -550,7 +550,7 @@ function CoverageCalculator({
             ]}
           />
           {/* Vehicle type & age as toggle buttons — no dropdowns */}
-          <div style={{ display: "flex", gap: "12px" }}>
+          <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
             <MiniToggle
               label="Vehicle Type"
               value={vehicleType}
