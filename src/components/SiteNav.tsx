@@ -10,6 +10,7 @@ import {
   Menu,
   X,
   BarChart2,
+  ChevronLeft,
 } from "lucide-react";
 import { WA_NUMBER, TEL, TEL_DISPLAY } from "./icons";
 import { useState, useEffect, useRef } from "react";
@@ -408,16 +409,104 @@ export function SiteNav() {
         style={{
           position: "fixed",
           inset: 0,
-          top: "64px",
+          top: 0,
           background: "#FFFFFF",
-          zIndex: 49,
+          zIndex: 1000,
           overflowY: "auto",
           overscrollBehavior: "contain",
-          borderTop: "1px solid #E2E8F0",
           transition: "transform 320ms ease, opacity 240ms ease, visibility 240ms ease",
         }}
         className={`nav__mobile ${menuOpen ? "nav__mobile--open" : ""}`}
       >
+        <div
+          className="nav__mobile-header"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "12px 16px",
+            borderBottom: "1px solid #E2E8F0",
+            minHeight: "64px",
+            background: "#FFFFFF",
+            position: "sticky",
+            top: 0,
+            zIndex: 10,
+          }}
+        >
+          {/* Back button on the left */}
+          <button
+            type="button"
+            onClick={() => setMenuOpen(false)}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "4px",
+              background: "none",
+              border: "none",
+              color: "#475569",
+              cursor: "pointer",
+              fontSize: "0.9rem",
+              fontWeight: 600,
+              padding: "8px 10px",
+              borderRadius: "8px",
+              transition: "background 150ms",
+            }}
+            className="nav__mobile-back-btn"
+          >
+            <ChevronLeft size={16} /> Back
+          </button>
+
+          {/* Centered Brand / Logo */}
+          <Link
+            to="/"
+            onClick={() => setMenuOpen(false)}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              textDecoration: "none",
+            }}
+          >
+            <img
+              src={logoImg}
+              alt=""
+              style={{ width: "32px", height: "32px", objectFit: "contain" }}
+            />
+            <span
+              style={{
+                fontSize: "0.85rem",
+                fontWeight: 800,
+                color: "#0F172A",
+                letterSpacing: "-0.01em",
+              }}
+            >
+              NKT Insurance
+            </span>
+          </Link>
+
+          {/* Close button on the right */}
+          <button
+            type="button"
+            onClick={() => setMenuOpen(false)}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "36px",
+              height: "36px",
+              border: "1px solid #E2E8F0",
+              borderRadius: "8px",
+              background: "#F8FAFC",
+              cursor: "pointer",
+              color: "#0F172A",
+              transition: "background 160ms",
+            }}
+            aria-label="Close menu"
+          >
+            <X size={16} />
+          </button>
+        </div>
+
         <div style={{ padding: "16px 24px", display: "flex", flexDirection: "column", gap: "2px" }}>
           <div
             style={{
