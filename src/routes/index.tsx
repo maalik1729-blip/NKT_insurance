@@ -1268,14 +1268,7 @@ function Home() {
         style={{ paddingBlock: "clamp(5rem, 10vw, 8rem)", background: "var(--color-surface)" }}
       >
         <div className="container" style={{ position: "relative", zIndex: 1 }}>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "5fr 7fr",
-              gap: "clamp(3rem, 6vw, 5rem)",
-              alignItems: "start",
-            }}
-          >
+          <div className="estimator__grid">
             <div style={{ position: "sticky", top: "100px" }}>
               <h2 id="estimator-heading" style={{ marginBottom: "1rem" }}>
                 Estimate your premium in minutes
