@@ -354,6 +354,7 @@ export function AdvisorWorkspace({
           <button
             type="button"
             onClick={() => setIsAddOpen(true)}
+            className="advisor-nav-add-lead-btn"
             style={{
               display: "flex",
               alignItems: "center",
