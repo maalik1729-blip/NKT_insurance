@@ -350,6 +350,7 @@ function MotorInsurancePage() {
           <div
             style={{
               overflow: "auto",
+              maxWidth: "100%",
               borderRadius: "16px",
               border: "1px solid #E2E8F0",
               background: "#FFFFFF",

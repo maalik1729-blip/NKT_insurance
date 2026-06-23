@@ -374,6 +374,7 @@ function ContactPage() {
                 Fill in 3 fields. We call you back within 30 minutes during business hours.
               </p>
               <div
+                className="contact-form-card-wrap"
                 style={{
                   background: "#FFFFFF",
                   border: "1px solid #E2E8F0",
@@ -395,6 +396,7 @@ function ContactPage() {
                   borderRadius: "16px",
                   border: "1px solid #E2E8F0",
                   overflow: "hidden",
+                  maxWidth: "100%",
                   boxShadow: "0 2px 12px rgba(0,0,0,0.04)",
                 }}
               >

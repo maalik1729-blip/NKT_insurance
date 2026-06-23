@@ -5802,3 +5802,19 @@ body.js-enabled .trust-bar__inner span.reveal--visible {
     text-align: justify !important;
   }
 }
+
+/* Prevent nested form card padding/border redundancy */
+.contact-form-card-wrap .form-card,
+.home-form-card-wrap .form-card {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+
+@media (max-width: 480px) {
+  .contact-form-card-wrap,
+  .home-form-card-wrap {
+    padding: var(--space-4) !important; /* 16px padding on small screens */
+  }
+}

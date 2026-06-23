@@ -2183,6 +2183,7 @@ function Home() {
             </div>
 
             <div
+              className="home-form-card-wrap"
               style={{
                 background: "#FFFFFF",
                 padding: "clamp(1.25rem,4vw,3rem)",
