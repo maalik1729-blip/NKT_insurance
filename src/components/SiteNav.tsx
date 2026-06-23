@@ -348,20 +348,19 @@ export function SiteNav() {
       </nav>
 
       {/* Mobile menu overlay */}
-      {menuOpen && (
-        <div
-          style={{
-            position: "fixed",
-            inset: 0,
-            top: "64px",
-            background: "#FFFFFF",
-            zIndex: 49,
-            overflowY: "auto",
-            borderTop: "1px solid #E2E8F0",
-            animation: "slideDown 250ms ease",
-          }}
-          className="nav__mobile"
-        >
+      <div
+        style={{
+          position: "fixed",
+          inset: 0,
+          top: "64px",
+          background: "#FFFFFF",
+          zIndex: 49,
+          overflowY: "auto",
+          borderTop: "1px solid #E2E8F0",
+          transition: "transform 320ms ease, opacity 240ms ease, visibility 240ms ease",
+        }}
+        className={`nav__mobile ${menuOpen ? "nav__mobile--open" : ""}`}
+      >
           <div
             style={{ padding: "16px 24px", display: "flex", flexDirection: "column", gap: "2px" }}
           >
@@ -492,7 +491,7 @@ export function SiteNav() {
             </div>
           </div>
         </div>
-      )}
+
 
       <style>{`
         @media (max-width: 1024px) { .nav__links { display: none !important; } .nav__phone { display: none !important; } .nav__actions .btn-sm { display: none !important; } .nav__hamburger { display: flex !important; } }
