@@ -311,7 +311,7 @@ export function AdvisorWorkspace({
                   marginBottom: "2px",
                   textAlign: "left",
                 }}
-                className={isActive ? "" : "advisor-nav-item"}
+                className={`advisor-nav-item ${isActive ? "active" : ""}`}
               >
                 <Icon size={17} />
                 {item.label}

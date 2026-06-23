@@ -112,114 +112,117 @@ export function UnifiedLoginPortal({ onAdvisorLoginSuccess }: UnifiedLoginPortal
           </div>
         </Link>
 
-        {/* Hero */}
-        <div style={{ position: "relative", zIndex: 1 }}>
-          <div
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "6px",
-              padding: "5px 14px",
-              borderRadius: "99px",
-              marginBottom: "24px",
-              background: "rgba(255,255,255,0.6)",
-              border: `1px solid ${accentBorder}`,
-              fontSize: "0.68rem",
-              fontWeight: 700,
-              color: accentColor,
-              textTransform: "uppercase",
-              letterSpacing: "0.08em",
-            }}
-          >
+        {/* Marketing Hero and Trust Badges grouped for mobile hiding */}
+        <div className="login-marketing-content" style={{ display: "contents" }}>
+          {/* Hero */}
+          <div style={{ position: "relative", zIndex: 1 }}>
             <div
-              style={{ width: "6px", height: "6px", borderRadius: "50%", background: accentColor }}
-            />
-            Advisor CRM
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "6px",
+                padding: "5px 14px",
+                borderRadius: "99px",
+                marginBottom: "24px",
+                background: "rgba(255,255,255,0.6)",
+                border: `1px solid ${accentBorder}`,
+                fontSize: "0.68rem",
+                fontWeight: 700,
+                color: accentColor,
+                textTransform: "uppercase",
+                letterSpacing: "0.08em",
+              }}
+            >
+              <div
+                style={{ width: "6px", height: "6px", borderRadius: "50%", background: accentColor }}
+              />
+              Advisor CRM
+            </div>
+
+            <h1
+              style={{
+                fontSize: "clamp(2rem, 3vw, 2.8rem)",
+                fontWeight: 900,
+                color: "#0F172A",
+                lineHeight: 1.12,
+                margin: "0 0 18px",
+                letterSpacing: "-0.04em",
+              }}
+            >
+              Grow Your
+              <br />
+              <span style={{ color: accentColor }}>Insurance</span>
+              <br />
+              Portfolio.
+            </h1>
+
+            <p
+              style={{
+                fontSize: "0.92rem",
+                color: "#64748B",
+                lineHeight: 1.7,
+                margin: "0 0 36px",
+                maxWidth: "380px",
+              }}
+            >
+              Manage leads, track conversions, and deliver exceptional client experiences.
+            </p>
+
+            {/* Feature list */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+              {[
+                "Full CRM with per-lead activity timeline",
+                "Interactive leads & conversion analytics",
+                "One-click WhatsApp, call & email actions",
+                "CSV export & follow-up management",
+              ].map((feat, i) => (
+                <div key={i} style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                  <div
+                    style={{
+                      width: "20px",
+                      height: "20px",
+                      borderRadius: "6px",
+                      background: "rgba(255,255,255,0.7)",
+                      border: `1px solid ${accentBorder}`,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexShrink: 0,
+                    }}
+                  >
+                    <CheckCircle2 size={12} color={accentColor} />
+                  </div>
+                  <span style={{ fontSize: "0.85rem", color: "#475569", fontWeight: 500 }}>
+                    {feat}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <h1
-            style={{
-              fontSize: "clamp(2rem, 3vw, 2.8rem)",
-              fontWeight: 900,
-              color: "#0F172A",
-              lineHeight: 1.12,
-              margin: "0 0 18px",
-              letterSpacing: "-0.04em",
-            }}
-          >
-            Grow Your
-            <br />
-            <span style={{ color: accentColor }}>Insurance</span>
-            <br />
-            Portfolio.
-          </h1>
-
-          <p
-            style={{
-              fontSize: "0.92rem",
-              color: "#64748B",
-              lineHeight: 1.7,
-              margin: "0 0 36px",
-              maxWidth: "380px",
-            }}
-          >
-            Manage leads, track conversions, and deliver exceptional client experiences.
-          </p>
-
-          {/* Feature list */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+          {/* Trust badges */}
+          <div style={{ display: "flex", gap: "20px", position: "relative", zIndex: 1 }}>
             {[
-              "Full CRM with per-lead activity timeline",
-              "Interactive leads & conversion analytics",
-              "One-click WhatsApp, call & email actions",
-              "CSV export & follow-up management",
-            ].map((feat, i) => (
-              <div key={i} style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                <div
+              { icon: "🔒", label: "256-bit SSL" },
+              { icon: "🏛️", label: "IRDAI Compliant" },
+              { icon: "⚡", label: "OAuth 2.0" },
+            ].map((b) => (
+              <div key={b.label} style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                <span style={{ fontSize: "0.85rem" }}>{b.icon}</span>
+                <span
                   style={{
-                    width: "20px",
-                    height: "20px",
-                    borderRadius: "6px",
-                    background: "rgba(255,255,255,0.7)",
-                    border: `1px solid ${accentBorder}`,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flexShrink: 0,
+                    fontSize: "0.62rem",
+                    color: "#64748B",
+                    fontWeight: 700,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.06em",
                   }}
                 >
-                  <CheckCircle2 size={12} color={accentColor} />
-                </div>
-                <span style={{ fontSize: "0.85rem", color: "#475569", fontWeight: 500 }}>
-                  {feat}
+                  {b.label}
                 </span>
               </div>
             ))}
           </div>
-        </div>
-
-        {/* Trust badges */}
-        <div style={{ display: "flex", gap: "20px", position: "relative", zIndex: 1 }}>
-          {[
-            { icon: "🔒", label: "256-bit SSL" },
-            { icon: "🏛️", label: "IRDAI Compliant" },
-            { icon: "⚡", label: "OAuth 2.0" },
-          ].map((b) => (
-            <div key={b.label} style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-              <span style={{ fontSize: "0.85rem" }}>{b.icon}</span>
-              <span
-                style={{
-                  fontSize: "0.62rem",
-                  color: "#64748B",
-                  fontWeight: 700,
-                  textTransform: "uppercase",
-                  letterSpacing: "0.06em",
-                }}
-              >
-                {b.label}
-              </span>
-            </div>
-          ))}
         </div>
       </div>
 
