@@ -11,7 +11,9 @@ export function SiteFooter() {
       style={{ background: "#0F172A", color: "#F1F5F9", fontFamily: "'Inter', sans-serif" }}
       role="contentinfo"
     >
-      <div style={{ maxWidth: "1180px", margin: "0 auto", padding: "64px 32px 0" }}>
+      <div
+        style={{ maxWidth: "1180px", margin: "0 auto", padding: "64px clamp(1rem, 4vw, 2rem) 0" }}
+      >
         {/* Main grid */}
         <div
           style={{

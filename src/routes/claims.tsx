@@ -230,7 +230,6 @@ const FAQ = [
   },
 ];
 
-
 function StepList({ steps }: { steps: { title: string; body: string }[] }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>

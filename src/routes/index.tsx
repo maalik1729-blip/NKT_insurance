@@ -963,7 +963,7 @@ function Home() {
           paddingBottom: "clamp(3rem,6vw,5rem)",
         }}
       >
-        <div style={{ maxWidth: "1180px", margin: "0 auto", padding: "0 32px" }}>
+        <div className="container">
           <div
             style={{
               display: "grid",
@@ -1217,10 +1217,8 @@ function Home() {
         }}
       >
         <div
+          className="container"
           style={{
-            maxWidth: "1180px",
-            margin: "0 auto",
-            padding: "0 32px",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -1343,7 +1341,7 @@ function Home() {
         aria-labelledby="services-title"
         style={{ padding: "clamp(5rem,10vw,8rem) 0", background: "#FFFFFF" }}
       >
-        <div style={{ maxWidth: "1180px", margin: "0 auto", padding: "0 32px" }}>
+        <div className="container">
           <div style={{ marginBottom: "clamp(3rem,5vw,4rem)" }}>
             <div className="section-label">Our Insurance Plans</div>
             <h2 id="services-title" style={{ margin: "0 0 16px", maxWidth: "24ch" }}>
@@ -1734,7 +1732,7 @@ function Home() {
         aria-labelledby="process-title"
         style={{ padding: "clamp(5rem,10vw,8rem) 0", background: "#FFFFFF" }}
       >
-        <div style={{ maxWidth: "1180px", margin: "0 auto", padding: "0 32px" }}>
+        <div className="container">
           <div style={{ textAlign: "center", marginBottom: "clamp(3rem,5vw,4rem)" }}>
             <div className="section-label" style={{ display: "inline-flex" }}>
               How It Works
@@ -1831,7 +1829,7 @@ function Home() {
         aria-labelledby="testimonials-title"
         style={{ padding: "clamp(5rem,10vw,8rem) 0", background: "#F8FAFC" }}
       >
-        <div style={{ maxWidth: "1180px", margin: "0 auto", padding: "0 32px" }}>
+        <div className="container">
           <div
             style={{
               display: "flex",
@@ -1982,7 +1980,7 @@ function Home() {
         aria-labelledby="about-title"
         style={{ padding: "clamp(5rem,10vw,8rem) 0", background: "#0F172A" }}
       >
-        <div style={{ maxWidth: "1180px", margin: "0 auto", padding: "0 32px" }}>
+        <div className="container">
           <div
             style={{
               display: "grid",

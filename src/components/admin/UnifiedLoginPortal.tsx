@@ -134,7 +134,12 @@ export function UnifiedLoginPortal({ onAdvisorLoginSuccess }: UnifiedLoginPortal
               }}
             >
               <div
-                style={{ width: "6px", height: "6px", borderRadius: "50%", background: accentColor }}
+                style={{
+                  width: "6px",
+                  height: "6px",
+                  borderRadius: "50%",
+                  background: accentColor,
+                }}
               />
               Advisor CRM
             </div>

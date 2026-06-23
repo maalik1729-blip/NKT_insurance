@@ -213,9 +213,7 @@ export function InsuranceDashboard() {
               Official IRDAI data · Health & Motor Claims · 2020 to 2026
             </p>
           </div>
-          <div
-            className="db-topbar-right"
-          >
+          <div className="db-topbar-right">
             <div
               className="db-year-selector"
               style={{ display: "flex", alignItems: "center", gap: "8px" }}
@@ -300,7 +298,10 @@ function ClaimsTab({ isMobile }: { isMobile: boolean }) {
             <span className="db-chart-src">IRDAI Handbook 2024-25 + LIC Annual Report</span>
           </div>
           <ResponsiveContainer width="100%" height={280}>
-            <LineChart data={CSR_TREND} margin={{ top: 5, right: 20, left: isMobile ? -15 : 10, bottom: 5 }}>
+            <LineChart
+              data={CSR_TREND}
+              margin={{ top: 5, right: 20, left: isMobile ? -15 : 10, bottom: 5 }}
+            >
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
               <XAxis dataKey="year" tick={{ fill: "#374151", fontSize: 11 }} />
               <YAxis
@@ -403,7 +404,10 @@ function ClaimsTab({ isMobile }: { isMobile: boolean }) {
             <span className="db-chart-src">FY 2024-25 by Claim Type</span>
           </div>
           <ResponsiveContainer width="100%" height={240}>
-            <BarChart data={CLAIMS_VOLUME} margin={{ top: 5, right: 10, left: isMobile ? -15 : 10, bottom: isMobile ? 20 : 5 }}>
+            <BarChart
+              data={CLAIMS_VOLUME}
+              margin={{ top: 5, right: 10, left: isMobile ? -15 : 10, bottom: isMobile ? 20 : 5 }}
+            >
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
               <XAxis
                 dataKey="type"
@@ -477,7 +481,10 @@ function ClaimsTab({ isMobile }: { isMobile: boolean }) {
             </span>
           </div>
           <ResponsiveContainer width="100%" height={220}>
-            <AreaChart data={DEATH_AMT_TREND} margin={{ top: 5, right: 20, left: isMobile ? -15 : 10, bottom: 5 }}>
+            <AreaChart
+              data={DEATH_AMT_TREND}
+              margin={{ top: 5, right: 20, left: isMobile ? -15 : 10, bottom: 5 }}
+            >
               <defs>
                 <linearGradient id="deathGrad" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#4f8ef7" stopOpacity={0.35} />
@@ -528,7 +535,10 @@ function MarketTab({ isMobile }: { isMobile: boolean }) {
             <span className="db-chart-src">IRDAI Handbook Table 9 · LIC vs Private</span>
           </div>
           <ResponsiveContainer width="100%" height={280}>
-            <AreaChart data={POLICIES_ISSUED} margin={{ top: 5, right: 20, left: isMobile ? -15 : 0, bottom: 5 }}>
+            <AreaChart
+              data={POLICIES_ISSUED}
+              margin={{ top: 5, right: 20, left: isMobile ? -15 : 0, bottom: 5 }}
+            >
               <defs>
                 <linearGradient id="licGrad" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#4f8ef7" stopOpacity={0.3} />
@@ -609,7 +619,10 @@ function MarketTab({ isMobile }: { isMobile: boolean }) {
             <span className="db-chart-src">IRDAI Handbook Table 4 · Total: ₹6,92,614 Cr</span>
           </div>
           <ResponsiveContainer width="100%" height={240}>
-            <BarChart data={PREMIUM_SEGMENT} margin={{ top: 5, right: 10, left: isMobile ? -15 : 10, bottom: isMobile ? 35 : 5 }}>
+            <BarChart
+              data={PREMIUM_SEGMENT}
+              margin={{ top: 5, right: 10, left: isMobile ? -15 : 10, bottom: isMobile ? 35 : 5 }}
+            >
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
               <XAxis
                 dataKey="name"
@@ -733,7 +746,10 @@ function InsurerTab({ isMobile }: { isMobile: boolean }) {
             <span className="db-chart-src">IRDAI Handbook 2024-25</span>
           </div>
           <ResponsiveContainer width="100%" height={240}>
-            <LineChart data={CSR_TREND} margin={{ top: 5, right: 20, left: isMobile ? -15 : 0, bottom: 5 }}>
+            <LineChart
+              data={CSR_TREND}
+              margin={{ top: 5, right: 20, left: isMobile ? -15 : 0, bottom: 5 }}
+            >
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
               <XAxis dataKey="year" tick={{ fill: "#374151", fontSize: 10 }} />
               <YAxis
@@ -814,7 +830,10 @@ function StateTab({ isMobile }: { isMobile: boolean }) {
             <span className="db-chart-src">IRDAI Table 27 · LIC vs Private</span>
           </div>
           <ResponsiveContainer width="100%" height={280}>
-            <BarChart data={LAPSE_DATA} margin={{ top: 5, right: 20, left: isMobile ? -15 : 0, bottom: 5 }}>
+            <BarChart
+              data={LAPSE_DATA}
+              margin={{ top: 5, right: 20, left: isMobile ? -15 : 0, bottom: 5 }}
+            >
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
               <XAxis dataKey="year" tick={{ fill: "#374151", fontSize: 11 }} />
               <YAxis tick={{ fill: "#374151", fontSize: 11 }} />
@@ -841,7 +860,10 @@ function StateTab({ isMobile }: { isMobile: boolean }) {
             <span className="db-chart-src">IRDAI Handbook Table 27 · Improving year-on-year</span>
           </div>
           <ResponsiveContainer width="100%" height={220}>
-            <AreaChart data={LAPSE_DATA} margin={{ top: 5, right: 20, left: isMobile ? -15 : 10, bottom: 5 }}>
+            <AreaChart
+              data={LAPSE_DATA}
+              margin={{ top: 5, right: 20, left: isMobile ? -15 : 10, bottom: 5 }}
+            >
               <defs>
                 <linearGradient id="licLapse" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#ef4444" stopOpacity={0.25} />
@@ -987,7 +1009,10 @@ function HealthTab({ selectedYear, isMobile }: { selectedYear: string; isMobile:
             <span className="db-chart-src">IRDAI Annual Reports & Standalone Disclosures</span>
           </div>
           <ResponsiveContainer width="100%" height={240}>
-            <LineChart data={HEALTH_CSR_TREND} margin={{ top: 5, right: 20, left: isMobile ? -15 : 0, bottom: 5 }}>
+            <LineChart
+              data={HEALTH_CSR_TREND}
+              margin={{ top: 5, right: 20, left: isMobile ? -15 : 0, bottom: 5 }}
+            >
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
               <XAxis dataKey="year" tick={{ fill: "#374151", fontSize: 11 }} />
               <YAxis
@@ -1035,7 +1060,10 @@ function HealthTab({ selectedYear, isMobile }: { selectedYear: string; isMobile:
             <span className="db-chart-src">IRDAI Annual Report (Based on Premium)</span>
           </div>
           <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={healthMktShare} margin={{ top: 5, right: 10, left: isMobile ? -15 : 10, bottom: isMobile ? 85 : 45 }}>
+            <BarChart
+              data={healthMktShare}
+              margin={{ top: 5, right: 10, left: isMobile ? -15 : 10, bottom: isMobile ? 85 : 45 }}
+            >
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
               <XAxis
                 dataKey="name"
@@ -1287,7 +1315,10 @@ function MotorTab({ selectedYear, isMobile }: { selectedYear: string; isMobile: 
             <span className="db-chart-src">IRDAI General Insurance Annual Reports</span>
           </div>
           <ResponsiveContainer width="100%" height={240}>
-            <LineChart data={MOTOR_CSR_TREND} margin={{ top: 5, right: 20, left: isMobile ? -15 : 0, bottom: 5 }}>
+            <LineChart
+              data={MOTOR_CSR_TREND}
+              margin={{ top: 5, right: 20, left: isMobile ? -15 : 0, bottom: 5 }}
+            >
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
               <XAxis dataKey="year" tick={{ fill: "#374151", fontSize: 11 }} />
               <YAxis
@@ -1335,7 +1366,10 @@ function MotorTab({ selectedYear, isMobile }: { selectedYear: string; isMobile: 
             <span className="db-chart-src">GIC Flash Reports (Based on Premium)</span>
           </div>
           <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={motorMktShare} margin={{ top: 5, right: 10, left: isMobile ? -15 : 10, bottom: isMobile ? 85 : 45 }}>
+            <BarChart
+              data={motorMktShare}
+              margin={{ top: 5, right: 10, left: isMobile ? -15 : 10, bottom: isMobile ? 85 : 45 }}
+            >
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
               <XAxis
                 dataKey="name"

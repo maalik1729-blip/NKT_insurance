@@ -147,7 +147,7 @@ const FAQ = [
   },
 ];
 
-const W = { maxWidth: "1180px", margin: "0 auto", padding: "0 32px" };
+const W = { maxWidth: "1180px", margin: "0 auto", padding: "0 clamp(1rem, 4vw, 2rem)" };
 
 function MotorInsurancePage() {
   useScrollReveal();
