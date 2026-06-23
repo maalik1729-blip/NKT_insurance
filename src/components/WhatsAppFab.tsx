@@ -19,6 +19,25 @@ export function WhatsAppFab() {
     setTimeStr(`${hours}:${minutes} ${ampm}`);
   }, []);
 
+  // Prevent background scroll when the widget is open
+  useEffect(() => {
+    if (!isOpen) return;
+
+    // Save current body & html overflow values
+    const originalBodyOverflow = document.body.style.overflow;
+    const originalHtmlOverflow = document.documentElement.style.overflow;
+
+    // Disable scrolling
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+
+    return () => {
+      // Restore original scrolling styles
+      document.body.style.overflow = originalBodyOverflow;
+      document.documentElement.style.overflow = originalHtmlOverflow;
+    };
+  }, [isOpen]);
+
   // Handle clicking outside to close the widget
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {

@@ -3031,6 +3031,7 @@ body.js-enabled section.hero.reveal--visible {
   z-index: var(--z-toast);
   overflow: hidden;
   display: flex;
+  overscroll-behavior: contain;
   flex-direction: column;
   transform-origin: bottom right;
   opacity: 0;
@@ -3140,6 +3141,7 @@ body.js-enabled section.hero.reveal--visible {
   padding: 16px;
   max-height: 200px;
   overflow-y: auto;
+  overscroll-behavior: contain;
   display: flex;
   flex-direction: column;
   gap: 12px;
