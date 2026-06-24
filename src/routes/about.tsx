@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useScrollReveal } from "../hooks/useScrollReveal";
-import { BadgeCheck, Award, Users, Clock, Heart, ShieldCheck, ArrowRight } from "lucide-react";
 import { FaqAccordion } from "../components/FaqAccordion";
 import { CtaBanner } from "../components/CtaBanner";
 
@@ -52,22 +51,22 @@ const MILESTONES = [
 
 const VALUES = [
   {
-    icon: <ShieldCheck size={20} />,
+    icon: <i className="fa-solid fa-shield-halved" style={{ fontSize: "20px" }}></i>,
     title: "Honesty first",
     body: "We tell you when a plan isn't right for you — even if it means we don't earn a commission. That's the only way to build a 10-year relationship.",
   },
   {
-    icon: <Users size={20} />,
+    icon: <i className="fa-solid fa-users" style={{ fontSize: "20px" }}></i>,
     title: "Independence",
     body: "We're not employed by any insurer. We compare LIC + 8 private insurers and recommend what's genuinely best for your situation.",
   },
   {
-    icon: <Heart size={20} />,
+    icon: <i className="fa-solid fa-heart" style={{ fontSize: "20px" }}></i>,
     title: "Family-first",
     body: "We treat clients like family — not policy numbers. Most of our new clients come from referrals by existing clients.",
   },
   {
-    icon: <Clock size={20} />,
+    icon: <i className="fa-solid fa-clock" style={{ fontSize: "20px" }}></i>,
     title: "Lifelong support",
     body: "The sale is just the start. Renewals, nominees, claims, additions — we're there through every stage of your policy's life.",
   },
@@ -147,7 +146,7 @@ function AboutPage() {
               marginBottom: "20px",
             }}
           >
-            <Users size={11} /> About NKT Insurance
+            <i className="fa-solid fa-users" style={{ fontSize: "11px" }}></i> About NKT Insurance
           </div>
           <h1
             id="about-h1"
@@ -184,7 +183,7 @@ function AboutPage() {
               className="btn btn-primary"
               style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}
             >
-              Talk to Us <ArrowRight size={15} />
+              Talk to Us <i className="fa-solid fa-arrow-right" style={{ fontSize: "15px" }}></i>
             </Link>
             <a href="#our-story" className="btn btn-outline">
               Our Story
@@ -312,22 +311,22 @@ function AboutPage() {
               <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
                 {[
                   {
-                    icon: <Award size={16} />,
+                    icon: <i className="fa-solid fa-award" style={{ fontSize: "16px" }}></i>,
                     text: "LIC Authorised Agent",
                     sub: "Certified to sell all LIC products in India",
                   },
                   {
-                    icon: <BadgeCheck size={16} />,
+                    icon: <i className="fa-solid fa-circle-check" style={{ fontSize: "16px" }}></i>,
                     text: "IRDAI Licensed Advisor",
                     sub: "Registered with Insurance Regulatory Authority of India",
                   },
                   {
-                    icon: <ShieldCheck size={16} />,
+                    icon: <i className="fa-solid fa-shield-halved" style={{ fontSize: "16px" }}></i>,
                     text: "Independent — not tied to any insurer",
                     sub: "We compare LIC + 8 private insurers",
                   },
                   {
-                    icon: <Clock size={16} />,
+                    icon: <i className="fa-solid fa-clock" style={{ fontSize: "16px" }}></i>,
                     text: "10+ years in practice",
                     sub: "Serving families since 2014",
                   },

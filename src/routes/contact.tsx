@@ -1,8 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useScrollReveal } from "../hooks/useScrollReveal";
-import { Phone, MessageCircle, Mail, Clock, MapPin, ArrowRight } from "lucide-react";
 import { WA_NUMBER, TEL, TEL_DISPLAY, EMAIL } from "../components/icons";
-import { WhatsAppIcon } from "../components/icons";
 import { LeadForm } from "../components/LeadForm";
 import { FaqAccordion } from "../components/FaqAccordion";
 
@@ -108,7 +106,7 @@ function ContactPage() {
               marginBottom: "20px",
             }}
           >
-            <Phone size={11} /> Get in Touch
+            <i className="fa-solid fa-phone" style={{ fontSize: "11px" }}></i> Get in Touch
           </div>
           <h1
             id="contact-h1"
@@ -196,7 +194,7 @@ function ContactPage() {
                 }}
                 aria-hidden="true"
               >
-                <Phone size={20} />
+                <i className="fa-solid fa-phone" style={{ fontSize: "20px" }}></i>
               </div>
               <div>
                 <div
@@ -257,7 +255,7 @@ function ContactPage() {
                 }}
                 aria-hidden="true"
               >
-                <MessageCircle size={20} />
+                <i className="fa-brands fa-whatsapp" style={{ fontSize: "20px" }}></i>
               </div>
               <div>
                 <div
@@ -318,7 +316,7 @@ function ContactPage() {
                 }}
                 aria-hidden="true"
               >
-                <Mail size={20} />
+                <i className="fa-solid fa-envelope" style={{ fontSize: "20px" }}></i>
               </div>
               <div>
                 <div
@@ -439,9 +437,9 @@ function ContactPage() {
                   }}
                 >
                   <div style={{ display: "flex", alignItems: "flex-start", gap: "12px" }}>
-                    <MapPin
-                      size={16}
-                      style={{ color: "var(--color-accent)", marginTop: "2px", flexShrink: 0 }}
+                    <i
+                      className="fa-solid fa-location-dot"
+                      style={{ fontSize: "16px", color: "var(--color-accent)", marginTop: "2px", flexShrink: 0 }}
                       aria-hidden="true"
                     />
                     <div>
@@ -467,9 +465,9 @@ function ContactPage() {
                     </div>
                   </div>
                   <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                    <Clock
-                      size={16}
-                      style={{ color: "var(--color-accent)", flexShrink: 0 }}
+                    <i
+                      className="fa-solid fa-clock"
+                      style={{ fontSize: "16px", color: "var(--color-accent)", flexShrink: 0 }}
                       aria-hidden="true"
                     />
                     <div style={{ fontSize: "0.82rem", color: "#64748B" }}>
@@ -492,7 +490,7 @@ function ContactPage() {
                 }}
                 id="contact-page-wa"
               >
-                <WhatsAppIcon size={16} /> WhatsApp Us Directly
+                <i className="fa-brands fa-whatsapp" style={{ fontSize: "16px" }}></i> WhatsApp Us Directly
               </a>
             </div>
           </div>

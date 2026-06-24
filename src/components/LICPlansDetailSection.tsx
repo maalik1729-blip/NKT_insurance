@@ -1,20 +1,4 @@
 import { useState } from "react";
-import {
-  ShieldCheck,
-  Heart,
-  Zap,
-  RefreshCw,
-  TrendingUp,
-  Baby,
-  Building2,
-  Users,
-  ChevronDown,
-  ChevronUp,
-  Star,
-  CheckCircle2,
-  ExternalLink,
-  Info,
-} from "lucide-react";
 
 // =====================================================================
 // ALL LIC PLANS — Complete Data
@@ -604,16 +588,16 @@ const ALL_PLANS: {
 ];
 
 // ─────────────────────────────────────────────
-const ICONS: Record<string, any> = {
-  shield: ShieldCheck,
-  trending: TrendingUp,
-  refresh: RefreshCw,
-  zap: Zap,
-  building: Building2,
-  baby: Baby,
-  users: Users,
-  heart: Heart,
-  star: Star,
+const ICONS: Record<string, string> = {
+  shield: "fa-solid fa-shield-halved",
+  trending: "fa-solid fa-arrow-trend-up",
+  refresh: "fa-solid fa-rotate",
+  zap: "fa-solid fa-bolt",
+  building: "fa-solid fa-building",
+  baby: "fa-solid fa-baby",
+  users: "fa-solid fa-users",
+  heart: "fa-solid fa-heart",
+  star: "fa-solid fa-star",
 };
 
 interface LICPlansDetailSectionProps {
@@ -632,7 +616,7 @@ export function LICPlansDetailSection({ selectedYear }: LICPlansDetailSectionPro
       {/* Header */}
       <div className="licplans-header">
         <div className="licplans-badge">
-          <Star size={13} /> All LIC Plans — Official Products
+          <i className="fa-solid fa-star" style={{ fontSize: "13px" }}></i> All LIC Plans — Official Products
         </div>
         <h2 className="licplans-title">
           LIC Insurance Plans — <span>Complete List</span>
@@ -645,7 +629,7 @@ export function LICPlansDetailSection({ selectedYear }: LICPlansDetailSectionPro
             rel="noopener noreferrer"
             className="licplans-link"
           >
-            licindia.in <ExternalLink size={11} />
+            licindia.in <i className="fa-solid fa-up-right-from-square" style={{ fontSize: "11px" }}></i>
           </a>{" "}
           · With Claim Type &amp; CSR for each plan
         </p>
@@ -655,7 +639,7 @@ export function LICPlansDetailSection({ selectedYear }: LICPlansDetailSectionPro
       <div className="licplans-counts">
         {PLAN_CATEGORIES.map((c) => {
           const count = ALL_PLANS.filter((p) => p.category === c.key).length;
-          const Icon = ICONS[c.icon];
+          const iconClass = ICONS[c.icon];
           return (
             <button
               key={c.key}
@@ -666,7 +650,7 @@ export function LICPlansDetailSection({ selectedYear }: LICPlansDetailSectionPro
                 setExpandedPlan(null);
               }}
             >
-              <Icon size={14} />
+              <i className={iconClass} style={{ fontSize: "14px" }}></i>
               <span>{c.label}</span>
               <span className="licplans-count-num">{count}</span>
             </button>
@@ -678,10 +662,7 @@ export function LICPlansDetailSection({ selectedYear }: LICPlansDetailSectionPro
       <div className="licplans-list">
         <div className="licplans-list-header" style={{ borderColor: catMeta.color }}>
           <div style={{ color: catMeta.color, display: "flex", alignItems: "center", gap: 8 }}>
-            {(() => {
-              const Icon = ICONS[catMeta.icon];
-              return <Icon size={18} />;
-            })()}
+            <i className={ICONS[catMeta.icon]} style={{ fontSize: "18px" }}></i>
             <strong>{catMeta.label}</strong>
           </div>
           <span style={{ fontSize: ".75rem", color: "#64748b" }}>{filteredPlans.length} plans</span>
@@ -725,9 +706,9 @@ export function LICPlansDetailSection({ selectedYear }: LICPlansDetailSectionPro
                   <div className="licplans-sa">{plan.sumAssured}</div>
                   <div className="licplans-sa-label">Sum Assured</div>
                   {isOpen ? (
-                    <ChevronUp size={16} color="#64748b" />
+                    <i className="fa-solid fa-chevron-up" style={{ fontSize: "16px", color: "#64748b" }}></i>
                   ) : (
-                    <ChevronDown size={16} color="#64748b" />
+                    <i className="fa-solid fa-chevron-down" style={{ fontSize: "16px", color: "#64748b" }}></i>
                   )}
                 </div>
               </button>
@@ -761,7 +742,7 @@ export function LICPlansDetailSection({ selectedYear }: LICPlansDetailSectionPro
                   <div className="licplans-features">
                     {plan.keyFeatures.map((f) => (
                       <div key={f} className="licplans-feature">
-                        <CheckCircle2 size={13} color={catMeta.color} />
+                        <i className="fa-solid fa-circle-check" style={{ fontSize: "13px", color: catMeta.color }}></i>
                         <span>{f}</span>
                       </div>
                     ))}
@@ -773,7 +754,7 @@ export function LICPlansDetailSection({ selectedYear }: LICPlansDetailSectionPro
                     className="licplans-cta"
                     style={{ background: catMeta.color }}
                   >
-                    View on LIC Official Site <ExternalLink size={12} />
+                    View on LIC Official Site <i className="fa-solid fa-up-right-from-square" style={{ fontSize: "12px" }}></i>
                   </a>
                 </div>
               )}
@@ -783,7 +764,7 @@ export function LICPlansDetailSection({ selectedYear }: LICPlansDetailSectionPro
       </div>
 
       <p className="licplans-footer">
-        <Info size={12} /> All plan details from{" "}
+        <i className="fa-solid fa-circle-info" style={{ fontSize: "12px" }}></i> All plan details from{" "}
         <a href="https://licindia.in/web/guest/products" target="_blank" rel="noopener noreferrer">
           LIC Official Website
         </a>{" "}

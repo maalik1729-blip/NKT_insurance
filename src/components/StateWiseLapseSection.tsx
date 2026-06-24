@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { MapPin, TrendingDown, TrendingUp, Info, ExternalLink, BarChart2 } from "lucide-react";
 
 // =====================================================================
 // STATE-WISE PREMIUM & SURRENDER/LAPSE DATA
@@ -94,7 +93,7 @@ export function StateWiseLapseSection({ selectedYear }: StateWiseLapseSectionPro
       {/* Header */}
       <div className="swl-header">
         <div className="swl-badge">
-          <MapPin size={13} /> State-wise &amp; Lapse Data — IRDAI 2024-25
+          <i className="fa-solid fa-location-dot" style={{ fontSize: "13px" }}></i> State-wise &amp; Lapse Data — IRDAI 2024-25
         </div>
         <h2 className="swl-title">
           India Insurance — <span>State &amp; Lapse Statistics</span>
@@ -107,7 +106,7 @@ export function StateWiseLapseSection({ selectedYear }: StateWiseLapseSectionPro
             rel="noopener noreferrer"
             className="swl-link"
           >
-            IRDAI Handbook 2024-25 <ExternalLink size={11} />
+            IRDAI Handbook 2024-25 <i className="fa-solid fa-up-right-from-square" style={{ fontSize: "11px" }}></i>
           </a>
         </p>
         {/* Tab switch */}
@@ -116,13 +115,13 @@ export function StateWiseLapseSection({ selectedYear }: StateWiseLapseSectionPro
             className={`swl-tab ${view === "state" ? "active" : ""}`}
             onClick={() => setView("state")}
           >
-            <MapPin size={14} /> State-wise Premium
+            <i className="fa-solid fa-location-dot" style={{ fontSize: "14px" }}></i> State-wise Premium
           </button>
           <button
             className={`swl-tab ${view === "lapse" ? "active" : ""}`}
             onClick={() => setView("lapse")}
           >
-            <TrendingDown size={14} /> Lapse / Surrender
+            <i className="fa-solid fa-arrow-trend-down" style={{ fontSize: "14px" }}></i> Lapse / Surrender
           </button>
         </div>
       </div>
@@ -200,7 +199,7 @@ export function StateWiseLapseSection({ selectedYear }: StateWiseLapseSectionPro
           </div>
 
           <p className="swl-note">
-            <Info size={12} /> Source: IRDAI Handbook 2024-25, Table 5 — State-wise Individual New
+            <i className="fa-solid fa-circle-info" style={{ fontSize: "12px" }}></i> Source: IRDAI Handbook 2024-25, Table 5 — State-wise Individual New
             Business · Figures for FY 2022-23 (latest available state breakdown)
           </p>
         </>
@@ -289,7 +288,7 @@ export function StateWiseLapseSection({ selectedYear }: StateWiseLapseSectionPro
           </div>
 
           <div className="swl-lapse-insight">
-            <TrendingUp size={14} color="#10b981" />
+            <i className="fa-solid fa-arrow-trend-up" style={{ fontSize: "14px", color: "#10b981" }}></i>
             <p>
               <strong style={{ color: "#10b981" }}>Good News:</strong> Total lapsed policies are
               declining — from 94.60L (2020-21) to 85.76L (2022-23). LIC's lapse rate is improving
@@ -298,7 +297,7 @@ export function StateWiseLapseSection({ selectedYear }: StateWiseLapseSectionPro
           </div>
 
           <p className="swl-note">
-            <Info size={12} /> A policy is treated as lapsed/forfeited if premiums are not paid
+            <i className="fa-solid fa-circle-info" style={{ fontSize: "12px" }}></i> A policy is treated as lapsed/forfeited if premiums are not paid
             after grace period · IRDAI Table 27 · Data in thousands of policies
           </p>
         </>

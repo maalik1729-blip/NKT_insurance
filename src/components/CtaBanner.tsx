@@ -1,6 +1,4 @@
-import { MessageCircle, Phone, ArrowRight } from "lucide-react";
-import { WA_NUMBER, TEL, TEL_DISPLAY } from "./icons";
-import { WhatsAppIcon } from "./icons";
+import { WA_NUMBER } from "./icons";
 
 export function CtaBanner({ heading, sub }: { heading: string; sub: string }) {
   return (
@@ -56,7 +54,7 @@ export function CtaBanner({ heading, sub }: { heading: string; sub: string }) {
                 gap: "8px",
               }}
             >
-              Get Free Consultation <ArrowRight size={16} />
+              Get Free Consultation <i className="fa-solid fa-arrow-right" style={{ fontSize: "16px" }}></i>
             </a>
             <a
               href={`https://wa.me/${WA_NUMBER}?text=Hi%20NKT%2C%20I%20need%20insurance%20advice.`}
@@ -74,7 +72,7 @@ export function CtaBanner({ heading, sub }: { heading: string; sub: string }) {
                 gap: "8px",
               }}
             >
-              <WhatsAppIcon size={16} /> WhatsApp
+              <i className="fa-brands fa-whatsapp" style={{ fontSize: "16px" }}></i> WhatsApp
             </a>
           </div>
         </div>

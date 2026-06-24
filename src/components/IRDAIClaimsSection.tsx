@@ -1,19 +1,4 @@
 import { useState } from "react";
-import {
-  ShieldCheck,
-  TrendingUp,
-  Award,
-  Info,
-  ExternalLink,
-  ChevronDown,
-  ChevronUp,
-  FileText,
-  Users,
-  Heart,
-  BarChart2,
-  Zap,
-  Coins,
-} from "lucide-react";
 
 // =====================================================================
 // ALL LIC CLAIMS DATA — Official IRDAI Sources
@@ -243,12 +228,13 @@ function formatNum(n: number) {
 }
 
 function CategoryIcon({ type, size = 18 }: { type: string; size?: number }) {
-  if (type === "death") return <ShieldCheck size={size} />;
-  if (type === "group") return <Users size={size} />;
-  if (type === "maturity") return <BarChart2 size={size} />;
-  if (type === "survival") return <Heart size={size} />;
-  if (type === "annuity") return <Coins size={size} />;
-  return <Zap size={size} />;
+  const style = { fontSize: `${size}px` };
+  if (type === "death") return <i className="fa-solid fa-shield-halved" style={style}></i>;
+  if (type === "group") return <i className="fa-solid fa-users" style={style}></i>;
+  if (type === "maturity") return <i className="fa-solid fa-chart-simple" style={style}></i>;
+  if (type === "survival") return <i className="fa-solid fa-heart" style={style}></i>;
+  if (type === "annuity") return <i className="fa-solid fa-indian-rupee-sign" style={style}></i>;
+  return <i className="fa-solid fa-bolt" style={style}></i>;
 }
 
 function BarChart({ data, color }: { data: Record<string, number>; color: string }) {
@@ -304,7 +290,7 @@ export function IRDAIClaimsSection({ selectedYear: propYear }: IRDAIClaimsSectio
       {/* Header */}
       <div className="irdai-header">
         <div className="irdai-badge">
-          <ShieldCheck size={14} /> All LIC Claims — IRDAI Official Data 2024-25
+          <i className="fa-solid fa-shield-halved" style={{ fontSize: "14px" }}></i> All LIC Claims — IRDAI Official Data 2024-25
         </div>
         <h2 className="irdai-title">
           LIC Claims Settlement — <span>Complete Data</span>
@@ -318,7 +304,7 @@ export function IRDAIClaimsSection({ selectedYear: propYear }: IRDAIClaimsSectio
             rel="noopener noreferrer"
             className="irdai-source-link"
           >
-            IRDAI Handbook 2024-25 <ExternalLink size={11} />
+            IRDAI Handbook 2024-25 <i className="fa-solid fa-up-right-from-square" style={{ fontSize: "11px" }}></i>
           </a>
         </p>
       </div>
@@ -355,7 +341,7 @@ export function IRDAIClaimsSection({ selectedYear: propYear }: IRDAIClaimsSectio
 
       {/* Source note */}
       <div className="irdai-source-note">
-        <Info size={12} /> {source}
+        <i className="fa-solid fa-circle-info" style={{ fontSize: "12px" }}></i> {source}
       </div>
 
       {/* Stat Cards */}
@@ -363,7 +349,7 @@ export function IRDAIClaimsSection({ selectedYear: propYear }: IRDAIClaimsSectio
         {/* LIC CSR */}
         <div className="irdai-stat-card irdai-stat-primary">
           <div className="irdai-stat-icon">
-            <Award size={22} />
+            <i className="fa-solid fa-award" style={{ fontSize: "22px" }}></i>
           </div>
           <div className="irdai-stat-body">
             <span className="irdai-stat-label">LIC Settlement Ratio</span>
@@ -406,7 +392,7 @@ export function IRDAIClaimsSection({ selectedYear: propYear }: IRDAIClaimsSectio
             className="irdai-stat-icon"
             style={{ background: "rgba(16,185,129,0.15)", color: "#10b981" }}
           >
-            <TrendingUp size={22} />
+            <i className="fa-solid fa-arrow-trend-up" style={{ fontSize: "22px" }}></i>
           </div>
           <div className="irdai-stat-body">
             <span className="irdai-stat-label">Industry Average</span>
@@ -424,7 +410,7 @@ export function IRDAIClaimsSection({ selectedYear: propYear }: IRDAIClaimsSectio
               className="irdai-stat-icon"
               style={{ background: "rgba(245,158,11,0.15)", color: "#f59e0b" }}
             >
-              <ShieldCheck size={22} />
+              <i className="fa-solid fa-shield-halved" style={{ fontSize: "22px" }}></i>
             </div>
             <div className="irdai-stat-body">
               <span className="irdai-stat-label">LIC Claims Paid</span>
@@ -445,7 +431,7 @@ export function IRDAIClaimsSection({ selectedYear: propYear }: IRDAIClaimsSectio
               className="irdai-stat-icon"
               style={{ background: "rgba(168,85,247,0.15)", color: "#a855f7" }}
             >
-              <FileText size={22} />
+              <i className="fa-solid fa-file-invoice" style={{ fontSize: "22px" }}></i>
             </div>
             <div className="irdai-stat-body">
               <span className="irdai-stat-label">Amount Paid</span>
@@ -463,7 +449,7 @@ export function IRDAIClaimsSection({ selectedYear: propYear }: IRDAIClaimsSectio
         <div className="irdai-chart-header">
           <h3>LIC Settlement Ratio — {selectedCat} (2019–2025)</h3>
           <span className="irdai-chart-note">
-            <Info size={13} /> {source.split("+")[0].trim()}
+            <i className="fa-solid fa-circle-info" style={{ fontSize: "13px" }}></i> {source.split("+")[0].trim()}
           </span>
         </div>
         <BarChart data={LIC_CSR[selectedCat]} color={color} />
@@ -499,7 +485,11 @@ export function IRDAIClaimsSection({ selectedYear: propYear }: IRDAIClaimsSectio
 
       {/* Detailed Table */}
       <button className="irdai-details-toggle" onClick={() => setShowDetails((v) => !v)}>
-        {showDetails ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+        {showDetails ? (
+          <i className="fa-solid fa-chevron-up" style={{ fontSize: "16px" }}></i>
+        ) : (
+          <i className="fa-solid fa-chevron-down" style={{ fontSize: "16px" }}></i>
+        )}
         <span>
           {showDetails ? "Hide" : "View"} Complete Data Table
           <span className="hide-mobile"> — All 6 Claim Types × 6 Years</span>

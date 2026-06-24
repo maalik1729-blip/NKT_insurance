@@ -1,17 +1,4 @@
 import { Link, useRouter } from "@tanstack/react-router";
-import {
-  ShieldCheck,
-  Phone,
-  ChevronDown,
-  User,
-  Heart,
-  Car,
-  ArrowRight,
-  Menu,
-  X,
-  BarChart2,
-  ChevronLeft,
-} from "lucide-react";
 import { WA_NUMBER, TEL, TEL_DISPLAY } from "./icons";
 import { useState, useEffect, useRef } from "react";
 import logoImg from "../assets/images/logo.png";
@@ -207,9 +194,10 @@ export function SiteNav() {
                 onClick={() => setDropdownOpen((o) => !o)}
               >
                 Insurance Plans{" "}
-                <ChevronDown
-                  size={13}
+                <i
+                  className="fa-solid fa-chevron-down"
                   style={{
+                    fontSize: "13px",
                     transform: dropdownOpen ? "rotate(180deg)" : "none",
                     transition: "transform 200ms",
                   }}
@@ -236,19 +224,19 @@ export function SiteNav() {
                   {[
                     {
                       to: "/life-insurance",
-                      icon: <ShieldCheck size={15} />,
+                      icon: <i className="fa-solid fa-shield-halved" style={{ fontSize: "15px" }}></i>,
                       title: "Life Insurance (LIC)",
                       desc: "Term cover, savings & retirement plans.",
                     },
                     {
                       to: "/health-insurance",
-                      icon: <Heart size={15} />,
+                      icon: <i className="fa-solid fa-heart" style={{ fontSize: "15px" }}></i>,
                       title: "Health Insurance",
                       desc: "Cashless treatment & family cover.",
                     },
                     {
                       to: "/motor-insurance",
-                      icon: <Car size={15} />,
+                      icon: <i className="fa-solid fa-car" style={{ fontSize: "15px" }}></i>,
                       title: "Motor Insurance",
                       desc: "Quick policies for cars & bikes.",
                     },
@@ -356,7 +344,7 @@ export function SiteNav() {
               }}
               className="nav__link dashboard-btn"
             >
-              <BarChart2 size={13} /> Dashboard
+              <i className="fa-solid fa-chart-simple" style={{ fontSize: "13px" }}></i> Dashboard
             </Link>
           </nav>
 
@@ -381,14 +369,14 @@ export function SiteNav() {
               }}
               className="nav__phone"
             >
-              <Phone size={13} /> {TEL_DISPLAY}
+              <i className="fa-solid fa-phone" style={{ fontSize: "13px" }}></i> {TEL_DISPLAY}
             </a>
             <Link
               to="/contact"
               className="btn btn-primary btn-sm"
               style={{ display: "inline-flex", alignItems: "center", gap: "5px" }}
             >
-              Get a Quote <ArrowRight size={13} />
+              Get a Quote <i className="fa-solid fa-arrow-right" style={{ fontSize: "13px" }}></i>
             </Link>
           </div>
 
@@ -413,7 +401,11 @@ export function SiteNav() {
             onClick={() => setMenuOpen((o) => !o)}
             className="nav__hamburger"
           >
-            {menuOpen ? <X size={18} /> : <Menu size={18} />}
+            {menuOpen ? (
+              <i className="fa-solid fa-xmark" style={{ fontSize: "18px" }}></i>
+            ) : (
+              <i className="fa-solid fa-bars" style={{ fontSize: "18px" }}></i>
+            )}
           </button>
         </div>
       </nav>
@@ -468,7 +460,7 @@ export function SiteNav() {
             }}
             className="nav__mobile-back-btn"
           >
-            <ChevronLeft size={16} /> Back
+            <i className="fa-solid fa-chevron-left" style={{ fontSize: "16px" }}></i> Back
           </button>
 
           {/* Centered Brand / Logo */}
@@ -518,7 +510,7 @@ export function SiteNav() {
             }}
             aria-label="Close menu"
           >
-            <X size={16} />
+            <i className="fa-solid fa-xmark" style={{ fontSize: "16px" }}></i>
           </button>
         </div>
 
@@ -538,11 +530,19 @@ export function SiteNav() {
           {[
             {
               to: "/life-insurance",
-              icon: <ShieldCheck size={14} />,
+              icon: <i className="fa-solid fa-shield-halved" style={{ fontSize: "14px" }}></i>,
               label: "Life Insurance (LIC)",
             },
-            { to: "/health-insurance", icon: <Heart size={14} />, label: "Health Insurance" },
-            { to: "/motor-insurance", icon: <Car size={14} />, label: "Motor Insurance" },
+            {
+              to: "/health-insurance",
+              icon: <i className="fa-solid fa-heart" style={{ fontSize: "14px" }}></i>,
+              label: "Health Insurance",
+            },
+            {
+              to: "/motor-insurance",
+              icon: <i className="fa-solid fa-car" style={{ fontSize: "14px" }}></i>,
+              label: "Motor Insurance",
+            },
           ].map((item) => {
             const isActive = router.state.location.pathname === item.to;
             return (
@@ -620,7 +620,7 @@ export function SiteNav() {
                 }}
                 className={`nav__mobile-link ${isActive ? "active" : ""}`}
               >
-                <BarChart2 size={14} /> Insurance Dashboard
+                <i className="fa-solid fa-chart-simple" style={{ fontSize: "14px" }}></i> Insurance Dashboard
               </Link>
             );
           })()}
@@ -641,7 +641,7 @@ export function SiteNav() {
                 height: "46px",
               }}
             >
-              Get a Free Quote <ArrowRight size={14} />
+              Get a Free Quote <i className="fa-solid fa-arrow-right" style={{ fontSize: "14px" }}></i>
             </Link>
             <a
               href={`tel:${TEL}`}
@@ -657,7 +657,7 @@ export function SiteNav() {
                 gap: "6px",
               }}
             >
-              <Phone size={13} /> {TEL_DISPLAY}
+              <i className="fa-solid fa-phone" style={{ fontSize: "13px" }}></i> {TEL_DISPLAY}
             </a>
           </div>
         </div>

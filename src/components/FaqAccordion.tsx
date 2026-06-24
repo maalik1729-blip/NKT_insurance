@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { ChevronDown } from "lucide-react";
 
 export interface FaqItem {
   q: string;
@@ -67,9 +66,10 @@ export function FaqAccordion({
                 onClick={() => setOpen(open === i ? null : i)}
               >
                 {item.q}
-                <ChevronDown
-                  size={18}
+                <i
+                  className="fa-solid fa-chevron-down"
                   style={{
+                    fontSize: "18px",
                     flexShrink: 0,
                     color: open === i ? "var(--color-accent)" : "var(--color-ink-3)",
                     transform: open === i ? "rotate(180deg)" : "rotate(0deg)",

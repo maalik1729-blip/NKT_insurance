@@ -1,20 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useScrollReveal } from "../hooks/useScrollReveal";
-import {
-  ShieldCheck,
-  Heart,
-  Car,
-  AlertCircle,
-  CheckCircle2,
-  FileText,
-  Phone,
-  Coins,
-  Globe,
-  ArrowRight,
-} from "lucide-react";
 import { FaqAccordion } from "../components/FaqAccordion";
 import { CtaBanner } from "../components/CtaBanner";
-import { WhatsAppIcon, WA_NUMBER, TEL, TEL_DISPLAY } from "../components/icons";
+import { WA_NUMBER, TEL, TEL_DISPLAY } from "../components/icons";
 
 const TITLE = "Claims Support — Life, Health & Motor | NKT Insurance Solutions";
 const DESC =
@@ -35,22 +23,22 @@ export const Route = createFileRoute("/claims")({
 
 const FIRST_24H = [
   {
-    icon: <Phone size={18} />,
+    icon: <i className="fa-solid fa-phone" style={{ fontSize: "18px" }}></i>,
     title: "Call NKT first",
     body: "Before calling the insurer, call or WhatsApp us. We'll guide you through the exact process for your specific policy and insurer.",
   },
   {
-    icon: <ShieldCheck size={18} />,
+    icon: <i className="fa-solid fa-shield-halved" style={{ fontSize: "18px" }}></i>,
     title: "Gather documents immediately",
     body: "Collect the policy number, death/hospital/FIR certificate, and ID proof. Don't wait — many documents have short windows for submission.",
   },
   {
-    icon: <FileText size={18} />,
+    icon: <i className="fa-solid fa-file-invoice" style={{ fontSize: "18px" }}></i>,
     title: "Intimate the insurer formally",
     body: "We help you submit the formal claim intimation in writing within the required time window (usually 24–48 hours for motor, 7–30 days for life and health).",
   },
   {
-    icon: <AlertCircle size={18} />,
+    icon: <i className="fa-solid fa-circle-exclamation" style={{ fontSize: "18px" }}></i>,
     title: "Don't admit liability or sign anything",
     body: "For motor and third-party claims: don't sign any document or admit fault at the accident scene. Let the insurer's legal team handle liability.",
   },
@@ -59,49 +47,49 @@ const FIRST_24H = [
 const CLAIM_CATEGORIES = [
   {
     title: "Life Insurance Claims",
-    icon: <ShieldCheck size={18} />,
+    icon: <i className="fa-solid fa-shield-halved" style={{ fontSize: "18px" }}></i>,
     tag: "Death Benefits",
     desc: "Dedicated assistance for death benefit settlements and maturity payouts under LIC and private policies.",
   },
   {
     title: "Health Insurance Claims",
-    icon: <Heart size={18} />,
+    icon: <i className="fa-solid fa-heart" style={{ fontSize: "18px" }}></i>,
     tag: "Cashless",
     desc: "Instant pre-authorisation handling for cashless treatment or seamless reimbursement file assembly.",
   },
   {
     title: "Loan Protection Policy",
-    icon: <Coins size={18} />,
+    icon: <i className="fa-solid fa-indian-rupee-sign" style={{ fontSize: "18px" }}></i>,
     tag: "Debt Cover",
     desc: "Settling outstanding home or personal loans directly through policies, keeping your family asset-safe.",
   },
   {
     title: "Overseas / Travel Claims",
-    icon: <Globe size={18} />,
+    icon: <i className="fa-solid fa-globe" style={{ fontSize: "18px" }}></i>,
     tag: "International",
     desc: "Liaising with international TPAs for medical emergencies, luggage losses, or delays while abroad.",
   },
   {
     title: "Motor Insurance Claims",
-    icon: <Car size={18} />,
+    icon: <i className="fa-solid fa-car" style={{ fontSize: "18px" }}></i>,
     tag: "Cashless Repair",
     desc: "Fast surveyor coordination, cashless garage routing, and zero-depreciation coverage verification.",
   },
   {
     title: "Term Insurance",
-    icon: <FileText size={18} />,
+    icon: <i className="fa-solid fa-file-invoice" style={{ fontSize: "18px" }}></i>,
     tag: "Income Replace",
     desc: "Critical support during the income-replacement filing process, ensuring maximum transparency for nominees.",
   },
   {
     title: "Accidental Claims",
-    icon: <AlertCircle size={18} />,
+    icon: <i className="fa-solid fa-circle-exclamation" style={{ fontSize: "18px" }}></i>,
     tag: "Emergency",
     desc: "Filing personal accident benefit covers, permanent disability riders, and emergency cash claims.",
   },
   {
     title: "General Insurance",
-    icon: <ShieldCheck size={18} />,
+    icon: <i className="fa-solid fa-shield-halved" style={{ fontSize: "18px" }}></i>,
     tag: "Commercial",
     desc: "Assistance with commercial fire, marine, cargo, liability, and shopkeeper package policy settlements.",
   },
@@ -324,7 +312,7 @@ function ClaimsPage() {
               marginBottom: "20px",
             }}
           >
-            <ShieldCheck size={11} /> Claims Support
+            <i className="fa-solid fa-shield-halved" style={{ fontSize: "11px" }}></i> Claims Support
           </div>
           <h1
             id="claims-h1"
@@ -359,14 +347,14 @@ function ClaimsPage() {
               className="btn btn-primary"
               style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}
             >
-              <Phone size={15} /> Call Us Now
+              <i className="fa-solid fa-phone" style={{ fontSize: "15px" }}></i> Call Us Now
             </a>
             <a
               href={`https://wa.me/${WA_NUMBER}?text=I%20need%20help%20with%20a%20claim.`}
               className="btn btn-wa"
               style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}
             >
-              <WhatsAppIcon size={15} /> WhatsApp Help
+              <i className="fa-brands fa-whatsapp" style={{ fontSize: "15px" }}></i> WhatsApp Help
             </a>
           </div>
         </div>
@@ -555,12 +543,12 @@ function ClaimsPage() {
           >
             {[
               {
-                icon: <ShieldCheck size={20} />,
+                icon: <i className="fa-solid fa-shield-halved" style={{ fontSize: "20px" }}></i>,
                 title: "Life Insurance Claims",
                 steps: LIFE_STEPS,
               },
-              { icon: <Heart size={20} />, title: "Health Insurance Claims", steps: HEALTH_STEPS },
-              { icon: <Car size={20} />, title: "Motor Insurance Claims", steps: MOTOR_STEPS },
+              { icon: <i className="fa-solid fa-heart" style={{ fontSize: "20px" }}></i>, title: "Health Insurance Claims", steps: HEALTH_STEPS },
+              { icon: <i className="fa-solid fa-car" style={{ fontSize: "20px" }}></i>, title: "Motor Insurance Claims", steps: MOTOR_STEPS },
             ].map(({ icon, title, steps }) => (
               <div
                 key={title}
@@ -693,9 +681,9 @@ function ClaimsPage() {
                     </td>
                     <td style={{ padding: "14px 20px", color: "#475569", fontSize: "0.875rem" }}>
                       <span style={{ display: "flex", alignItems: "flex-start", gap: "8px" }}>
-                        <CheckCircle2
-                          size={14}
-                          style={{ color: "var(--color-accent)", marginTop: "2px", flexShrink: 0 }}
+                        <i
+                          className="fa-solid fa-circle-check"
+                          style={{ fontSize: "14px", color: "var(--color-accent)", marginTop: "2px", flexShrink: 0 }}
                           aria-hidden="true"
                         />
                         {r.fix}

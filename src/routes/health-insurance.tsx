@@ -1,15 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useScrollReveal } from "../hooks/useScrollReveal";
-import {
-  Heart,
-  CheckCircle2,
-  BadgeCheck,
-  Hospital,
-  FileText,
-  Users,
-  AlertCircle,
-  ArrowRight,
-} from "lucide-react";
 import { FaqAccordion } from "../components/FaqAccordion";
 import { CtaBanner } from "../components/CtaBanner";
 import healthSectionImg from "../assets/images/health_insurance_section.png";
@@ -36,7 +26,7 @@ export const Route = createFileRoute("/health-insurance")({
 const PLAN_TYPES = [
   {
     name: "Individual Health Plan",
-    icon: <Heart size={18} />,
+    icon: <i className="fa-solid fa-heart" style={{ fontSize: "18px" }}></i>,
     tag: "Single Cover",
     body: "Covers one person for hospitalisation, surgery, and medical expenses. Ideal for young singles or as a supplement to employer cover.",
     features: [
@@ -48,7 +38,7 @@ const PLAN_TYPES = [
   },
   {
     name: "Family Floater Plan",
-    icon: <Users size={18} />,
+    icon: <i className="fa-solid fa-users" style={{ fontSize: "18px" }}></i>,
     tag: "Most Popular",
     body: "One policy covers your entire family — spouse, children, and sometimes parents. Premium is lower than individual plans combined.",
     features: [
@@ -60,7 +50,7 @@ const PLAN_TYPES = [
   },
   {
     name: "Senior Citizen Plan",
-    icon: <BadgeCheck size={18} />,
+    icon: <i className="fa-solid fa-circle-check" style={{ fontSize: "18px" }}></i>,
     tag: "60+ Years",
     body: "Designed for parents and seniors (60+). Higher premiums, but essential — senior citizens are not covered by most standard floater plans.",
     features: [
@@ -72,7 +62,7 @@ const PLAN_TYPES = [
   },
   {
     name: "Critical Illness Cover",
-    icon: <AlertCircle size={18} />,
+    icon: <i className="fa-solid fa-circle-exclamation" style={{ fontSize: "18px" }}></i>,
     tag: "Lump-Sum",
     body: "Lump-sum payout on diagnosis of 30+ critical illnesses (cancer, heart attack, kidney failure). Use the payout for treatment, income replacement, or EMIs.",
     features: [
@@ -84,7 +74,7 @@ const PLAN_TYPES = [
   },
   {
     name: "Top-Up & Super Top-Up",
-    icon: <FileText size={18} />,
+    icon: <i className="fa-solid fa-file-invoice" style={{ fontSize: "18px" }}></i>,
     tag: "Cost-Effective",
     body: "Affordable way to enhance your existing cover. Activates once your base plan is exhausted — cost-effective for high-value cover.",
     features: [
@@ -96,7 +86,7 @@ const PLAN_TYPES = [
   },
   {
     name: "Group / Corporate Health",
-    icon: <Hospital size={18} />,
+    icon: <i className="fa-solid fa-hospital" style={{ fontSize: "18px" }}></i>,
     tag: "Business",
     body: "Employer-provided cover for businesses and organisations. We advise on the right group plan for your team's needs and negotiate better terms.",
     features: [
@@ -248,7 +238,7 @@ function HealthInsurancePage() {
                   marginBottom: "20px",
                 }}
               >
-                <Heart size={11} /> Health Insurance Plans
+                <i className="fa-solid fa-heart" style={{ fontSize: "11px" }}></i> Health Insurance Plans
               </div>
               <h1
                 id="health-h1"
@@ -284,7 +274,7 @@ function HealthInsurancePage() {
                   className="btn btn-primary"
                   style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}
                 >
-                  Get Free Quote <ArrowRight size={15} />
+                  Get Free Quote <i className="fa-solid fa-arrow-right" style={{ fontSize: "15px" }}></i>
                 </Link>
                 <a href="#health-plans" className="btn btn-outline">
                   Explore Plans
@@ -477,9 +467,9 @@ function HealthInsurancePage() {
                         color: "#475569",
                       }}
                     >
-                      <CheckCircle2
-                        size={14}
-                        style={{ color: "var(--color-accent)", flexShrink: 0, marginTop: "2px" }}
+                      <i
+                        className="fa-solid fa-circle-check"
+                        style={{ fontSize: "14px", color: "var(--color-accent)", flexShrink: 0, marginTop: "2px" }}
                         aria-hidden="true"
                       />{" "}
                       {f}

@@ -1,18 +1,4 @@
 import { useState } from "react";
-import {
-  TrendingUp,
-  Users,
-  ShieldCheck,
-  PieChart,
-  BarChart2,
-  Heart,
-  Zap,
-  Building2,
-  Baby,
-  RefreshCw,
-  Info,
-  ExternalLink,
-} from "lucide-react";
 
 // =====================================================================
 // REAL INDIA INSURANCE MARKET DATA — IRDAI Handbook 2024-25
@@ -226,15 +212,15 @@ const CLAIM_VOLUME_2024 = [
 ];
 
 // ─────────────────────────────────────────────
-const PLAN_ICONS: Record<string, any> = {
-  shield: ShieldCheck,
-  trending: TrendingUp,
-  refresh: RefreshCw,
-  zap: Zap,
-  building: Building2,
-  users: Users,
-  baby: Baby,
-  heart: Heart,
+const PLAN_ICONS: Record<string, string> = {
+  shield: "fa-solid fa-shield-halved",
+  trending: "fa-solid fa-arrow-trend-up",
+  refresh: "fa-solid fa-rotate",
+  zap: "fa-solid fa-bolt",
+  building: "fa-solid fa-building",
+  users: "fa-solid fa-users",
+  baby: "fa-solid fa-baby",
+  heart: "fa-solid fa-heart",
 };
 
 function formatCr(n: number) {
@@ -262,7 +248,7 @@ export function IndiaInsuranceMarketSection({ selectedYear }: IndiaInsuranceMark
       {/* Header */}
       <div className="mkt-header">
         <div className="mkt-badge">
-          <PieChart size={14} />
+          <i className="fa-solid fa-chart-pie" style={{ fontSize: "14px" }}></i>
           Real India Market Data — IRDAI 2024-25
         </div>
         <h2 className="mkt-title">
@@ -276,7 +262,7 @@ export function IndiaInsuranceMarketSection({ selectedYear }: IndiaInsuranceMark
             rel="noopener noreferrer"
             className="mkt-link"
           >
-            IRDAI Handbook 2024-25 <ExternalLink size={11} />
+            IRDAI Handbook 2024-25 <i className="fa-solid fa-up-right-from-square" style={{ fontSize: "11px" }}></i>
           </a>{" "}
           · Table 4 (Segment Premium) · Table 9 (Policies Issued) · Table 14/16 (Claims)
         </p>
@@ -418,7 +404,7 @@ export function IndiaInsuranceMarketSection({ selectedYear }: IndiaInsuranceMark
       </div>
       <div className="mkt-plans-grid">
         {POPULAR_PLANS.map((plan) => {
-          const Icon = PLAN_ICONS[plan.icon] ?? ShieldCheck;
+          const iconClass = PLAN_ICONS[plan.icon] ?? "fa-solid fa-shield-halved";
           const isActive = activePlan === plan.rank;
           return (
             <div
@@ -432,7 +418,7 @@ export function IndiaInsuranceMarketSection({ selectedYear }: IndiaInsuranceMark
                   className="mkt-plan-icon"
                   style={{ background: `${plan.color}22`, color: plan.color }}
                 >
-                  <Icon size={20} />
+                  <i className={iconClass} style={{ fontSize: "20px" }}></i>
                 </div>
                 <div
                   className="mkt-plan-badge"
@@ -456,19 +442,19 @@ export function IndiaInsuranceMarketSection({ selectedYear }: IndiaInsuranceMark
               {isActive && (
                 <div className="mkt-plan-detail">
                   <div className="mkt-plan-detail-row">
-                    <ShieldCheck size={13} />
+                    <i className="fa-solid fa-shield-halved" style={{ fontSize: "13px" }}></i>
                     <span>
                       Claim Type: <strong>{plan.claimType}</strong>
                     </span>
                   </div>
                   <div className="mkt-plan-detail-row">
-                    <TrendingUp size={13} />
+                    <i className="fa-solid fa-arrow-trend-up" style={{ fontSize: "13px" }}></i>
                     <span>
                       CSR: <strong style={{ color: "#10b981" }}>{plan.claimCSR}</strong>
                     </span>
                   </div>
                   <div className="mkt-plan-detail-row">
-                    <Info size={13} />
+                    <i className="fa-solid fa-circle-info" style={{ fontSize: "13px" }}></i>
                     <span>
                       Avg Premium: <strong>{plan.avgPremium}</strong>
                     </span>
@@ -524,7 +510,7 @@ export function IndiaInsuranceMarketSection({ selectedYear }: IndiaInsuranceMark
       </div>
 
       <p className="mkt-footer">
-        <BarChart2 size={13} /> All data from{" "}
+        <i className="fa-solid fa-chart-simple" style={{ fontSize: "13px" }}></i> All data from{" "}
         <a
           href="https://irdai.gov.in/en/handbook-of-indian-insurance"
           target="_blank"
