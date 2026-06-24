@@ -273,16 +273,30 @@ function BarChart({ data, color }: { data: Record<string, number>; color: string
   );
 }
 
-export function IRDAIClaimsSection() {
+interface IRDAIClaimsSectionProps {
+  selectedYear?: string;
+}
+
+export function IRDAIClaimsSection({ selectedYear: propYear }: IRDAIClaimsSectionProps) {
   const [selectedCat, setSelectedCat] = useState("Individual Death Claims");
-  const [selectedYear, setSelectedYear] = useState("2024-25");
+  const [localYear, setLocalYear] = useState("2024-25");
   const [showDetails, setShowDetails] = useState(false);
+
+  // Map incoming global year to available years in IRDAI dataset
+  let activeYear = propYear || localYear;
+  if (!ALL_YEARS.includes(activeYear)) {
+    if (activeYear === "2025-26") {
+      activeYear = "2024-25";
+    } else {
+      activeYear = "2024-25";
+    }
+  }
 
   const catMeta = CATEGORIES.find((c) => c.key === selectedCat)!;
   const color = catMeta.color;
-  const licCSR = LIC_CSR[selectedCat]?.[selectedYear] ?? 0;
-  const indCSR = INDUSTRY_CSR[selectedCat]?.[selectedYear] ?? 0;
-  const counts = LIC_COUNTS[selectedCat]?.[selectedYear];
+  const licCSR = LIC_CSR[selectedCat]?.[activeYear] ?? 0;
+  const indCSR = INDUSTRY_CSR[selectedCat]?.[activeYear] ?? 0;
+  const counts = LIC_COUNTS[selectedCat]?.[activeYear];
   const source = SOURCES[selectedCat] ?? "";
 
   return (
@@ -325,17 +339,19 @@ export function IRDAIClaimsSection() {
       </div>
 
       {/* Year Selector */}
-      <div className="irdai-years">
-        {ALL_YEARS.map((yr) => (
-          <button
-            key={yr}
-            className={`irdai-year-btn ${selectedYear === yr ? "active" : ""}`}
-            onClick={() => setSelectedYear(yr)}
-          >
-            {yr}
-          </button>
-        ))}
-      </div>
+      {!propYear && (
+        <div className="irdai-years">
+          {ALL_YEARS.map((yr) => (
+            <button
+              key={yr}
+              className={`irdai-year-btn ${activeYear === yr ? "active" : ""}`}
+              onClick={() => setLocalYear(yr)}
+            >
+              {yr}
+            </button>
+          ))}
+        </div>
+      )}
 
       {/* Source note */}
       <div className="irdai-source-note">
@@ -353,7 +369,7 @@ export function IRDAIClaimsSection() {
             <span className="irdai-stat-label">LIC Settlement Ratio</span>
             <span className="irdai-stat-value">{licCSR.toFixed(2)}%</span>
             <span className="irdai-stat-sub">
-              {catMeta.shortKey} · {selectedYear}
+              {catMeta.shortKey} · {activeYear}
             </span>
           </div>
           <div
@@ -397,7 +413,7 @@ export function IRDAIClaimsSection() {
             <span className="irdai-stat-value" style={{ color: "#10b981" }}>
               {indCSR.toFixed(2)}%
             </span>
-            <span className="irdai-stat-sub">All 25 Life Insurers · {selectedYear}</span>
+            <span className="irdai-stat-sub">All 25 Life Insurers · {activeYear}</span>
           </div>
         </div>
 
@@ -416,7 +432,7 @@ export function IRDAIClaimsSection() {
                 {formatNum(counts.paid)}
               </span>
               <span className="irdai-stat-sub">
-                of {formatNum(counts.intimated)} · {selectedYear}
+                of {formatNum(counts.intimated)} · {activeYear}
               </span>
             </div>
           </div>
@@ -436,7 +452,7 @@ export function IRDAIClaimsSection() {
               <span className="irdai-stat-value" style={{ color: "#a855f7" }}>
                 ₹{counts.amtCr.toLocaleString()} Cr
               </span>
-              <span className="irdai-stat-sub">Total benefits · {selectedYear}</span>
+              <span className="irdai-stat-sub">Total benefits · {activeYear}</span>
             </div>
           </div>
         )}
@@ -484,7 +500,10 @@ export function IRDAIClaimsSection() {
       {/* Detailed Table */}
       <button className="irdai-details-toggle" onClick={() => setShowDetails((v) => !v)}>
         {showDetails ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-        {showDetails ? "Hide" : "View"} Complete Data Table — All 6 Claim Types × 6 Years
+        <span>
+          {showDetails ? "Hide" : "View"} Complete Data Table
+          <span className="hide-mobile"> — All 6 Claim Types × 6 Years</span>
+        </span>
       </button>
 
       {showDetails && (

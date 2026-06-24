@@ -4,12 +4,13 @@
    ================================================================ */
 
 .db-root {
-  /* ── COLOR PALETTE ── */
-  --db-bg: #f8fafc;
-  --db-surface: #ffffff;
-  --db-surface-2: #f1f5f9;
-  --db-border: #e2e8f0;
-  --db-border-soft: rgba(15, 23, 42, 0.04);
+  /* ── PREMIUM GLASSMORPHISM TOKENS ── */
+  --db-bg: radial-gradient(circle at 10% 20%, #fdfcf7 0%, #ebf0f6 100%);
+  --db-surface: rgba(255, 255, 255, 0.72);
+  --db-surface-hover: rgba(255, 255, 255, 0.88);
+  --db-surface-2: rgba(15, 23, 42, 0.03);
+  --db-border: rgba(15, 23, 42, 0.05);
+  --db-border-soft: rgba(15, 23, 42, 0.035);
 
   --db-text-primary: #0f172a;
   --db-text-secondary: #334155;
@@ -17,18 +18,14 @@
 
   /* Brand Accent: Editorial Burgundy */
   --db-accent: #881337;
-  --db-accent-light: #fff1f2;
-  --db-accent-line: #ffe4e6;
+  --db-accent-light: rgba(136, 19, 55, 0.07);
+  --db-accent-line: rgba(136, 19, 55, 0.12);
   --db-accent-hover: #9f1239;
 
   /* ── SHADOWS ── */
-  --db-shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.03), 0 1px 2px rgba(15, 23, 42, 0.02);
-  --db-shadow-md:
-    0 4px 6px -1px rgba(15, 23, 42, 0.05), 0 2px 4px -1px rgba(15, 23, 42, 0.03),
-    0 12px 24px -4px rgba(15, 23, 42, 0.04);
-  --db-shadow-lg:
-    0 10px 15px -3px rgba(15, 23, 42, 0.04), 0 4px 6px -2px rgba(15, 23, 42, 0.02),
-    0 20px 40px -4px rgba(15, 23, 42, 0.06);
+  --db-shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.02);
+  --db-shadow-md: 0 10px 30px -10px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.01);
+  --db-shadow-lg: 0 20px 40px -12px rgba(15, 23, 42, 0.06), 0 1px 5px rgba(15, 23, 42, 0.01);
 
   --db-radius: 14px;
   --db-radius-lg: 18px;
@@ -49,8 +46,8 @@
 /* Custom Scrollbars */
 .db-sidebar::-webkit-scrollbar,
 .db-main::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 .db-sidebar::-webkit-scrollbar-track,
 .db-main::-webkit-scrollbar-track {
@@ -58,12 +55,12 @@
 }
 .db-sidebar::-webkit-scrollbar-thumb,
 .db-main::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 3px;
+  background: rgba(15, 23, 42, 0.15);
+  border-radius: 99px;
 }
 .db-sidebar::-webkit-scrollbar-thumb:hover,
 .db-main::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: rgba(15, 23, 42, 0.3);
 }
 
 /* ══════════════════════════════════════════
@@ -72,7 +69,9 @@
 .db-sidebar {
   width: 260px;
   flex-shrink: 0;
-  background: var(--db-surface);
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-right: 1px solid var(--db-border);
   display: flex;
   flex-direction: column;
@@ -97,11 +96,11 @@
   gap: 12px;
   padding: 24px 20px;
   border-bottom: 1px solid var(--db-border-soft);
-  transition: background-color 0.2s ease;
+  transition: background-color 0.25s ease;
 }
 
 .db-logo-link:hover .db-logo {
-  background-color: var(--db-bg);
+  background-color: rgba(255, 255, 255, 0.4);
 }
 
 .db-logo-icon {
@@ -113,7 +112,7 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0 4px 10px rgba(136, 19, 55, 0.2);
+  box-shadow: 0 4px 12px rgba(136, 19, 55, 0.18);
 }
 
 .db-logo-text {
@@ -173,7 +172,7 @@
   font-weight: 500;
   font-family: inherit;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   text-align: left;
   width: 100%;
   position: relative;
@@ -181,27 +180,29 @@
 }
 
 .db-nav-btn:hover {
-  background: var(--db-surface-2);
+  background: rgba(15, 23, 42, 0.03);
   color: var(--db-text-primary);
+  transform: translateX(2px);
 }
 
 .db-nav-btn.active {
-  background: var(--db-accent-light);
-  color: var(--db-accent);
+  background: linear-gradient(135deg, var(--db-accent), var(--db-accent-hover));
+  color: #ffffff !important;
   font-weight: 600;
+  box-shadow: 0 4px 15px rgba(136, 19, 55, 0.15);
 }
 
 .db-nav-btn.active svg {
-  color: var(--db-accent);
+  color: #ffffff;
 }
 
 .db-nav-btn-dot {
   width: 3px;
   height: 16px;
   border-radius: 99px;
-  background: var(--db-accent);
+  background: #ffffff;
   position: absolute;
-  left: 0;
+  left: 6px;
   opacity: 0;
   transition: opacity 0.2s;
 }
@@ -215,7 +216,7 @@
 }
 
 .db-nav-btn.back-btn:hover {
-  background: #f1f5f9;
+  background: rgba(15, 23, 42, 0.03);
   color: var(--db-accent-hover);
 }
 
@@ -349,6 +350,8 @@
 
 .db-kpi-card {
   background: var(--db-surface);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--db-border);
   border-radius: var(--db-radius);
   padding: 20px 24px;
@@ -356,19 +359,22 @@
   align-items: center;
   gap: 16px;
   box-shadow: var(--db-shadow-sm);
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
 }
 
 .db-kpi-card::before {
-  display: none; /* Removed heavy border to maintain clean minimalist design */
+  display: none;
 }
 
 .db-kpi-card:hover {
-  box-shadow: var(--db-shadow-md);
-  transform: translateY(-2px);
-  border-color: rgba(136, 19, 55, 0.15);
+  background: var(--db-surface-hover);
+  box-shadow:
+    var(--db-shadow-md),
+    0 12px 20px -8px rgba(15, 23, 42, 0.05);
+  transform: translateY(-3px);
+  border-color: var(--kpi-clr);
 }
 
 .db-kpi-icon {
@@ -379,7 +385,7 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: transform 0.2s ease;
+  transition: transform 0.3s ease;
 }
 
 .db-kpi-card:hover .db-kpi-icon {
@@ -410,6 +416,7 @@
   color: var(--db-text-primary);
   letter-spacing: -0.03em;
   line-height: 1.1;
+  font-family: var(--font-display-stack);
 }
 
 .db-kpi-delta {
@@ -454,16 +461,20 @@
 
 .db-chart-card {
   background: var(--db-surface);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--db-border);
   border-radius: var(--db-radius-lg);
   padding: 24px;
   box-shadow: var(--db-shadow-sm);
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .db-chart-card:hover {
+  background: var(--db-surface-hover);
   box-shadow: var(--db-shadow-md);
-  border-color: rgba(136, 19, 55, 0.05);
+  border-color: rgba(15, 23, 42, 0.08);
+  transform: translateY(-2px);
 }
 
 .db-chart-header {
@@ -497,15 +508,17 @@
 
 /* ── TOOLTIP ── */
 .db-tooltip {
-  background: rgba(255, 255, 255, 0.96);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid var(--db-border);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(15, 23, 42, 0.05);
   border-radius: 12px;
   padding: 12px 16px;
   font-size: 0.81rem;
   color: var(--db-text-secondary);
-  box-shadow: var(--db-shadow-lg);
+  box-shadow:
+    0 10px 25px -5px rgba(15, 23, 42, 0.08),
+    0 1px 3px rgba(15, 23, 42, 0.02);
   pointer-events: none;
 }
 
@@ -999,5 +1012,607 @@
 @media (max-width: 460px) {
   .db-csr-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ══════════════════════════════════════════
+   SCOPED OVERRIDES: Embedded dark sections inside dashboard
+   These reduce the large standalone-page padding so the sections
+   fit neatly inside db-main without excessive whitespace.
+   ══════════════════════════════════════════ */
+
+/* Market / India Insurance section */
+.db-main .mkt-section,
+.db-main .irdai-section,
+.db-main .licplans-section,
+.db-main .swl-section {
+  padding-top: clamp(2rem, 4vw, 3rem);
+  padding-bottom: clamp(2rem, 4vw, 3rem);
+  border-radius: 18px;
+  overflow: hidden;
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* Fix internal containers: remove hard 32px horizontal margin/padding
+   that overflows when db-main is narrower than 1180px */
+.db-main .mkt-header,
+.db-main .mkt-topstats,
+.db-main .mkt-overview-grid,
+.db-main .mkt-section-header,
+.db-main .mkt-plans-grid,
+.db-main .mkt-claims-grid,
+.db-main .mkt-card-wide,
+.db-main .mkt-footer {
+  max-width: 100%;
+  padding-inline: 20px;
+}
+
+.db-main .irdai-header,
+.db-main .irdai-tabs,
+.db-main .irdai-years,
+.db-main .irdai-stats {
+  max-width: 100%;
+  padding-inline: 20px;
+}
+
+.db-main .irdai-chart-card,
+.db-main .irdai-compare-card,
+.db-main .irdai-detail-table-wrap,
+.db-main .irdai-plans-grid {
+  max-width: calc(100% - 40px);
+  margin-inline: 20px;
+}
+
+.db-main .irdai-source-note {
+  max-width: 100%;
+  padding-inline: 20px;
+}
+
+.db-main .licplans-header,
+.db-main .licplans-counts,
+.db-main .licplans-footer {
+  max-width: 100%;
+  padding-inline: 20px;
+}
+
+.db-main .licplans-list {
+  max-width: 100%;
+  padding-inline: 20px;
+}
+
+.db-main .swl-header,
+.db-main .swl-topstats,
+.db-main .swl-region-filter,
+.db-main .swl-note {
+  max-width: 100%;
+  padding-inline: 20px;
+}
+
+.db-main .swl-state-list,
+.db-main .swl-lapse-card,
+.db-main .swl-lapse-insight {
+  max-width: 100%;
+  padding-inline: 20px;
+}
+
+/* Stats topstats grid — responsive inside dashboard */
+.db-main .mkt-topstats {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+@media (min-width: 1024px) {
+  .db-main .mkt-topstats {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Insurer compare rows: truncate long names on narrow screens */
+.db-main .irdai-compare-row {
+  grid-template-columns: 24px 100px 1fr 52px;
+}
+
+/* State rows: hide bar on narrow dashboards */
+@media (max-width: 900px) {
+  .db-main .swl-state-bar-wrap {
+    display: none;
+  }
+  .db-main .swl-state-row {
+    grid-template-columns: 28px 1fr 100px;
+  }
+}
+
+/* ── IRDAI Claims Section Light-Theme Overrides ── */
+.db-main .irdai-section {
+  background: transparent !important;
+  padding: 0 !important;
+}
+.db-main .irdai-section::before,
+.db-main .irdai-section::after {
+  display: none !important;
+}
+.db-main .irdai-title {
+  color: var(--db-text-primary) !important;
+}
+.db-main .irdai-subtitle {
+  color: var(--db-text-secondary) !important;
+}
+.db-main .irdai-source-note {
+  color: var(--db-text-muted) !important;
+  background: rgba(15, 23, 42, 0.02) !important;
+  border: 1px solid rgba(15, 23, 42, 0.04) !important;
+  border-radius: 8px;
+}
+.db-main .irdai-tab {
+  background: rgba(255, 255, 255, 0.8) !important;
+  border: 1px solid rgba(15, 23, 42, 0.08) !important;
+  color: var(--db-text-secondary) !important;
+  box-shadow: var(--db-shadow-sm) !important;
+}
+.db-main .irdai-tab.active {
+  background: var(--tab-color, #2563eb) !important;
+  border-color: var(--tab-color, #2563eb) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15) !important;
+}
+.db-main .irdai-stat-card {
+  background: var(--db-surface) !important;
+  border: 1px solid rgba(15, 23, 42, 0.06) !important;
+  color: var(--db-text-primary) !important;
+  box-shadow: var(--db-shadow-sm) !important;
+  border-radius: var(--db-radius) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+}
+.db-main .irdai-stat-card:hover {
+  background: var(--db-surface-hover) !important;
+  box-shadow: var(--db-shadow-md) !important;
+  border-color: rgba(15, 23, 42, 0.12) !important;
+}
+.db-main .irdai-stat-primary {
+  border-color: rgba(37, 99, 235, 0.15) !important;
+}
+.db-main .irdai-stat-label {
+  color: var(--db-text-muted) !important;
+}
+.db-main .irdai-stat-value {
+  color: var(--db-text-primary) !important;
+}
+.db-main .irdai-stat-sub {
+  color: var(--db-text-muted) !important;
+}
+.db-main .irdai-chart-card,
+.db-main .irdai-compare-card {
+  background: var(--db-surface) !important;
+  border: 1px solid rgba(15, 23, 42, 0.06) !important;
+  color: var(--db-text-primary) !important;
+  box-shadow: var(--db-shadow-sm) !important;
+  border-radius: var(--db-radius-lg) !important;
+  max-width: 100% !important;
+  margin-inline: 0 !important;
+}
+.db-main .irdai-chart-card:hover,
+.db-main .irdai-compare-card:hover {
+  background: var(--db-surface-hover) !important;
+  box-shadow: var(--db-shadow-md) !important;
+  border-color: rgba(15, 23, 42, 0.12) !important;
+}
+.db-main .irdai-chart-header h3,
+.db-main .irdai-compare-card h3 {
+  color: var(--db-text-primary) !important;
+}
+.db-main .irdai-chart-note,
+.db-main .irdai-compare-note {
+  color: var(--db-text-muted) !important;
+}
+.db-main .irdai-bar-track {
+  background: rgba(15, 23, 42, 0.05) !important;
+}
+.db-main .irdai-bar-val {
+  color: var(--db-text-secondary) !important;
+}
+.db-main .irdai-compare-name {
+  color: var(--db-text-secondary) !important;
+}
+.db-main .irdai-compare-bar-wrap {
+  background: rgba(15, 23, 42, 0.05) !important;
+}
+.db-main .irdai-compare-row:not(.highlight) {
+  border-color: rgba(15, 23, 42, 0.03) !important;
+}
+.db-main .irdai-compare-row.highlight {
+  background: rgba(37, 99, 235, 0.06) !important;
+  border-color: rgba(37, 99, 235, 0.15) !important;
+}
+.db-main .irdai-details-toggle {
+  background: var(--db-surface) !important;
+  border: 1px solid rgba(15, 23, 42, 0.08) !important;
+  color: var(--db-text-secondary) !important;
+  box-shadow: var(--db-shadow-sm) !important;
+}
+.db-main .irdai-details-toggle:hover {
+  background: var(--db-surface-hover) !important;
+  border-color: rgba(15, 23, 42, 0.15) !important;
+  color: var(--db-text-primary) !important;
+}
+.db-main .irdai-detail-table-wrap {
+  background: var(--db-surface) !important;
+  border: 1px solid rgba(15, 23, 42, 0.06) !important;
+  border-radius: var(--db-radius) !important;
+  max-width: 100% !important;
+  margin-inline: 0 !important;
+}
+.db-main .irdai-detail-table th {
+  background: rgba(15, 23, 42, 0.02) !important;
+  color: var(--db-text-muted) !important;
+  border-bottom: 1.5px solid rgba(15, 23, 42, 0.06) !important;
+}
+.db-main .irdai-detail-table td {
+  color: var(--db-text-secondary) !important;
+  border-top: 1px solid rgba(15, 23, 42, 0.04) !important;
+}
+.db-main .irdai-detail-table tr:hover td {
+  background: rgba(15, 23, 42, 0.015) !important;
+  color: var(--db-text-primary) !important;
+}
+.db-main .irdai-table-footer {
+  background: rgba(15, 23, 42, 0.01) !important;
+  color: var(--db-text-muted) !important;
+  border-top: 1.5px solid rgba(15, 23, 42, 0.04) !important;
+}
+
+/* ── LIC Plans Detail Section Light-Theme Overrides ── */
+.db-main .licplans-section {
+  background: transparent !important;
+  padding: 0 !important;
+}
+.db-main .licplans-title {
+  color: var(--db-text-primary) !important;
+}
+.db-main .licplans-subtitle {
+  color: var(--db-text-secondary) !important;
+}
+.db-main .licplans-count-btn {
+  background: rgba(255, 255, 255, 0.8) !important;
+  border: 1px solid rgba(15, 23, 42, 0.08) !important;
+  color: var(--db-text-secondary) !important;
+  box-shadow: var(--db-shadow-sm) !important;
+}
+.db-main .licplans-count-btn.active {
+  background: var(--cat-clr, #f59e0b) !important;
+  border-color: var(--cat-clr, #f59e0b) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.15) !important;
+}
+.db-main .licplans-count-num {
+  background: rgba(15, 23, 42, 0.08) !important;
+  color: inherit !important;
+}
+.db-main .licplans-card {
+  border: 1px solid rgba(15, 23, 42, 0.06) !important;
+  background: var(--db-surface) !important;
+  box-shadow: var(--db-shadow-sm) !important;
+  border-radius: var(--db-radius) !important;
+}
+.db-main .licplans-card-header {
+  background: rgba(255, 255, 255, 0.5) !important;
+  padding: 16px 20px !important;
+  border: none !important;
+}
+.db-main .licplans-card-name {
+  color: var(--db-text-primary) !important;
+}
+.db-main .licplans-plan-no {
+  background: rgba(15, 23, 42, 0.04) !important;
+  color: var(--db-text-muted) !important;
+}
+.db-main .licplans-claim-type {
+  color: var(--db-text-secondary) !important;
+}
+.db-main .licplans-sa {
+  color: var(--db-text-primary) !important;
+}
+.db-main .licplans-sa-mobile {
+  color: var(--db-text-primary) !important;
+  background: rgba(15, 23, 42, 0.04) !important;
+}
+.db-main .licplans-sa-label {
+  color: var(--db-text-muted) !important;
+}
+.db-main .licplans-detail {
+  background: rgba(15, 23, 42, 0.01) !important;
+  border-top: 1px solid rgba(15, 23, 42, 0.04) !important;
+}
+.db-main .licplans-detail-label {
+  color: var(--db-text-muted) !important;
+}
+.db-main .licplans-detail-val {
+  color: var(--db-text-secondary) !important;
+}
+.db-main .licplans-feature {
+  color: var(--db-text-secondary) !important;
+}
+.db-main .licplans-footer {
+  color: var(--db-text-muted) !important;
+}
+
+/* ── State & Lapse Section Light-Theme Overrides ── */
+.db-main .swl-section {
+  background: transparent !important;
+  padding: 0 !important;
+}
+.db-main .swl-title {
+  color: var(--db-text-primary) !important;
+}
+.db-main .swl-subtitle {
+  color: var(--db-text-secondary) !important;
+}
+.db-main .swl-tab {
+  background: rgba(255, 255, 255, 0.8) !important;
+  border: 1px solid rgba(15, 23, 42, 0.08) !important;
+  color: var(--db-text-secondary) !important;
+  box-shadow: var(--db-shadow-sm) !important;
+}
+.db-main .swl-tab.active {
+  background: #06b6d4 !important;
+  border-color: #06b6d4 !important;
+  color: #fff !important;
+  box-shadow: 0 4px 12px rgba(6, 182, 212, 0.15) !important;
+}
+.db-main .swl-tab:hover:not(.active) {
+  border-color: rgba(6, 182, 212, 0.4) !important;
+  color: #06b6d4 !important;
+}
+.db-main .swl-topstat {
+  background: var(--db-surface) !important;
+  border: 1px solid rgba(15, 23, 42, 0.06) !important;
+  box-shadow: var(--db-shadow-sm) !important;
+  border-radius: var(--db-radius) !important;
+}
+.db-main .swl-stat-val {
+  color: var(--db-text-primary) !important;
+}
+.db-main .swl-stat-lbl {
+  color: var(--db-text-muted) !important;
+}
+.db-main .swl-region-btn {
+  border: 1.5px solid rgba(15, 23, 42, 0.08) !important;
+  color: var(--db-text-secondary) !important;
+}
+.db-main .swl-region-btn.active {
+  background: rgba(6, 182, 212, 0.1) !important;
+  border-color: #06b6d4 !important;
+  color: #06b6d4 !important;
+}
+.db-main .swl-state-row:hover {
+  background: rgba(15, 23, 42, 0.015) !important;
+  border-color: rgba(15, 23, 42, 0.04) !important;
+}
+.db-main .swl-state-rank {
+  color: var(--db-text-muted) !important;
+}
+.db-main .swl-state-name {
+  color: var(--db-text-primary) !important;
+}
+.db-main .swl-state-bar-wrap {
+  background: rgba(15, 23, 42, 0.04) !important;
+}
+.db-main .swl-state-vals span {
+  color: var(--db-text-primary) !important;
+}
+.db-main .swl-state-policies {
+  color: var(--db-text-muted) !important;
+}
+.db-main .swl-lapse-card {
+  background: var(--db-surface) !important;
+  border: 1px solid rgba(15, 23, 42, 0.06) !important;
+  box-shadow: var(--db-shadow-sm) !important;
+  border-radius: var(--db-radius-lg) !important;
+  max-width: 100% !important;
+  margin-inline: 0 !important;
+}
+.db-main .swl-lapse-card h3 {
+  color: var(--db-text-primary) !important;
+}
+.db-main .swl-lapse-card p {
+  color: var(--db-text-muted) !important;
+}
+.db-main .swl-lapse-total {
+  color: var(--db-text-secondary) !important;
+}
+.db-main .swl-lapse-stack {
+  background: rgba(15, 23, 42, 0.04) !important;
+  border-radius: 4px;
+}
+.db-main .swl-lapse-yr {
+  color: var(--db-text-muted) !important;
+}
+.db-main .swl-lapse-legend span {
+  color: var(--db-text-muted) !important;
+}
+.db-main .swl-pvt-name {
+  color: var(--db-text-secondary) !important;
+}
+.db-main .swl-pvt-track {
+  background: rgba(15, 23, 42, 0.04) !important;
+}
+.db-main .swl-pvt-val {
+  color: var(--db-text-muted) !important;
+}
+.db-main .swl-lapse-insight {
+  background: rgba(16, 185, 129, 0.06) !important;
+  border-color: rgba(16, 185, 129, 0.15) !important;
+  max-width: 100% !important;
+  margin-inline: 0 !important;
+}
+.db-main .swl-lapse-insight p {
+  color: #15803d !important;
+}
+.db-main .swl-note {
+  color: var(--db-text-muted) !important;
+}
+
+/* ── India Insurance Market Section Light-Theme Overrides ── */
+.db-main .mkt-section {
+  background: transparent !important;
+  padding: 0 !important;
+}
+.db-main .mkt-section::before,
+.db-main .mkt-section::after {
+  display: none !important;
+}
+.db-main .mkt-title {
+  color: var(--db-text-primary) !important;
+}
+.db-main .mkt-title span {
+  background: none !important;
+  -webkit-background-clip: initial !important;
+  -webkit-text-fill-color: initial !important;
+  background-clip: initial !important;
+  color: var(--db-accent) !important;
+}
+.db-main .mkt-subtitle {
+  color: var(--db-text-secondary) !important;
+}
+.db-main .mkt-topstat {
+  background: var(--db-surface) !important;
+  border: 1px solid rgba(15, 23, 42, 0.06) !important;
+  box-shadow: var(--db-shadow-sm) !important;
+  border-radius: var(--db-radius) !important;
+}
+.db-main .mkt-topstat-value {
+  color: var(--db-text-primary) !important;
+}
+.db-main .mkt-topstat-label {
+  color: var(--db-text-muted) !important;
+}
+.db-main .mkt-card {
+  background: var(--db-surface) !important;
+  border: 1px solid rgba(15, 23, 42, 0.06) !important;
+  box-shadow: var(--db-shadow-sm) !important;
+  border-radius: var(--db-radius-lg) !important;
+}
+.db-main .mkt-card-title {
+  color: var(--db-text-primary) !important;
+}
+.db-main .mkt-card-note {
+  color: var(--db-text-muted) !important;
+}
+.db-main .mkt-donut-pct {
+  color: var(--db-text-primary) !important;
+}
+.db-main .mkt-donut-label strong {
+  color: var(--db-text-primary) !important;
+}
+.db-main .mkt-donut-label span {
+  color: var(--db-text-muted) !important;
+}
+.db-main .mkt-seg-name {
+  color: var(--db-text-secondary) !important;
+}
+.db-main .mkt-seg-track {
+  background: rgba(15, 23, 42, 0.05) !important;
+}
+.db-main .mkt-seg-val {
+  color: var(--db-text-muted) !important;
+}
+.db-main .mkt-card-wide {
+  background: var(--db-surface) !important;
+  border: 1px solid rgba(15, 23, 42, 0.06) !important;
+  box-shadow: var(--db-shadow-sm) !important;
+  border-radius: var(--db-radius-lg) !important;
+}
+.db-main .mkt-trend-total {
+  color: var(--db-text-secondary) !important;
+}
+.db-main .mkt-trend-stack {
+  background: rgba(15, 23, 42, 0.04) !important;
+  border-radius: 4px;
+}
+.db-main .mkt-trend-yr {
+  color: var(--db-text-muted) !important;
+}
+.db-main .mkt-trend-legend span {
+  color: var(--db-text-muted) !important;
+}
+.db-main .mkt-section-header h3 {
+  color: var(--db-text-primary) !important;
+}
+.db-main .mkt-section-header p {
+  color: var(--db-text-muted) !important;
+}
+.db-main .mkt-plan-card {
+  background: var(--db-surface) !important;
+  border: 1px solid rgba(15, 23, 42, 0.06) !important;
+  box-shadow: var(--db-shadow-sm) !important;
+  border-radius: var(--db-radius) !important;
+}
+.db-main .mkt-plan-card:hover,
+.db-main .mkt-plan-card.active {
+  background: var(--db-surface-hover) !important;
+  box-shadow: var(--db-shadow-md) !important;
+  border-color: var(--plan-clr, #4f8ef7) !important;
+}
+.db-main .mkt-plan-name {
+  color: var(--db-text-primary) !important;
+}
+.db-main .mkt-plan-subname {
+  color: var(--db-text-muted) !important;
+}
+.db-main .mkt-plan-users {
+  color: var(--db-text-secondary) !important;
+}
+.db-main .mkt-plan-pop-bar {
+  background: rgba(15, 23, 42, 0.05) !important;
+}
+.db-main .mkt-plan-pop-label {
+  color: var(--db-text-muted) !important;
+}
+.db-main .mkt-plan-detail {
+  border-top: 1px solid rgba(15, 23, 42, 0.05) !important;
+}
+.db-main .mkt-plan-detail-row {
+  color: var(--db-text-muted) !important;
+}
+.db-main .mkt-plan-detail-row strong {
+  color: var(--db-text-primary) !important;
+}
+.db-main .mkt-plan-why {
+  color: var(--db-text-muted) !important;
+}
+.db-main .mkt-plan-example {
+  background: rgba(15, 23, 42, 0.03) !important;
+  color: var(--db-text-secondary) !important;
+  border: 1px solid rgba(15, 23, 42, 0.06) !important;
+}
+.db-main .mkt-claim-card {
+  background: var(--db-surface) !important;
+  border: 1px solid rgba(15, 23, 42, 0.06) !important;
+  box-shadow: var(--db-shadow-sm) !important;
+  border-radius: var(--db-radius) !important;
+}
+.db-main .mkt-claim-card:hover {
+  background: var(--db-surface-hover) !important;
+  box-shadow: var(--db-shadow-md) !important;
+}
+.db-main .mkt-claim-no {
+  color: var(--db-text-primary) !important;
+}
+.db-main .mkt-claim-label {
+  color: var(--db-text-muted) !important;
+}
+.db-main .mkt-claim-amt {
+  color: var(--db-text-secondary) !important;
+}
+.db-main .mkt-claim-bar-track {
+  background: rgba(15, 23, 42, 0.05) !important;
+}
+.db-main .mkt-footer {
+  color: var(--db-text-muted) !important;
+}
+
+@media (max-width: 640px) {
+  .hide-mobile {
+    display: none !important;
   }
 }

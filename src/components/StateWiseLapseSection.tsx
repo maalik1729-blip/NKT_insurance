@@ -75,7 +75,11 @@ const REGION_COLORS: Record<string, string> = {
 const TOP10 = STATE_DATA.slice(0, 10);
 const maxPremium = TOP10[0].premium;
 
-export function StateWiseLapseSection() {
+interface StateWiseLapseSectionProps {
+  selectedYear?: string;
+}
+
+export function StateWiseLapseSection({ selectedYear }: StateWiseLapseSectionProps) {
   const [view, setView] = useState<"state" | "lapse">("state");
   const [regionFilter, setRegionFilter] = useState("All");
 

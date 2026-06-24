@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   LayoutDashboard,
   Users,
@@ -62,6 +62,11 @@ export function AdvisorWorkspace({
   const [activeTab, setActiveTab] = useState<"overview" | "leads" | "analytics" | "settings">(
     "overview",
   );
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
@@ -527,7 +532,7 @@ export function AdvisorWorkspace({
 
         <main style={{ flex: 1, overflowY: "auto", padding: "24px" }}>
           {/* OVERVIEW */}
-          {activeTab === "overview" && (
+          {mounted && activeTab === "overview" && (
             <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
               {/* Welcoming Header Banner */}
               <div
@@ -1082,27 +1087,29 @@ export function AdvisorWorkspace({
                   >
                     Monthly Lead Activity
                   </h3>
-                  <ResponsiveContainer width="100%" height={200}>
-                    <BarChart data={monthlyData} barSize={14}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#F1F5F9" />
-                      <XAxis dataKey="month" tick={{ fontSize: 11, fill: "#94A3B8" }} />
-                      <YAxis tick={{ fontSize: 11, fill: "#94A3B8" }} />
-                      <Tooltip
-                        contentStyle={{
-                          borderRadius: "8px",
-                          border: "1px solid #E2E8F0",
-                          fontSize: "0.78rem",
-                        }}
-                      />
-                      <Bar dataKey="leads" fill="#E2E8F0" name="Leads" radius={[4, 4, 0, 0]} />
-                      <Bar
-                        dataKey="converted"
-                        fill="var(--color-secondary)"
-                        name="Converted"
-                        radius={[4, 4, 0, 0]}
-                      />
-                    </BarChart>
-                  </ResponsiveContainer>
+                  <div style={{ height: 200 }}>
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={monthlyData} barSize={14}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="#F1F5F9" />
+                        <XAxis dataKey="month" tick={{ fontSize: 11, fill: "#94A3B8" }} />
+                        <YAxis tick={{ fontSize: 11, fill: "#94A3B8" }} />
+                        <Tooltip
+                          contentStyle={{
+                            borderRadius: "8px",
+                            border: "1px solid #E2E8F0",
+                            fontSize: "0.78rem",
+                          }}
+                        />
+                        <Bar dataKey="leads" fill="#E2E8F0" name="Leads" radius={[4, 4, 0, 0]} />
+                        <Bar
+                          dataKey="converted"
+                          fill="var(--color-secondary)"
+                          name="Converted"
+                          radius={[4, 4, 0, 0]}
+                        />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
                 </div>
                 <div
                   style={{
@@ -1915,7 +1922,7 @@ export function AdvisorWorkspace({
           )}
 
           {/* ANALYTICS */}
-          {activeTab === "analytics" && (
+          {mounted && activeTab === "analytics" && (
             <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
               <div className="advisor-kpi-grid" style={{ gap: "16px" }}>
                 {[
@@ -1974,34 +1981,40 @@ export function AdvisorWorkspace({
                   >
                     Monthly Leads Intake Volume
                   </h3>
-                  <ResponsiveContainer width="100%" height={220}>
-                    <AreaChart data={monthlyData}>
-                      <defs>
-                        <linearGradient id="pgGrad" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="var(--color-secondary)" stopOpacity={0.18} />
-                          <stop offset="95%" stopColor="var(--color-secondary)" stopOpacity={0} />
-                        </linearGradient>
-                      </defs>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#F1F5F9" />
-                      <XAxis dataKey="month" tick={{ fontSize: 11, fill: "#94A3B8" }} />
-                      <YAxis tick={{ fontSize: 11, fill: "#94A3B8" }} />
-                      <Tooltip
-                        contentStyle={{
-                          borderRadius: "8px",
-                          border: "1px solid #E2E8F0",
-                          fontSize: "0.78rem",
-                        }}
-                      />
-                      <Area
-                        type="monotone"
-                        dataKey="leads"
-                        stroke="var(--color-secondary)"
-                        fill="url(#pgGrad)"
-                        strokeWidth={2}
-                        name="Leads Intake"
-                      />
-                    </AreaChart>
-                  </ResponsiveContainer>
+                  <div style={{ height: 220 }}>
+                    <ResponsiveContainer width="100%" height="100%">
+                      <AreaChart data={monthlyData}>
+                        <defs>
+                          <linearGradient id="pgGrad" x1="0" y1="0" x2="0" y2="1">
+                            <stop
+                              offset="5%"
+                              stopColor="var(--color-secondary)"
+                              stopOpacity={0.18}
+                            />
+                            <stop offset="95%" stopColor="var(--color-secondary)" stopOpacity={0} />
+                          </linearGradient>
+                        </defs>
+                        <CartesianGrid strokeDasharray="3 3" stroke="#F1F5F9" />
+                        <XAxis dataKey="month" tick={{ fontSize: 11, fill: "#94A3B8" }} />
+                        <YAxis tick={{ fontSize: 11, fill: "#94A3B8" }} />
+                        <Tooltip
+                          contentStyle={{
+                            borderRadius: "8px",
+                            border: "1px solid #E2E8F0",
+                            fontSize: "0.78rem",
+                          }}
+                        />
+                        <Area
+                          type="monotone"
+                          dataKey="leads"
+                          stroke="var(--color-secondary)"
+                          fill="url(#pgGrad)"
+                          strokeWidth={2}
+                          name="Leads Intake"
+                        />
+                      </AreaChart>
+                    </ResponsiveContainer>
+                  </div>
                 </div>
                 <div
                   style={{
@@ -2021,41 +2034,43 @@ export function AdvisorWorkspace({
                   >
                     Lead Source Attribution
                   </h3>
-                  <ResponsiveContainer width="100%" height={220}>
-                    <PieChart>
-                      <Pie
-                        data={sourceData}
-                        cx="50%"
-                        cy="50%"
-                        outerRadius={78}
-                        dataKey="value"
-                        label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                        labelLine={false}
-                      >
-                        {sourceData.map((_, i) => (
-                          <Cell
-                            key={i}
-                            fill={
-                              [
-                                "var(--color-secondary)",
-                                "var(--color-accent)",
-                                "#F59E0B",
-                                "#475569",
-                                "#CBD5E1",
-                              ][i % 5]
-                            }
-                          />
-                        ))}
-                      </Pie>
-                      <Tooltip
-                        contentStyle={{
-                          borderRadius: "8px",
-                          border: "1px solid #E2E8F0",
-                          fontSize: "0.78rem",
-                        }}
-                      />
-                    </PieChart>
-                  </ResponsiveContainer>
+                  <div style={{ height: 220 }}>
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie
+                          data={sourceData}
+                          cx="50%"
+                          cy="50%"
+                          outerRadius={78}
+                          dataKey="value"
+                          label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                          labelLine={false}
+                        >
+                          {sourceData.map((_, i) => (
+                            <Cell
+                              key={i}
+                              fill={
+                                [
+                                  "var(--color-secondary)",
+                                  "var(--color-accent)",
+                                  "#F59E0B",
+                                  "#475569",
+                                  "#CBD5E1",
+                                ][i % 5]
+                              }
+                            />
+                          ))}
+                        </Pie>
+                        <Tooltip
+                          contentStyle={{
+                            borderRadius: "8px",
+                            border: "1px solid #E2E8F0",
+                            fontSize: "0.78rem",
+                          }}
+                        />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
                 </div>
               </div>
               <div

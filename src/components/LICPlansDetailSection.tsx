@@ -616,7 +616,11 @@ const ICONS: Record<string, any> = {
   star: Star,
 };
 
-export function LICPlansDetailSection() {
+interface LICPlansDetailSectionProps {
+  selectedYear?: string;
+}
+
+export function LICPlansDetailSection({ selectedYear }: LICPlansDetailSectionProps) {
   const [selectedCat, setSelectedCat] = useState("term");
   const [expandedPlan, setExpandedPlan] = useState<string | null>(null);
 
@@ -714,6 +718,7 @@ export function LICPlansDetailSection() {
                     <span className="licplans-csr" style={{ color: "#10b981" }}>
                       CSR: {plan.claimCSR}
                     </span>
+                    <span className="licplans-sa-mobile">SA: {plan.sumAssured}</span>
                   </div>
                 </div>
                 <div className="licplans-card-right">

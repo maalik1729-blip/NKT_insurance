@@ -250,7 +250,11 @@ function formatNo(n: number) {
   return String(n);
 }
 
-export function IndiaInsuranceMarketSection() {
+interface IndiaInsuranceMarketSectionProps {
+  selectedYear?: string;
+}
+
+export function IndiaInsuranceMarketSection({ selectedYear }: IndiaInsuranceMarketSectionProps) {
   const [activePlan, setActivePlan] = useState<number | null>(null);
 
   return (

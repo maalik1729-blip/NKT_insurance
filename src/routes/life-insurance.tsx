@@ -12,12 +12,6 @@ import {
 } from "lucide-react";
 import { FaqAccordion } from "../components/FaqAccordion";
 import { CtaBanner } from "../components/CtaBanner";
-import { IRDAIClaimsSection } from "../components/IRDAIClaimsSection";
-import { IndiaInsuranceMarketSection } from "../components/IndiaInsuranceMarketSection";
-import { LICPlansDetailSection } from "../components/LICPlansDetailSection";
-import { StateWiseLapseSection } from "../components/StateWiseLapseSection";
-import "../styles/market-section.css";
-import "../styles/plans-state-sections.css";
 
 import lifeSectionImg from "../assets/images/life_insurance_section.png";
 import lifeSectionWebp from "../assets/images/life_insurance_section.webp";
@@ -307,7 +301,7 @@ const W = { maxWidth: "1180px", margin: "0 auto", padding: "0 clamp(1rem, 4vw, 2
 function LifeInsurancePage() {
   useScrollReveal();
   return (
-    <>
+    <div className="life-insurance-page">
       {/* ── HERO ── */}
       <section
         aria-labelledby="life-h1"
@@ -1077,18 +1071,6 @@ function LifeInsurancePage() {
         </div>
       </section>
 
-      {/* ── INDIA MARKET USAGE SECTION ── */}
-      <IndiaInsuranceMarketSection />
-
-      {/* ── ALL LIC PLANS DETAIL ── */}
-      <LICPlansDetailSection />
-
-      {/* ── IRDAI CLAIMS DATA SECTION ── */}
-      <IRDAIClaimsSection />
-
-      {/* ── STATE-WISE + LAPSE DATA ── */}
-      <StateWiseLapseSection />
-
       <FaqAccordion
         items={FAQ}
         heading="Life insurance questions answered"
@@ -1098,6 +1080,6 @@ function LifeInsurancePage() {
         heading="Ready to secure your family's future?"
         sub="Get a free quote comparison across LIC and top private insurers. No obligation, no pressure."
       />
-    </>
+    </div>
   );
 }

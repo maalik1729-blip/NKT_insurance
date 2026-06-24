@@ -271,13 +271,32 @@
   color: #f59e0b;
 }
 
+.licplans-sa-mobile {
+  display: none;
+}
+
 /* Responsive */
 @media (max-width: 720px) {
   .licplans-detail-grid {
     grid-template-columns: 1fr 1fr;
   }
-  .licplans-card-right {
+  .licplans-card-right .licplans-sa,
+  .licplans-card-right .licplans-sa-label {
     display: none;
+  }
+  .licplans-card-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .licplans-sa-mobile {
+    display: inline-block !important;
+    font-size: 0.7rem;
+    color: #f1f5f9;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-weight: 600;
   }
 }
 @media (max-width: 480px) {
@@ -345,6 +364,7 @@
 .swl-tabs {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   gap: 8px;
 }
 .swl-tab {
@@ -669,6 +689,9 @@
   .swl-state-list,
   .swl-lapse-card {
     padding-inline: 16px;
+  }
+  .swl-lapse-card {
+    padding: 16px;
   }
   .swl-header {
     padding: 0 16px;

@@ -5882,3 +5882,343 @@ body.js-enabled .trust-bar__inner span.reveal--visible {
     padding: var(--space-4) !important; /* 16px padding on small screens */
   }
 }
+
+/* ================================================================
+   LIFE INSURANCE PAGE — LIGHT THEME SECTION OVERRIDES
+   ================================================================ */
+
+.life-insurance-page .mkt-section,
+.life-insurance-page .irdai-section,
+.life-insurance-page .licplans-section,
+.life-insurance-page .swl-section {
+  background: #ffffff !important;
+  color: var(--color-ink) !important;
+}
+
+/* Alternate backgrounds for editorial depth */
+.life-insurance-page .mkt-section {
+  background: #ffffff !important;
+}
+.life-insurance-page .licplans-section {
+  background: #f8fafc !important;
+  border-top: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
+}
+.life-insurance-page .irdai-section {
+  background: #ffffff !important;
+}
+.life-insurance-page .swl-section {
+  background: #f8fafc !important;
+  border-top: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+/* Hide dark glow shapes */
+.life-insurance-page .mkt-section::before,
+.life-insurance-page .mkt-section::after,
+.life-insurance-page .irdai-section::before,
+.life-insurance-page .irdai-section::after {
+  display: none !important;
+}
+
+/* Headers text colors */
+.life-insurance-page .mkt-title,
+.life-insurance-page .irdai-title,
+.life-insurance-page .licplans-title,
+.life-insurance-page .swl-title {
+  color: var(--color-ink) !important;
+}
+
+.life-insurance-page .mkt-subtitle,
+.life-insurance-page .irdai-subtitle,
+.life-insurance-page .licplans-subtitle,
+.life-insurance-page .swl-subtitle {
+  color: var(--color-ink-2) !important;
+}
+
+.life-insurance-page .mkt-title span,
+.life-insurance-page .licplans-title span,
+.life-insurance-page .swl-title span,
+.life-insurance-page .irdai-title span {
+  color: var(--color-accent) !important;
+  background: none !important;
+  -webkit-background-clip: initial !important;
+  -webkit-text-fill-color: initial !important;
+  background-clip: initial !important;
+}
+
+/* Source links & notes */
+.life-insurance-page .irdai-source-note,
+.life-insurance-page .swl-note,
+.life-insurance-page .mkt-footer,
+.life-insurance-page .irdai-table-footer,
+.life-insurance-page .licplans-footer {
+  color: var(--color-ink-3) !important;
+  background: #f1f5f9 !important;
+  border: 1px solid #e2e8f0 !important;
+  padding: 8px 16px !important;
+  border-radius: 8px;
+}
+.life-insurance-page .irdai-source-note a,
+.life-insurance-page .swl-note a,
+.life-insurance-page .mkt-footer a,
+.life-insurance-page .irdai-table-footer a,
+.life-insurance-page .licplans-footer a,
+.life-insurance-page .irdai-source-link,
+.life-insurance-page .swl-link,
+.life-insurance-page .mkt-link,
+.life-insurance-page .licplans-link {
+  color: var(--color-accent) !important;
+}
+
+/* Top stats cards */
+.life-insurance-page .mkt-topstat,
+.life-insurance-page .irdai-stat-card,
+.life-insurance-page .swl-topstat {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  color: var(--color-ink) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02) !important;
+}
+.life-insurance-page .mkt-topstat-value,
+.life-insurance-page .irdai-stat-value,
+.life-insurance-page .swl-stat-val {
+  color: var(--color-accent) !important;
+}
+.life-insurance-page .mkt-topstat-label,
+.life-insurance-page .irdai-stat-label,
+.life-insurance-page .swl-stat-lbl {
+  color: var(--color-ink-3) !important;
+}
+.life-insurance-page .irdai-stat-sub {
+  color: var(--color-ink-3) !important;
+}
+
+/* Card components */
+.life-insurance-page .mkt-card,
+.life-insurance-page .mkt-card-wide,
+.life-insurance-page .irdai-chart-card,
+.life-insurance-page .irdai-compare-card,
+.life-insurance-page .swl-lapse-card,
+.life-insurance-page .licplans-card,
+.life-insurance-page .mkt-plan-card,
+.life-insurance-page .mkt-claim-card {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  color: var(--color-ink) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03) !important;
+}
+.life-insurance-page .mkt-card-title,
+.life-insurance-page .irdai-chart-header h3,
+.life-insurance-page .irdai-compare-card h3,
+.life-insurance-page .swl-lapse-card h3,
+.life-insurance-page .licplans-card-name,
+.life-insurance-page .mkt-plan-name,
+.life-insurance-page .mkt-claim-no {
+  color: var(--color-ink) !important;
+}
+.life-insurance-page .mkt-card-note,
+.life-insurance-page .irdai-chart-note,
+.life-insurance-page .irdai-compare-note,
+.life-insurance-page .swl-lapse-card p,
+.life-insurance-page .licplans-sa-label,
+.life-insurance-page .mkt-plan-subname,
+.life-insurance-page .mkt-claim-label {
+  color: var(--color-ink-3) !important;
+}
+
+/* Plan card elements */
+.life-insurance-page .mkt-plan-users,
+.life-insurance-page .mkt-claim-amt {
+  color: var(--color-ink-2) !important;
+}
+.life-insurance-page .mkt-plan-pop-label {
+  color: var(--color-ink-3) !important;
+}
+.life-insurance-page .mkt-plan-detail {
+  border-top: 1px solid #e2e8f0 !important;
+}
+.life-insurance-page .mkt-plan-detail-row {
+  color: var(--color-ink-2) !important;
+}
+.life-insurance-page .mkt-plan-detail-row strong {
+  color: var(--color-ink) !important;
+}
+.life-insurance-page .mkt-plan-why {
+  color: var(--color-ink-3) !important;
+}
+.life-insurance-page .mkt-plan-example {
+  background: #f1f5f9 !important;
+  color: var(--color-ink-2) !important;
+  border: 1px solid #e2e8f0 !important;
+}
+
+/* Category counts & tabs */
+.life-insurance-page .irdai-tab,
+.life-insurance-page .swl-tab,
+.life-insurance-page .licplans-count-btn {
+  background: #ffffff !important;
+  border: 1.5px solid #e2e8f0 !important;
+  color: var(--color-ink-2) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02) !important;
+}
+.life-insurance-page .irdai-tab.active,
+.life-insurance-page .swl-tab.active,
+.life-insurance-page .licplans-count-btn.active {
+  background: var(--tab-color, var(--cat-clr, var(--color-accent))) !important;
+  border-color: var(--tab-color, var(--cat-clr, var(--color-accent))) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+}
+.life-insurance-page .licplans-count-num {
+  background: rgba(15, 23, 42, 0.08) !important;
+  color: inherit !important;
+}
+
+/* State & Lapse lists */
+.life-insurance-page .swl-state-row:hover {
+  background: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+}
+.life-insurance-page .swl-state-rank,
+.life-insurance-page .swl-region-tag {
+  color: var(--color-ink-3) !important;
+}
+.life-insurance-page .swl-state-name {
+  color: var(--color-ink) !important;
+}
+.life-insurance-page .swl-state-vals span {
+  color: var(--color-ink) !important;
+}
+.life-insurance-page .swl-state-policies {
+  color: var(--color-ink-3) !important;
+}
+.life-insurance-page .swl-lapse-total {
+  color: var(--color-ink-2) !important;
+}
+.life-insurance-page .swl-lapse-yr,
+.life-insurance-page .swl-pvt-name,
+.life-insurance-page .swl-pvt-val {
+  color: var(--color-ink-2) !important;
+}
+.life-insurance-page .swl-lapse-legend span {
+  color: var(--color-ink-3) !important;
+}
+.life-insurance-page .swl-lapse-insight {
+  background: rgba(16, 185, 129, 0.06) !important;
+  border: 1px solid rgba(16, 185, 129, 0.15) !important;
+}
+.life-insurance-page .swl-lapse-insight p {
+  color: #15803d !important;
+}
+
+/* LIC Plans Details components */
+.life-insurance-page .licplans-card-header {
+  background: #f8fafc !important;
+}
+.life-insurance-page .licplans-card-name {
+  color: var(--color-ink) !important;
+}
+.life-insurance-page .licplans-plan-no {
+  background: rgba(15, 23, 42, 0.04) !important;
+  color: var(--color-ink-3) !important;
+}
+.life-insurance-page .licplans-claim-type {
+  color: var(--color-ink-2) !important;
+}
+.life-insurance-page .licplans-sa {
+  color: var(--color-ink) !important;
+}
+.life-insurance-page .licplans-detail {
+  background: #ffffff !important;
+  border-top: 1px solid #e2e8f0 !important;
+}
+.life-insurance-page .licplans-detail-label {
+  color: var(--color-ink-3) !important;
+}
+.life-insurance-page .licplans-detail-val {
+  color: var(--color-ink-2) !important;
+}
+.life-insurance-page .licplans-feature {
+  color: var(--color-ink-2) !important;
+}
+.life-insurance-page .licplans-sa-mobile {
+  color: var(--color-ink) !important;
+  background: rgba(15, 23, 42, 0.04) !important;
+}
+
+/* Detail Table */
+.life-insurance-page .irdai-details-toggle {
+  background: #ffffff !important;
+  border: 1.5px solid #e2e8f0 !important;
+  color: var(--color-ink-2) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02) !important;
+}
+.life-insurance-page .irdai-details-toggle:hover {
+  border-color: #cbd5e1 !important;
+  color: var(--color-ink) !important;
+}
+.life-insurance-page .irdai-detail-table-wrap {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+}
+.life-insurance-page .irdai-detail-table th {
+  background: #f8fafc !important;
+  color: var(--color-ink-3) !important;
+  border-bottom: 1.5px solid #e2e8f0 !important;
+}
+.life-insurance-page .irdai-detail-table td {
+  color: var(--color-ink-2) !important;
+  border-top: 1px solid #f1f5f9 !important;
+}
+.life-insurance-page .irdai-detail-table tr:hover td {
+  background: #f8fafc !important;
+  color: var(--color-ink) !important;
+}
+
+/* Donut & Segment elements */
+.life-insurance-page .mkt-donut-pct,
+.life-insurance-page .mkt-donut-label strong {
+  color: var(--color-ink) !important;
+}
+.life-insurance-page .mkt-donut-label span {
+  color: var(--color-ink-3) !important;
+}
+.life-insurance-page .mkt-seg-name,
+.life-insurance-page .mkt-seg-val {
+  color: var(--color-ink-2) !important;
+}
+.life-insurance-page .mkt-seg-track,
+.life-insurance-page .irdai-bar-track,
+.life-insurance-page .irdai-compare-bar-wrap,
+.life-insurance-page .swl-state-bar-wrap,
+.life-insurance-page .swl-pvt-track,
+.life-insurance-page .swl-lapse-stack,
+.life-insurance-page .mkt-trend-stack,
+.life-insurance-page .mkt-claim-bar-track {
+  background: rgba(15, 23, 42, 0.05) !important;
+}
+.life-insurance-page .irdai-bar-val,
+.life-insurance-page .irdai-compare-pct {
+  color: var(--color-ink-2) !important;
+}
+.life-insurance-page .irdai-compare-name {
+  color: var(--color-ink-2) !important;
+}
+.life-insurance-page .irdai-compare-row:not(.highlight) {
+  border-color: rgba(15, 23, 42, 0.03) !important;
+}
+.life-insurance-page .irdai-compare-row.highlight {
+  background: rgba(79, 142, 247, 0.08) !important;
+  border-color: rgba(79, 142, 247, 0.2) !important;
+}
+.life-insurance-page .mkt-trend-total,
+.life-insurance-page .mkt-trend-yr,
+.life-insurance-page .mkt-trend-legend span {
+  color: var(--color-ink-2) !important;
+}
+
+/* PSU compare colors fallback */
+.life-insurance-page .swl-pvt-track {
+  background: rgba(15, 23, 42, 0.05) !important;
+}

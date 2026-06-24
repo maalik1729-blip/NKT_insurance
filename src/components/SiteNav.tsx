@@ -23,6 +23,10 @@ export function SiteNav() {
   const router = useRouter();
   const mobileMenuRef = useRef<HTMLDivElement>(null);
 
+  const isPlansActive = ["/life-insurance", "/health-insurance", "/motor-insurance"].includes(
+    router.state.location.pathname
+  );
+
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 8);
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -176,6 +180,7 @@ export function SiteNav() {
           >
             {/* Insurance Plans dropdown */}
             <div
+              className={`nav__dropdown-wrapper ${dropdownOpen ? "open" : ""}`}
               style={{ position: "relative" }}
               onMouseEnter={() => setDropdownOpen(true)}
               onMouseLeave={() => setDropdownOpen(false)}
@@ -197,7 +202,7 @@ export function SiteNav() {
                   borderRadius: "8px",
                   transition: "background 160ms, color 160ms",
                 }}
-                className="nav__dropdown-toggle"
+                className={`nav__dropdown-toggle ${dropdownOpen || isPlansActive ? "active" : ""}`}
                 aria-expanded={dropdownOpen}
                 onClick={() => setDropdownOpen((o) => !o)}
               >
@@ -247,55 +252,65 @@ export function SiteNav() {
                       title: "Motor Insurance",
                       desc: "Quick policies for cars & bikes.",
                     },
-                  ].map((item) => (
-                    <Link
-                      key={item.to}
-                      to={item.to}
-                      onClick={() => setDropdownOpen(false)}
-                      style={{
-                        display: "flex",
-                        alignItems: "flex-start",
-                        gap: "12px",
-                        padding: "10px 12px",
-                        borderRadius: "10px",
-                        textDecoration: "none",
-                        transition: "background 150ms",
-                      }}
-                      className="nav__dropdown-item"
-                    >
-                      <div
+                  ].map((item) => {
+                    const isActive = router.state.location.pathname === item.to;
+                    return (
+                      <Link
+                        key={item.to}
+                        to={item.to}
+                        onClick={() => setDropdownOpen(false)}
                         style={{
-                          width: "32px",
-                          height: "32px",
-                          borderRadius: "8px",
-                          background: "var(--color-accent-bg)",
-                          border: "1px solid var(--color-accent-line)",
                           display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          color: "var(--color-accent)",
-                          flexShrink: 0,
+                          alignItems: "flex-start",
+                          gap: "12px",
+                          padding: "10px 12px",
+                          borderRadius: "10px",
+                          textDecoration: "none",
+                          transition: "all 150ms ease",
+                          background: isActive ? "#F1F5F9" : "transparent",
+                          borderLeft: isActive ? "3px solid var(--color-accent)" : "3px solid transparent",
+                          paddingLeft: isActive ? "9px" : "12px",
                         }}
+                        className={`nav__dropdown-item ${isActive ? "active" : ""}`}
                       >
-                        {item.icon}
-                      </div>
-                      <div>
                         <div
+                          className="nav__dropdown-icon-container"
                           style={{
-                            fontSize: "0.85rem",
-                            fontWeight: 600,
-                            color: "#0F172A",
-                            marginBottom: "2px",
+                            width: "32px",
+                            height: "32px",
+                            borderRadius: "8px",
+                            background: isActive ? "var(--color-accent)" : "var(--color-accent-bg)",
+                            border: isActive ? "1px solid var(--color-accent)" : "1px solid var(--color-accent-line)",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            color: isActive ? "#FFFFFF" : "var(--color-accent)",
+                            flexShrink: 0,
+                            transition: "all 150ms ease",
                           }}
                         >
-                          {item.title}
+                          {item.icon}
                         </div>
-                        <div style={{ fontSize: "0.72rem", color: "#94A3B8", lineHeight: 1.35 }}>
-                          {item.desc}
+                        <div>
+                          <div
+                            className="nav__dropdown-title"
+                            style={{
+                              fontSize: "0.85rem",
+                              fontWeight: 600,
+                              color: isActive ? "var(--color-accent)" : "#0F172A",
+                              marginBottom: "2px",
+                              transition: "color 150ms ease",
+                            }}
+                          >
+                            {item.title}
+                          </div>
+                          <div style={{ fontSize: "0.72rem", color: "#94A3B8", lineHeight: 1.35 }}>
+                            {item.desc}
+                          </div>
                         </div>
-                      </div>
-                    </Link>
-                  ))}
+                      </Link>
+                    );
+                  })}
                 </div>
               )}
             </div>
@@ -528,28 +543,32 @@ export function SiteNav() {
             },
             { to: "/health-insurance", icon: <Heart size={14} />, label: "Health Insurance" },
             { to: "/motor-insurance", icon: <Car size={14} />, label: "Motor Insurance" },
-          ].map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              onClick={() => setMenuOpen(false)}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "10px",
-                padding: "12px 10px",
-                borderRadius: "10px",
-                textDecoration: "none",
-                fontSize: "0.95rem",
-                fontWeight: 500,
-                color: "#475569",
-                transition: "background 150ms",
-              }}
-              className="nav__mobile-link"
-            >
-              <span style={{ color: "var(--color-accent)" }}>{item.icon}</span> {item.label}
-            </Link>
-          ))}
+          ].map((item) => {
+            const isActive = router.state.location.pathname === item.to;
+            return (
+              <Link
+                key={item.to}
+                to={item.to}
+                onClick={() => setMenuOpen(false)}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px",
+                  padding: "12px 10px",
+                  borderRadius: "10px",
+                  textDecoration: "none",
+                  fontSize: "0.95rem",
+                  fontWeight: isActive ? 600 : 500,
+                  color: isActive ? "#0F172A" : "#475569",
+                  background: isActive ? "#F1F5F9" : "transparent",
+                  transition: "all 150ms ease",
+                }}
+                className={`nav__mobile-link ${isActive ? "active" : ""}`}
+              >
+                <span style={{ color: "var(--color-accent)" }}>{item.icon}</span> {item.label}
+              </Link>
+            );
+          })}
 
           <div style={{ height: "1px", background: "#F1F5F9", margin: "8px 0" }} />
 
@@ -557,44 +576,54 @@ export function SiteNav() {
             { to: "/claims", label: "Claims" },
             { to: "/about", label: "About" },
             { to: "/contact", label: "Contact" },
-          ].map((link) => (
-            <Link
-              key={link.to}
-              to={link.to}
-              onClick={() => setMenuOpen(false)}
-              style={{
-                padding: "12px 10px",
-                borderRadius: "10px",
-                textDecoration: "none",
-                fontSize: "0.95rem",
-                fontWeight: 500,
-                color: "#475569",
-                transition: "background 150ms",
-              }}
-              className="nav__mobile-link"
-            >
-              {link.label}
-            </Link>
-          ))}
-          <Link
-            to="/insurance-dashboard"
-            onClick={() => setMenuOpen(false)}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-              padding: "12px 10px",
-              borderRadius: "10px",
-              textDecoration: "none",
-              fontSize: "0.95rem",
-              fontWeight: 600,
-              color: "var(--color-accent)",
-              transition: "background 150ms",
-            }}
-            className="nav__mobile-link"
-          >
-            <BarChart2 size={14} /> Insurance Dashboard
-          </Link>
+          ].map((link) => {
+            const isActive = router.state.location.pathname === link.to;
+            return (
+              <Link
+                key={link.to}
+                to={link.to}
+                onClick={() => setMenuOpen(false)}
+                style={{
+                  padding: "12px 10px",
+                  borderRadius: "10px",
+                  textDecoration: "none",
+                  fontSize: "0.95rem",
+                  fontWeight: isActive ? 600 : 500,
+                  color: isActive ? "#0F172A" : "#475569",
+                  background: isActive ? "#F1F5F9" : "transparent",
+                  transition: "all 150ms ease",
+                }}
+                className={`nav__mobile-link ${isActive ? "active" : ""}`}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
+          {(() => {
+            const isActive = router.state.location.pathname === "/insurance-dashboard";
+            return (
+              <Link
+                to="/insurance-dashboard"
+                onClick={() => setMenuOpen(false)}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  padding: "12px 10px",
+                  borderRadius: "10px",
+                  textDecoration: "none",
+                  fontSize: "0.95rem",
+                  fontWeight: 600,
+                  color: "var(--color-accent)",
+                  background: isActive ? "var(--color-accent-bg)" : "transparent",
+                  transition: "all 150ms ease",
+                }}
+                className={`nav__mobile-link ${isActive ? "active" : ""}`}
+              >
+                <BarChart2 size={14} /> Insurance Dashboard
+              </Link>
+            );
+          })()}
 
           <div style={{ height: "1px", background: "#F1F5F9", margin: "8px 0" }} />
 
@@ -642,10 +671,44 @@ export function SiteNav() {
           .nav__hamburger { display: flex !important; margin-left: auto !important; }
           .nav__container { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
         }
-        .nav__link:hover, .nav__dropdown-toggle:hover { background: #F8FAFC !important; color: #0F172A !important; }
-        .dashboard-btn:hover { background: var(--color-accent-line) !important; color: var(--color-accent) !important; }
-        .nav__dropdown-item:hover { background: #F8FAFC !important; }
-        .nav__mobile-link:hover { background: #F8FAFC !important; color: #0F172A !important; }
+        .nav__link:hover, .nav__dropdown-toggle:hover, .nav__dropdown-toggle.active {
+          background: #F8FAFC !important;
+          color: #0F172A !important;
+        }
+        .dashboard-btn:hover {
+          background: var(--color-accent-line) !important;
+          color: var(--color-accent) !important;
+        }
+        .nav__dropdown-wrapper::after {
+          content: '';
+          position: absolute;
+          top: 100%;
+          left: 0;
+          right: 0;
+          height: 12px;
+          background: transparent;
+          z-index: 10;
+          display: none;
+        }
+        .nav__dropdown-wrapper.open::after {
+          display: block;
+        }
+        .nav__dropdown-item:hover {
+          background: #F8FAFC !important;
+        }
+        .nav__dropdown-item:hover .nav__dropdown-icon-container {
+          background: var(--color-accent) !important;
+          color: #FFFFFF !important;
+          border-color: var(--color-accent) !important;
+          transform: scale(1.05);
+        }
+        .nav__dropdown-item:hover .nav__dropdown-title {
+          color: var(--color-accent) !important;
+        }
+        .nav__mobile-link:hover {
+          background: #F8FAFC !important;
+          color: #0F172A !important;
+        }
         @keyframes fadeSlideDown { from { opacity: 0; transform: translateX(-50%) translateY(-8px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
         @keyframes slideDown { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
       `}</style>

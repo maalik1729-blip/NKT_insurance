@@ -35,6 +35,12 @@ import {
 } from "lucide-react";
 import logoImg from "@/assets/images/logo.png";
 import "@/styles/dashboard.css";
+import { IndiaInsuranceMarketSection } from "../IndiaInsuranceMarketSection";
+import { LICPlansDetailSection } from "../LICPlansDetailSection";
+import { IRDAIClaimsSection } from "../IRDAIClaimsSection";
+import { StateWiseLapseSection } from "../StateWiseLapseSection";
+import "@/styles/market-section.css";
+import "@/styles/plans-state-sections.css";
 import {
   CSR_TREND,
   DEATH_AMT_TREND,
@@ -112,10 +118,12 @@ export function InsuranceDashboard() {
   >("claims");
   const [selectedYear, setSelectedYear] = useState<string>("2024-25");
   const [isMobile, setIsMobile] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 640);
+      setIsMobile(window.innerWidth < 768);
     };
     handleResize();
     window.addEventListener("resize", handleResize);
@@ -223,15 +231,17 @@ export function InsuranceDashboard() {
                 value={selectedYear}
                 onChange={(e) => setSelectedYear(e.target.value)}
                 style={{
-                  background: "#fff",
-                  border: "1px solid #cbd5e1",
-                  borderRadius: "6px",
-                  padding: "4px 8px",
+                  background: "rgba(255, 255, 255, 0.8)",
+                  backdropFilter: "blur(8px)",
+                  border: "1px solid rgba(15, 23, 42, 0.08)",
+                  borderRadius: "8px",
+                  padding: "6px 12px",
                   fontSize: "0.85rem",
                   color: "#1e293b",
                   outline: "none",
                   cursor: "pointer",
                   fontWeight: 600,
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.02)",
                 }}
               >
                 <option value="2020-21">2020-21</option>
@@ -274,22 +284,45 @@ export function InsuranceDashboard() {
         </div>
 
         {/* Tab content */}
-        {activeTab === "claims" && <ClaimsTab isMobile={isMobile} />}
-        {activeTab === "plans" && <MarketTab isMobile={isMobile} />}
-        {activeTab === "market" && <InsurerTab isMobile={isMobile} />}
-        {activeTab === "state" && <StateTab isMobile={isMobile} />}
-        {activeTab === "health" && <HealthTab selectedYear={selectedYear} isMobile={isMobile} />}
-        {activeTab === "motor" && <MotorTab selectedYear={selectedYear} isMobile={isMobile} />}
+        {mounted ? (
+          <>
+            {activeTab === "claims" && (
+              <ClaimsTab selectedYear={selectedYear} isMobile={isMobile} />
+            )}
+            {activeTab === "plans" && <MarketTab selectedYear={selectedYear} isMobile={isMobile} />}
+            {activeTab === "market" && (
+              <InsurerTab selectedYear={selectedYear} isMobile={isMobile} />
+            )}
+            {activeTab === "state" && <StateTab selectedYear={selectedYear} isMobile={isMobile} />}
+            {activeTab === "health" && (
+              <HealthTab selectedYear={selectedYear} isMobile={isMobile} />
+            )}
+            {activeTab === "motor" && <MotorTab selectedYear={selectedYear} isMobile={isMobile} />}
+          </>
+        ) : (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "400px",
+              fontSize: "0.9rem",
+              color: "var(--db-text-muted)",
+            }}
+          >
+            Loading analytics dashboard...
+          </div>
+        )}
       </main>
     </div>
   );
 }
 
 // ── TAB: CLAIMS ────────────────────────────────────────────────────
-function ClaimsTab({ isMobile }: { isMobile: boolean }) {
+function ClaimsTab({ selectedYear, isMobile }: { selectedYear: string; isMobile: boolean }) {
   return (
     <div className="db-tab-content">
-      {/* Row 1: CSR Trend + Claim Volume */}
+      {/* Row 1: High-Level Overview Trends */}
       <div className="db-charts-row">
         {/* CSR Trend Line Chart */}
         <div className="db-chart-card db-chart-lg">
@@ -297,360 +330,136 @@ function ClaimsTab({ isMobile }: { isMobile: boolean }) {
             <h3>Claim Settlement Ratio Trend — All Types (2019-2025)</h3>
             <span className="db-chart-src">IRDAI Handbook 2024-25 + LIC Annual Report</span>
           </div>
-          <ResponsiveContainer width="100%" height={280}>
-            <LineChart
-              data={CSR_TREND}
-              margin={{ top: 5, right: 20, left: isMobile ? -15 : 10, bottom: 5 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
-              <XAxis dataKey="year" tick={{ fill: "#374151", fontSize: 11 }} />
-              <YAxis
-                domain={[88, 100]}
-                tick={{ fill: "#374151", fontSize: 11 }}
-                tickFormatter={(v) => `${v}%`}
-              />
-              <Tooltip content={<CustomTooltip />} />
-              <Legend wrapperStyle={{ fontSize: 11, color: "#94a3b8" }} />
-              <Line
-                type="monotone"
-                dataKey="indlDeath"
-                name="Indl Death"
-                stroke={COLORS_CSR.indlDeath}
-                strokeWidth={2}
-                dot={{ r: 3 }}
-              />
-              <Line
-                type="monotone"
-                dataKey="groupDeath"
-                name="Group Death"
-                stroke={COLORS_CSR.groupDeath}
-                strokeWidth={2}
-                dot={{ r: 3 }}
-              />
-              <Line
-                type="monotone"
-                dataKey="maturity"
-                name="Maturity"
-                stroke={COLORS_CSR.maturity}
-                strokeWidth={2}
-                dot={{ r: 3 }}
-              />
-              <Line
-                type="monotone"
-                dataKey="survival"
-                name="Survival Benf"
-                stroke={COLORS_CSR.survival}
-                strokeWidth={2}
-                dot={{ r: 3 }}
-              />
-              <Line
-                type="monotone"
-                dataKey="annuity"
-                name="Annuity"
-                stroke={COLORS_CSR.annuity}
-                strokeWidth={2}
-                dot={{ r: 3 }}
-              />
-              <Line
-                type="monotone"
-                dataKey="industry"
-                name="Industry Avg"
-                stroke={COLORS_CSR.industry}
-                strokeWidth={1.5}
-                strokeDasharray="4 2"
-                dot={false}
-              />
-            </LineChart>
-          </ResponsiveContainer>
+          <div style={{ height: 280 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart
+                data={CSR_TREND}
+                margin={{ top: 5, right: 20, left: isMobile ? -15 : 10, bottom: 5 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
+                <XAxis dataKey="year" tick={{ fill: "#374151", fontSize: 11 }} />
+                <YAxis
+                  domain={[88, 100]}
+                  tick={{ fill: "#374151", fontSize: 11 }}
+                  tickFormatter={(v) => `${v}%`}
+                />
+                <Tooltip content={<CustomTooltip />} />
+                <Legend wrapperStyle={{ fontSize: 11, color: "#94a3b8" }} />
+                <Line
+                  type="monotone"
+                  dataKey="indlDeath"
+                  name="Indl Death"
+                  stroke={COLORS_CSR.indlDeath}
+                  strokeWidth={2}
+                  dot={{ r: 3 }}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="groupDeath"
+                  name="Group Death"
+                  stroke={COLORS_CSR.groupDeath}
+                  strokeWidth={2}
+                  dot={{ r: 3 }}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="maturity"
+                  name="Maturity"
+                  stroke={COLORS_CSR.maturity}
+                  strokeWidth={2}
+                  dot={{ r: 3 }}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="survival"
+                  name="Survival Benf"
+                  stroke={COLORS_CSR.survival}
+                  strokeWidth={2}
+                  dot={{ r: 3 }}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="annuity"
+                  name="Annuity"
+                  stroke={COLORS_CSR.annuity}
+                  strokeWidth={2}
+                  dot={{ r: 3 }}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="industry"
+                  name="Industry Avg"
+                  stroke={COLORS_CSR.industry}
+                  strokeWidth={1.5}
+                  strokeDasharray="4 2"
+                  dot={false}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
         </div>
 
-        {/* Claim Volume Bars */}
+        {/* Death Claims Amount Trend — Verified LIC AR Data */}
         <div className="db-chart-card db-chart-sm">
           <div className="db-chart-header">
-            <h3>Claims Volume FY 2024-25</h3>
-            <span className="db-chart-src">In Lakhs of claims</span>
+            <h3>LIC Death Claims Paid Trend</h3>
+            <span className="db-chart-src">LIC AR (₹ Crore)</span>
           </div>
-          <ResponsiveContainer width="100%" height={280}>
-            <BarChart
-              data={CLAIMS_VOLUME}
-              layout="vertical"
-              margin={{ top: 0, right: 15, left: isMobile ? 35 : 50, bottom: 0 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" horizontal={false} />
-              <XAxis type="number" tick={{ fill: "#374151", fontSize: isMobile ? 9 : 11 }} />
-              <YAxis
-                dataKey="type"
-                type="category"
-                tick={{ fill: "#374151", fontSize: isMobile ? 9 : 11 }}
-                width={isMobile ? 42 : 55}
-              />
-              <Tooltip content={<CustomTooltip />} />
-              <Bar dataKey="volume" name="Volume (L)" radius={[0, 6, 6, 0]}>
-                {CLAIMS_VOLUME.map((c) => (
-                  <Cell key={c.type} fill={c.color} />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-
-      {/* Row 2: Amount Paid + CSR cards */}
-      <div className="db-charts-row">
-        {/* Amount paid area chart */}
-        <div className="db-chart-card db-chart-md">
-          <div className="db-chart-header">
-            <h3>Claims Amount Paid (₹ Crore)</h3>
-            <span className="db-chart-src">FY 2024-25 by Claim Type</span>
-          </div>
-          <ResponsiveContainer width="100%" height={240}>
-            <BarChart
-              data={CLAIMS_VOLUME}
-              margin={{ top: 5, right: 10, left: isMobile ? -15 : 10, bottom: isMobile ? 20 : 5 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
-              <XAxis
-                dataKey="type"
-                tick={{ fill: "#374151", fontSize: isMobile ? 9 : 11 }}
-                angle={isMobile ? -25 : 0}
-                textAnchor={isMobile ? "end" : "middle"}
-                interval={0}
-              />
-              <YAxis
-                tick={{ fill: "#374151", fontSize: 11 }}
-                tickFormatter={(v) => (v >= 1000 ? `${(v / 1000).toFixed(0)}K` : v)}
-              />
-              <Tooltip content={<CustomTooltip />} />
-              <Bar dataKey="amtCr" name="Amount (₹Cr)" radius={[6, 6, 0, 0]}>
-                {CLAIMS_VOLUME.map((c) => (
-                  <Cell key={c.type} fill={c.color} />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-
-        {/* CSR stat cards */}
-        <div className="db-chart-card db-chart-md">
-          <div className="db-chart-header">
-            <h3>LIC CSR — All 6 Claim Types</h3>
-            <span className="db-chart-src">FY 2024-25 · Official IRDAI Data</span>
-          </div>
-          <div className="db-csr-grid">
-            {CLAIMS_VOLUME.map((c) => (
-              <div key={c.type} className="db-csr-item">
-                <div className="db-csr-ring-wrap">
-                  <svg width="64" height="64" viewBox="0 0 36 36">
-                    <circle
-                      cx="18"
-                      cy="18"
-                      r="14"
-                      fill="none"
-                      stroke="rgba(255,255,255,0.07)"
-                      strokeWidth="3"
-                    />
-                    <circle
-                      cx="18"
-                      cy="18"
-                      r="14"
-                      fill="none"
-                      stroke={c.color}
-                      strokeWidth="3"
-                      strokeDasharray={`${c.csr - 88} ${12 + (100 - c.csr)}`}
-                      strokeLinecap="round"
-                      transform="rotate(-90 18 18)"
-                    />
-                  </svg>
-                  <span className="db-csr-ring-val" style={{ color: c.color }}>
-                    {c.csr}%
-                  </span>
-                </div>
-                <span className="db-csr-label">{c.type}</span>
-              </div>
-            ))}
+          <div style={{ height: 280 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart
+                data={DEATH_AMT_TREND}
+                margin={{ top: 5, right: 20, left: isMobile ? -15 : 10, bottom: 5 }}
+              >
+                <defs>
+                  <linearGradient id="deathGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#4f8ef7" stopOpacity={0.35} />
+                    <stop offset="95%" stopColor="#4f8ef7" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
+                <XAxis dataKey="year" tick={{ fill: "#374151", fontSize: 11 }} />
+                <YAxis
+                  tick={{ fill: "#374151", fontSize: 11 }}
+                  tickFormatter={(v) => `₹${(v / 1000).toFixed(0)}K Cr`}
+                />
+                <Tooltip content={<CustomTooltip />} />
+                <Area
+                  type="monotone"
+                  dataKey="amtCr"
+                  name="Death Claims (₹Cr)"
+                  stroke="#4f8ef7"
+                  fill="url(#deathGrad)"
+                  strokeWidth={2.5}
+                  dot={{ r: 5, fill: "#4f8ef7" }}
+                />
+              </AreaChart>
+            </ResponsiveContainer>
           </div>
         </div>
       </div>
-      {/* Row 3: Death Claims Amount Trend — Verified LIC AR Data */}
-      <div className="db-charts-row">
-        <div className="db-chart-card db-chart-full">
-          <div className="db-chart-header">
-            <h3>LIC Death Claims Amount Paid — Year-wise (₹ Crore)</h3>
-            <span className="db-chart-src">
-              ✓ Verified · LIC Annual Report 2023-24, Page 184 · COVID spike visible in 2021-22
-            </span>
-          </div>
-          <ResponsiveContainer width="100%" height={220}>
-            <AreaChart
-              data={DEATH_AMT_TREND}
-              margin={{ top: 5, right: 20, left: isMobile ? -15 : 10, bottom: 5 }}
-            >
-              <defs>
-                <linearGradient id="deathGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#4f8ef7" stopOpacity={0.35} />
-                  <stop offset="95%" stopColor="#4f8ef7" stopOpacity={0} />
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
-              <XAxis dataKey="year" tick={{ fill: "#374151", fontSize: 11 }} />
-              <YAxis
-                tick={{ fill: "#374151", fontSize: 11 }}
-                tickFormatter={(v) => `₹${(v / 1000).toFixed(0)}K Cr`}
-              />
-              <Tooltip content={<CustomTooltip />} />
-              <Area
-                type="monotone"
-                dataKey="amtCr"
-                name="Death Claims (₹Cr)"
-                stroke="#4f8ef7"
-                fill="url(#deathGrad)"
-                strokeWidth={2.5}
-                dot={{ r: 5, fill: "#4f8ef7" }}
-              />
-            </AreaChart>
-          </ResponsiveContainer>
-          <div className="db-insight-bar">
-            <span className="db-insight-chip covid">
-              ⚠ 2021-22: ₹36,578 Cr — COVID-19 peak (LIC AR 2022-23 verified)
-            </span>
-            <span className="db-insight-chip good">
-              ↓ Normalizing: ₹22,625 Cr in 2023-24 (LIC AR 2023-24 verified)
-            </span>
-          </div>
-        </div>
+
+      <div style={{ marginTop: "12px" }}>
+        <IRDAIClaimsSection selectedYear={selectedYear} />
       </div>
     </div>
   );
 }
 
 // ── TAB: MARKET & PLANS ────────────────────────────────────────────
-function MarketTab({ isMobile }: { isMobile: boolean }) {
+function MarketTab({ selectedYear, isMobile }: { selectedYear: string; isMobile: boolean }) {
   return (
     <div className="db-tab-content">
-      <div className="db-charts-row">
-        {/* Policies trend */}
-        <div className="db-chart-card db-chart-lg">
-          <div className="db-chart-header">
-            <h3>New Policies Issued Per Year (Lakhs)</h3>
-            <span className="db-chart-src">IRDAI Handbook Table 9 · LIC vs Private</span>
-          </div>
-          <ResponsiveContainer width="100%" height={280}>
-            <AreaChart
-              data={POLICIES_ISSUED}
-              margin={{ top: 5, right: 20, left: isMobile ? -15 : 0, bottom: 5 }}
-            >
-              <defs>
-                <linearGradient id="licGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#4f8ef7" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="#4f8ef7" stopOpacity={0} />
-                </linearGradient>
-                <linearGradient id="pvtGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#10b981" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
-              <XAxis dataKey="year" tick={{ fill: "#374151", fontSize: 11 }} />
-              <YAxis tick={{ fill: "#374151", fontSize: 11 }} tickFormatter={(v) => `${v}L`} />
-              <Tooltip content={<CustomTooltip />} />
-              <Legend wrapperStyle={{ fontSize: 11, color: "#94a3b8" }} />
-              <Area
-                type="monotone"
-                dataKey="lic"
-                name="LIC Policies (L)"
-                stroke="#4f8ef7"
-                fill="url(#licGrad)"
-                strokeWidth={2}
-              />
-              <Area
-                type="monotone"
-                dataKey="private"
-                name="Private Policies (L)"
-                stroke="#10b981"
-                fill="url(#pvtGrad)"
-                strokeWidth={2}
-              />
-            </AreaChart>
-          </ResponsiveContainer>
-        </div>
-
-        {/* Market Share Pie */}
-        <div className="db-chart-card db-chart-sm">
-          <div className="db-chart-header">
-            <h3>LIC vs Private Market Share</h3>
-            <span className="db-chart-src">By Premium · FY 2024-25</span>
-          </div>
-          <ResponsiveContainer width="100%" height={200}>
-            <PieChart>
-              <Pie
-                data={MARKET_SHARE}
-                cx="50%"
-                cy="50%"
-                outerRadius={80}
-                innerRadius={45}
-                dataKey="value"
-                label={({ name, value }) => `${name}: ${value}%`}
-                labelLine={false}
-              >
-                {MARKET_SHARE.map((m) => (
-                  <Cell key={m.name} fill={m.color} />
-                ))}
-              </Pie>
-              <Tooltip formatter={(v: number | string) => `${v}%`} />
-            </PieChart>
-          </ResponsiveContainer>
-          <div className="db-pie-legend">
-            {MARKET_SHARE.map((m) => (
-              <div key={m.name} className="db-pie-leg-item">
-                <span className="db-pie-dot" style={{ background: m.color }} />
-                <span>{m.name}</span>
-                <strong style={{ color: m.color }}>{m.value}%</strong>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Premium by segment */}
-      <div className="db-charts-row">
-        <div className="db-chart-card db-chart-full">
-          <div className="db-chart-header">
-            <h3>Premium by Plan Segment — FY 2024-25 (₹ Crore)</h3>
-            <span className="db-chart-src">IRDAI Handbook Table 4 · Total: ₹6,92,614 Cr</span>
-          </div>
-          <ResponsiveContainer width="100%" height={240}>
-            <BarChart
-              data={PREMIUM_SEGMENT}
-              margin={{ top: 5, right: 10, left: isMobile ? -15 : 10, bottom: isMobile ? 35 : 5 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
-              <XAxis
-                dataKey="name"
-                tick={{ fill: "#374151", fontSize: isMobile ? 8 : 11 }}
-                interval={0}
-                angle={isMobile ? -35 : 0}
-                textAnchor={isMobile ? "end" : "middle"}
-              />
-              <YAxis
-                tick={{ fill: "#374151", fontSize: 11 }}
-                tickFormatter={(v) => `₹${(v / 1000).toFixed(0)}K Cr`}
-              />
-              <Tooltip content={<CustomTooltip />} />
-              <Bar dataKey="value" name="Premium (₹Cr)" radius={[6, 6, 0, 0]}>
-                {PREMIUM_SEGMENT.map((s) => (
-                  <Cell key={s.name} fill={s.color} />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
+      <IndiaInsuranceMarketSection selectedYear={selectedYear} />
+      <div style={{ marginTop: "24px" }}>
+        <LICPlansDetailSection selectedYear={selectedYear} />
       </div>
     </div>
   );
 }
 
 // ── TAB: INSURER COMPARE ───────────────────────────────────────────
-function InsurerTab({ isMobile }: { isMobile: boolean }) {
+function InsurerTab({ selectedYear, isMobile }: { selectedYear: string; isMobile: boolean }) {
   return (
     <div className="db-tab-content">
       <div className="db-charts-row">
@@ -661,33 +470,35 @@ function InsurerTab({ isMobile }: { isMobile: boolean }) {
               Individual Death Claims · IRDAI Handbook 2024-25, Table 15
             </span>
           </div>
-          <ResponsiveContainer width="100%" height={320}>
-            <BarChart
-              data={INSURER_CSR}
-              layout="vertical"
-              margin={{ top: 5, right: 15, left: isMobile ? 75 : 100, bottom: 5 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" horizontal={false} />
-              <XAxis
-                type="number"
-                domain={[95, 100]}
-                tick={{ fill: "#374151", fontSize: isMobile ? 9 : 11 }}
-                tickFormatter={(v) => `${v}%`}
-              />
-              <YAxis
-                dataKey="name"
-                type="category"
-                tick={{ fill: "#374151", fontSize: isMobile ? 10 : 12 }}
-                width={isMobile ? 85 : 110}
-              />
-              <Tooltip formatter={(v: number | string) => `${v}%`} />
-              <Bar dataKey="csr" name="CSR %" radius={[0, 6, 6, 0]}>
-                {INSURER_CSR.map((i) => (
-                  <Cell key={i.name} fill={i.fill} />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
+          <div style={{ height: 320 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                data={INSURER_CSR}
+                layout="vertical"
+                margin={{ top: 5, right: 15, left: isMobile ? 75 : 100, bottom: 5 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" horizontal={false} />
+                <XAxis
+                  type="number"
+                  domain={[95, 100]}
+                  tick={{ fill: "#374151", fontSize: isMobile ? 9 : 11 }}
+                  tickFormatter={(v) => `${v}%`}
+                />
+                <YAxis
+                  dataKey="name"
+                  type="category"
+                  tick={{ fill: "#374151", fontSize: isMobile ? 10 : 12 }}
+                  width={isMobile ? 85 : 110}
+                />
+                <Tooltip formatter={(v: number | string) => `${v}%`} />
+                <Bar dataKey="csr" name="CSR %" radius={[0, 6, 6, 0]}>
+                  {INSURER_CSR.map((i) => (
+                    <Cell key={i.name} fill={i.fill} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </div>
       </div>
 
@@ -745,39 +556,41 @@ function InsurerTab({ isMobile }: { isMobile: boolean }) {
             <h3>LIC Death CSR vs Industry — 6 Year Trend</h3>
             <span className="db-chart-src">IRDAI Handbook 2024-25</span>
           </div>
-          <ResponsiveContainer width="100%" height={240}>
-            <LineChart
-              data={CSR_TREND}
-              margin={{ top: 5, right: 20, left: isMobile ? -15 : 0, bottom: 5 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
-              <XAxis dataKey="year" tick={{ fill: "#374151", fontSize: 10 }} />
-              <YAxis
-                domain={[95, 100]}
-                tick={{ fill: "#374151", fontSize: 11 }}
-                tickFormatter={(v) => `${v}%`}
-              />
-              <Tooltip content={<CustomTooltip />} />
-              <Legend wrapperStyle={{ fontSize: 11, color: "#94a3b8" }} />
-              <Line
-                type="monotone"
-                dataKey="indlDeath"
-                name="LIC Indl DC"
-                stroke="#4f8ef7"
-                strokeWidth={2.5}
-                dot={{ r: 4 }}
-              />
-              <Line
-                type="monotone"
-                dataKey="industry"
-                name="Industry Avg"
-                stroke="#64748b"
-                strokeWidth={1.5}
-                strokeDasharray="4 2"
-                dot={false}
-              />
-            </LineChart>
-          </ResponsiveContainer>
+          <div style={{ height: 240 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart
+                data={CSR_TREND}
+                margin={{ top: 5, right: 20, left: isMobile ? -15 : 0, bottom: 5 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
+                <XAxis dataKey="year" tick={{ fill: "#374151", fontSize: 10 }} />
+                <YAxis
+                  domain={[95, 100]}
+                  tick={{ fill: "#374151", fontSize: 11 }}
+                  tickFormatter={(v) => `${v}%`}
+                />
+                <Tooltip content={<CustomTooltip />} />
+                <Legend wrapperStyle={{ fontSize: 11, color: "#94a3b8" }} />
+                <Line
+                  type="monotone"
+                  dataKey="indlDeath"
+                  name="LIC Indl DC"
+                  stroke="#4f8ef7"
+                  strokeWidth={2.5}
+                  dot={{ r: 4 }}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="industry"
+                  name="Industry Avg"
+                  stroke="#64748b"
+                  strokeWidth={1.5}
+                  strokeDasharray="4 2"
+                  dot={false}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
         </div>
       </div>
     </div>
@@ -785,7 +598,7 @@ function InsurerTab({ isMobile }: { isMobile: boolean }) {
 }
 
 // ── TAB: STATE & LAPSE ─────────────────────────────────────────────
-function StateTab({ isMobile }: { isMobile: boolean }) {
+function StateTab({ selectedYear, isMobile }: { selectedYear: string; isMobile: boolean }) {
   return (
     <div className="db-tab-content">
       <div className="db-charts-row">
@@ -795,32 +608,34 @@ function StateTab({ isMobile }: { isMobile: boolean }) {
             <h3>Top States by Insurance Premium (₹ Crore)</h3>
             <span className="db-chart-src">IRDAI Handbook Table 5 · FY 2022-23</span>
           </div>
-          <ResponsiveContainer width="100%" height={280}>
-            <BarChart
-              data={TOP_STATES}
-              layout="vertical"
-              margin={{ top: 5, right: 15, left: isMobile ? 55 : 80, bottom: 5 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" horizontal={false} />
-              <XAxis
-                type="number"
-                tick={{ fill: "#374151", fontSize: isMobile ? 9 : 11 }}
-                tickFormatter={(v) => `₹${(v / 1000).toFixed(1)}K`}
-              />
-              <YAxis
-                dataKey="state"
-                type="category"
-                tick={{ fill: "#374151", fontSize: isMobile ? 9 : 11 }}
-                width={isMobile ? 65 : 90}
-              />
-              <Tooltip content={<CustomTooltip />} />
-              <Bar dataKey="premium" name="Premium (₹Cr)" fill="#4f8ef7" radius={[0, 6, 6, 0]}>
-                {TOP_STATES.map((_, i) => (
-                  <Cell key={i} fill={`hsl(${220 + i * 15}, 80%, ${60 - i * 3}%)`} />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
+          <div style={{ height: 280 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                data={TOP_STATES}
+                layout="vertical"
+                margin={{ top: 5, right: 15, left: isMobile ? 55 : 80, bottom: 5 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" horizontal={false} />
+                <XAxis
+                  type="number"
+                  tick={{ fill: "#374151", fontSize: isMobile ? 9 : 11 }}
+                  tickFormatter={(v) => `₹${(v / 1000).toFixed(1)}K`}
+                />
+                <YAxis
+                  dataKey="state"
+                  type="category"
+                  tick={{ fill: "#374151", fontSize: isMobile ? 9 : 11 }}
+                  width={isMobile ? 65 : 90}
+                />
+                <Tooltip content={<CustomTooltip />} />
+                <Bar dataKey="premium" name="Premium (₹Cr)" fill="#4f8ef7" radius={[0, 6, 6, 0]}>
+                  {TOP_STATES.map((_, i) => (
+                    <Cell key={i} fill={`hsl(${220 + i * 15}, 80%, ${60 - i * 3}%)`} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </div>
 
         {/* Lapse trend */}
@@ -829,26 +644,28 @@ function StateTab({ isMobile }: { isMobile: boolean }) {
             <h3>Lapsed Policies (Thousands)</h3>
             <span className="db-chart-src">IRDAI Table 27 · LIC vs Private</span>
           </div>
-          <ResponsiveContainer width="100%" height={280}>
-            <BarChart
-              data={LAPSE_DATA}
-              margin={{ top: 5, right: 20, left: isMobile ? -15 : 0, bottom: 5 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
-              <XAxis dataKey="year" tick={{ fill: "#374151", fontSize: 11 }} />
-              <YAxis tick={{ fill: "#374151", fontSize: 11 }} />
-              <Tooltip content={<CustomTooltip />} />
-              <Legend wrapperStyle={{ fontSize: 11, color: "#94a3b8" }} />
-              <Bar dataKey="lic" name="LIC" stackId="a" fill="#4f8ef7" radius={[0, 0, 0, 0]} />
-              <Bar
-                dataKey="private"
-                name="Private"
-                stackId="a"
-                fill="#10b981"
-                radius={[4, 4, 0, 0]}
-              />
-            </BarChart>
-          </ResponsiveContainer>
+          <div style={{ height: 280 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                data={LAPSE_DATA}
+                margin={{ top: 5, right: 20, left: isMobile ? -15 : 0, bottom: 5 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
+                <XAxis dataKey="year" tick={{ fill: "#374151", fontSize: 11 }} />
+                <YAxis tick={{ fill: "#374151", fontSize: 11 }} />
+                <Tooltip content={<CustomTooltip />} />
+                <Legend wrapperStyle={{ fontSize: 11, color: "#94a3b8" }} />
+                <Bar dataKey="lic" name="LIC" stackId="a" fill="#4f8ef7" radius={[0, 0, 0, 0]} />
+                <Bar
+                  dataKey="private"
+                  name="Private"
+                  stackId="a"
+                  fill="#10b981"
+                  radius={[4, 4, 0, 0]}
+                />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </div>
       </div>
 
@@ -859,45 +676,51 @@ function StateTab({ isMobile }: { isMobile: boolean }) {
             <h3>Policy Lapse Trend — LIC vs Industry (2019-2023)</h3>
             <span className="db-chart-src">IRDAI Handbook Table 27 · Improving year-on-year</span>
           </div>
-          <ResponsiveContainer width="100%" height={220}>
-            <AreaChart
-              data={LAPSE_DATA}
-              margin={{ top: 5, right: 20, left: isMobile ? -15 : 10, bottom: 5 }}
-            >
-              <defs>
-                <linearGradient id="licLapse" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#ef4444" stopOpacity={0.25} />
-                  <stop offset="95%" stopColor="#ef4444" stopOpacity={0} />
-                </linearGradient>
-                <linearGradient id="pvtLapse" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#f97316" stopOpacity={0.25} />
-                  <stop offset="95%" stopColor="#f97316" stopOpacity={0} />
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
-              <XAxis dataKey="year" tick={{ fill: "#374151", fontSize: 11 }} />
-              <YAxis tick={{ fill: "#374151", fontSize: 11 }} tickFormatter={(v) => `${v}K`} />
-              <Tooltip content={<CustomTooltip />} />
-              <Legend wrapperStyle={{ fontSize: 11, color: "#94a3b8" }} />
-              <Area
-                type="monotone"
-                dataKey="lic"
-                name="LIC Lapsed (K)"
-                stroke="#ef4444"
-                fill="url(#licLapse)"
-                strokeWidth={2}
-              />
-              <Area
-                type="monotone"
-                dataKey="private"
-                name="Private Lapsed (K)"
-                stroke="#f97316"
-                fill="url(#pvtLapse)"
-                strokeWidth={2}
-              />
-            </AreaChart>
-          </ResponsiveContainer>
+          <div style={{ height: 220 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart
+                data={LAPSE_DATA}
+                margin={{ top: 5, right: 20, left: isMobile ? -15 : 10, bottom: 5 }}
+              >
+                <defs>
+                  <linearGradient id="licLapse" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#ef4444" stopOpacity={0.25} />
+                    <stop offset="95%" stopColor="#ef4444" stopOpacity={0} />
+                  </linearGradient>
+                  <linearGradient id="pvtLapse" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#f97316" stopOpacity={0.25} />
+                    <stop offset="95%" stopColor="#f97316" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
+                <XAxis dataKey="year" tick={{ fill: "#374151", fontSize: 11 }} />
+                <YAxis tick={{ fill: "#374151", fontSize: 11 }} tickFormatter={(v) => `${v}K`} />
+                <Tooltip content={<CustomTooltip />} />
+                <Legend wrapperStyle={{ fontSize: 11, color: "#94a3b8" }} />
+                <Area
+                  type="monotone"
+                  dataKey="lic"
+                  name="LIC Lapsed (K)"
+                  stroke="#ef4444"
+                  fill="url(#licLapse)"
+                  strokeWidth={2}
+                />
+                <Area
+                  type="monotone"
+                  dataKey="private"
+                  name="Private Lapsed (K)"
+                  stroke="#f97316"
+                  fill="url(#pvtLapse)"
+                  strokeWidth={2}
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
         </div>
+      </div>
+
+      <div style={{ marginTop: "24px" }}>
+        <StateWiseLapseSection selectedYear={selectedYear} />
       </div>
     </div>
   );
@@ -1008,47 +831,49 @@ function HealthTab({ selectedYear, isMobile }: { selectedYear: string; isMobile:
             <h3>Health Insurance Incurred Claims Ratio (ICR) Trend (2020-2026)</h3>
             <span className="db-chart-src">IRDAI Annual Reports & Standalone Disclosures</span>
           </div>
-          <ResponsiveContainer width="100%" height={240}>
-            <LineChart
-              data={HEALTH_CSR_TREND}
-              margin={{ top: 5, right: 20, left: isMobile ? -15 : 0, bottom: 5 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
-              <XAxis dataKey="year" tick={{ fill: "#374151", fontSize: 11 }} />
-              <YAxis
-                domain={[60, 110]}
-                tick={{ fill: "#374151", fontSize: 11 }}
-                tickFormatter={(v) => `${v}%`}
-              />
-              <Tooltip content={<CustomTooltip />} />
-              <Legend wrapperStyle={{ fontSize: 11, color: "#94a3b8" }} />
-              <Line
-                type="monotone"
-                dataKey="standaloneAvg"
-                name="Standalone Health Avg"
-                stroke="#16a34a"
-                strokeWidth={2.5}
-                dot={{ r: 4 }}
-              />
-              <Line
-                type="monotone"
-                dataKey="pvtGeneralAvg"
-                name="Private General Avg"
-                stroke="#ea580c"
-                strokeWidth={2}
-                dot={{ r: 4 }}
-              />
-              <Line
-                type="monotone"
-                dataKey="industryAvg"
-                name="Industry Avg"
-                stroke="#64748b"
-                strokeWidth={1.5}
-                strokeDasharray="4 2"
-                dot={false}
-              />
-            </LineChart>
-          </ResponsiveContainer>
+          <div style={{ height: 240 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart
+                data={HEALTH_CSR_TREND}
+                margin={{ top: 5, right: 20, left: isMobile ? -15 : 0, bottom: 5 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
+                <XAxis dataKey="year" tick={{ fill: "#374151", fontSize: 11 }} />
+                <YAxis
+                  domain={[60, 110]}
+                  tick={{ fill: "#374151", fontSize: 11 }}
+                  tickFormatter={(v) => `${v}%`}
+                />
+                <Tooltip content={<CustomTooltip />} />
+                <Legend wrapperStyle={{ fontSize: 11, color: "#94a3b8" }} />
+                <Line
+                  type="monotone"
+                  dataKey="standaloneAvg"
+                  name="Standalone Health Avg"
+                  stroke="#16a34a"
+                  strokeWidth={2.5}
+                  dot={{ r: 4 }}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="pvtGeneralAvg"
+                  name="Private General Avg"
+                  stroke="#ea580c"
+                  strokeWidth={2}
+                  dot={{ r: 4 }}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="industryAvg"
+                  name="Industry Avg"
+                  stroke="#64748b"
+                  strokeWidth={1.5}
+                  strokeDasharray="4 2"
+                  dot={false}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
         </div>
       </div>
 
@@ -1059,28 +884,35 @@ function HealthTab({ selectedYear, isMobile }: { selectedYear: string; isMobile:
             <h3>Health Insurance Market Share ({selectedYear})</h3>
             <span className="db-chart-src">IRDAI Annual Report (Based on Premium)</span>
           </div>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart
-              data={healthMktShare}
-              margin={{ top: 5, right: 10, left: isMobile ? -15 : 10, bottom: isMobile ? 85 : 45 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
-              <XAxis
-                dataKey="name"
-                tick={{ fill: "#374151", fontSize: isMobile ? 8 : 10 }}
-                angle={isMobile ? -45 : -25}
-                textAnchor="end"
-                interval={0}
-              />
-              <YAxis tick={{ fill: "#374151", fontSize: 11 }} tickFormatter={(v) => `${v}%`} />
-              <Tooltip formatter={(v: number | string) => `${v}%`} />
-              <Bar dataKey="value" name="Market Share %" radius={[6, 6, 0, 0]}>
-                {healthMktShare.map((h, i) => (
-                  <Cell key={i} fill={h.color} />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
+          <div style={{ height: 300 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                data={healthMktShare}
+                margin={{
+                  top: 5,
+                  right: 10,
+                  left: isMobile ? -15 : 10,
+                  bottom: isMobile ? 85 : 45,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
+                <XAxis
+                  dataKey="name"
+                  tick={{ fill: "#374151", fontSize: isMobile ? 8 : 10 }}
+                  angle={isMobile ? -45 : -25}
+                  textAnchor="end"
+                  interval={0}
+                />
+                <YAxis tick={{ fill: "#374151", fontSize: 11 }} tickFormatter={(v) => `${v}%`} />
+                <Tooltip formatter={(v: number | string) => `${v}%`} />
+                <Bar dataKey="value" name="Market Share %" radius={[6, 6, 0, 0]}>
+                  {healthMktShare.map((h, i) => (
+                    <Cell key={i} fill={h.color} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </div>
 
         {/* Claim Settlement Ratio (CSR) of Top Health Insurers */}
@@ -1089,33 +921,35 @@ function HealthTab({ selectedYear, isMobile }: { selectedYear: string; isMobile:
             <h3>Top Health Insurers CSR ({selectedYear})</h3>
             <span className="db-chart-src">IRDAI Disclosures · Settled by Volume</span>
           </div>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart
-              data={healthCsr}
-              layout="vertical"
-              margin={{ top: 5, right: 15, left: isMobile ? 55 : 60, bottom: 5 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" horizontal={false} />
-              <XAxis
-                type="number"
-                domain={[85, 100]}
-                tick={{ fill: "#374151", fontSize: isMobile ? 9 : 11 }}
-                tickFormatter={(v) => `${v}%`}
-              />
-              <YAxis
-                dataKey="name"
-                type="category"
-                tick={{ fill: "#374151", fontSize: isMobile ? 9 : 11 }}
-                width={isMobile ? 65 : 80}
-              />
-              <Tooltip formatter={(v: number | string) => `${v}%`} />
-              <Bar dataKey="csr" name="CSR %" radius={[0, 6, 6, 0]}>
-                {healthCsr.map((h, i) => (
-                  <Cell key={i} fill={h.fill} />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
+          <div style={{ height: 300 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                data={healthCsr}
+                layout="vertical"
+                margin={{ top: 5, right: 15, left: isMobile ? 55 : 60, bottom: 5 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" horizontal={false} />
+                <XAxis
+                  type="number"
+                  domain={[85, 100]}
+                  tick={{ fill: "#374151", fontSize: isMobile ? 9 : 11 }}
+                  tickFormatter={(v) => `${v}%`}
+                />
+                <YAxis
+                  dataKey="name"
+                  type="category"
+                  tick={{ fill: "#374151", fontSize: isMobile ? 9 : 11 }}
+                  width={isMobile ? 65 : 80}
+                />
+                <Tooltip formatter={(v: number | string) => `${v}%`} />
+                <Bar dataKey="csr" name="CSR %" radius={[0, 6, 6, 0]}>
+                  {healthCsr.map((h, i) => (
+                    <Cell key={i} fill={h.fill} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </div>
       </div>
 
@@ -1126,28 +960,30 @@ function HealthTab({ selectedYear, isMobile }: { selectedYear: string; isMobile:
             <h3>Health Claims Volume by Category</h3>
             <span className="db-chart-src">Industry Claims Distribution</span>
           </div>
-          <ResponsiveContainer width="100%" height={260}>
-            <BarChart
-              data={HEALTH_CLAIM_CATEGORIES}
-              margin={{ top: 5, right: 10, left: isMobile ? -15 : 10, bottom: isMobile ? 65 : 5 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
-              <XAxis
-                dataKey="type"
-                tick={{ fill: "#374151", fontSize: isMobile ? 8 : 11 }}
-                angle={isMobile ? -35 : 0}
-                textAnchor={isMobile ? "end" : "middle"}
-                interval={0}
-              />
-              <YAxis tick={{ fill: "#374151", fontSize: 11 }} tickFormatter={(v) => `${v}%`} />
-              <Tooltip formatter={(v: number | string) => `${v}%`} />
-              <Bar dataKey="volume" name="Claims Volume %" radius={[6, 6, 0, 0]}>
-                {HEALTH_CLAIM_CATEGORIES.map((c, i) => (
-                  <Cell key={i} fill={c.color} />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
+          <div style={{ height: 260 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                data={HEALTH_CLAIM_CATEGORIES}
+                margin={{ top: 5, right: 10, left: isMobile ? -15 : 10, bottom: isMobile ? 65 : 5 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
+                <XAxis
+                  dataKey="type"
+                  tick={{ fill: "#374151", fontSize: isMobile ? 8 : 11 }}
+                  angle={isMobile ? -35 : 0}
+                  textAnchor={isMobile ? "end" : "middle"}
+                  interval={0}
+                />
+                <YAxis tick={{ fill: "#374151", fontSize: 11 }} tickFormatter={(v) => `${v}%`} />
+                <Tooltip formatter={(v: number | string) => `${v}%`} />
+                <Bar dataKey="volume" name="Claims Volume %" radius={[6, 6, 0, 0]}>
+                  {HEALTH_CLAIM_CATEGORIES.map((c, i) => (
+                    <Cell key={i} fill={c.color} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </div>
 
         {/* Claim Rejection Reasons Pie */}
@@ -1156,24 +992,26 @@ function HealthTab({ selectedYear, isMobile }: { selectedYear: string; isMobile:
             <h3>Common Claim Rejection Reasons</h3>
             <span className="db-chart-src">IRDAI Grievance & Rejection Reports</span>
           </div>
-          <ResponsiveContainer width="100%" height={180}>
-            <PieChart>
-              <Pie
-                data={HEALTH_REJECTION_REASONS}
-                cx="50%"
-                cy="50%"
-                outerRadius={70}
-                innerRadius={40}
-                dataKey="percentage"
-                nameKey="name"
-              >
-                {HEALTH_REJECTION_REASONS.map((r, i) => (
-                  <Cell key={i} fill={r.color} />
-                ))}
-              </Pie>
-              <Tooltip formatter={(v: number | string) => `${v}%`} />
-            </PieChart>
-          </ResponsiveContainer>
+          <div style={{ height: 180 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={HEALTH_REJECTION_REASONS}
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={70}
+                  innerRadius={40}
+                  dataKey="percentage"
+                  nameKey="name"
+                >
+                  {HEALTH_REJECTION_REASONS.map((r, i) => (
+                    <Cell key={i} fill={r.color} />
+                  ))}
+                </Pie>
+                <Tooltip formatter={(v: number | string) => `${v}%`} />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
           <div
             className="db-pie-legend"
             style={{ marginTop: "10px", gridTemplateColumns: "1fr 1fr", gap: "8px 16px" }}
@@ -1314,47 +1152,49 @@ function MotorTab({ selectedYear, isMobile }: { selectedYear: string; isMobile: 
             <h3>Motor Insurance Incurred Claims Ratio (ICR) Trend (2020-2026)</h3>
             <span className="db-chart-src">IRDAI General Insurance Annual Reports</span>
           </div>
-          <ResponsiveContainer width="100%" height={240}>
-            <LineChart
-              data={MOTOR_CSR_TREND}
-              margin={{ top: 5, right: 20, left: isMobile ? -15 : 0, bottom: 5 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
-              <XAxis dataKey="year" tick={{ fill: "#374151", fontSize: 11 }} />
-              <YAxis
-                domain={[70, 115]}
-                tick={{ fill: "#374151", fontSize: 11 }}
-                tickFormatter={(v) => `${v}%`}
-              />
-              <Tooltip content={<CustomTooltip />} />
-              <Legend wrapperStyle={{ fontSize: 11, color: "#94a3b8" }} />
-              <Line
-                type="monotone"
-                dataKey="pvtGeneralAvg"
-                name="Private General Avg"
-                stroke="#0284c7"
-                strokeWidth={2.5}
-                dot={{ r: 4 }}
-              />
-              <Line
-                type="monotone"
-                dataKey="psuAvg"
-                name="PSU Insurer Avg"
-                stroke="#ea580c"
-                strokeWidth={2}
-                dot={{ r: 4 }}
-              />
-              <Line
-                type="monotone"
-                dataKey="industryAvg"
-                name="Industry Avg"
-                stroke="#64748b"
-                strokeWidth={1.5}
-                strokeDasharray="4 2"
-                dot={false}
-              />
-            </LineChart>
-          </ResponsiveContainer>
+          <div style={{ height: 240 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart
+                data={MOTOR_CSR_TREND}
+                margin={{ top: 5, right: 20, left: isMobile ? -15 : 0, bottom: 5 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
+                <XAxis dataKey="year" tick={{ fill: "#374151", fontSize: 11 }} />
+                <YAxis
+                  domain={[70, 115]}
+                  tick={{ fill: "#374151", fontSize: 11 }}
+                  tickFormatter={(v) => `${v}%`}
+                />
+                <Tooltip content={<CustomTooltip />} />
+                <Legend wrapperStyle={{ fontSize: 11, color: "#94a3b8" }} />
+                <Line
+                  type="monotone"
+                  dataKey="pvtGeneralAvg"
+                  name="Private General Avg"
+                  stroke="#0284c7"
+                  strokeWidth={2.5}
+                  dot={{ r: 4 }}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="psuAvg"
+                  name="PSU Insurer Avg"
+                  stroke="#ea580c"
+                  strokeWidth={2}
+                  dot={{ r: 4 }}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="industryAvg"
+                  name="Industry Avg"
+                  stroke="#64748b"
+                  strokeWidth={1.5}
+                  strokeDasharray="4 2"
+                  dot={false}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
         </div>
       </div>
 
@@ -1365,28 +1205,35 @@ function MotorTab({ selectedYear, isMobile }: { selectedYear: string; isMobile: 
             <h3>Motor Insurance Market Share ({selectedYear})</h3>
             <span className="db-chart-src">GIC Flash Reports (Based on Premium)</span>
           </div>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart
-              data={motorMktShare}
-              margin={{ top: 5, right: 10, left: isMobile ? -15 : 10, bottom: isMobile ? 85 : 45 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
-              <XAxis
-                dataKey="name"
-                tick={{ fill: "#374151", fontSize: isMobile ? 8 : 10 }}
-                angle={isMobile ? -45 : -25}
-                textAnchor="end"
-                interval={0}
-              />
-              <YAxis tick={{ fill: "#374151", fontSize: 11 }} tickFormatter={(v) => `${v}%`} />
-              <Tooltip formatter={(v: number | string) => `${v}%`} />
-              <Bar dataKey="value" name="Market Share %" radius={[6, 6, 0, 0]}>
-                {motorMktShare.map((h, i) => (
-                  <Cell key={i} fill={h.color} />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
+          <div style={{ height: 300 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                data={motorMktShare}
+                margin={{
+                  top: 5,
+                  right: 10,
+                  left: isMobile ? -15 : 10,
+                  bottom: isMobile ? 85 : 45,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
+                <XAxis
+                  dataKey="name"
+                  tick={{ fill: "#374151", fontSize: isMobile ? 8 : 10 }}
+                  angle={isMobile ? -45 : -25}
+                  textAnchor="end"
+                  interval={0}
+                />
+                <YAxis tick={{ fill: "#374151", fontSize: 11 }} tickFormatter={(v) => `${v}%`} />
+                <Tooltip formatter={(v: number | string) => `${v}%`} />
+                <Bar dataKey="value" name="Market Share %" radius={[6, 6, 0, 0]}>
+                  {motorMktShare.map((h, i) => (
+                    <Cell key={i} fill={h.color} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </div>
 
         {/* Claim Settlement Ratio (CSR) of Top Motor Insurers */}
@@ -1395,33 +1242,35 @@ function MotorTab({ selectedYear, isMobile }: { selectedYear: string; isMobile: 
             <h3>Top Motor Insurers CSR ({selectedYear})</h3>
             <span className="db-chart-src">IRDAI General Insurance Filings</span>
           </div>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart
-              data={motorCsr}
-              layout="vertical"
-              margin={{ top: 5, right: 15, left: isMobile ? 55 : 60, bottom: 5 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" horizontal={false} />
-              <XAxis
-                type="number"
-                domain={[90, 100]}
-                tick={{ fill: "#374151", fontSize: isMobile ? 9 : 11 }}
-                tickFormatter={(v) => `${v}%`}
-              />
-              <YAxis
-                dataKey="name"
-                type="category"
-                tick={{ fill: "#374151", fontSize: isMobile ? 9 : 11 }}
-                width={isMobile ? 65 : 80}
-              />
-              <Tooltip formatter={(v: number | string) => `${v}%`} />
-              <Bar dataKey="csr" name="CSR %" radius={[0, 6, 6, 0]}>
-                {motorCsr.map((h, i) => (
-                  <Cell key={i} fill={h.fill} />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
+          <div style={{ height: 300 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                data={motorCsr}
+                layout="vertical"
+                margin={{ top: 5, right: 15, left: isMobile ? 55 : 60, bottom: 5 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" horizontal={false} />
+                <XAxis
+                  type="number"
+                  domain={[90, 100]}
+                  tick={{ fill: "#374151", fontSize: isMobile ? 9 : 11 }}
+                  tickFormatter={(v) => `${v}%`}
+                />
+                <YAxis
+                  dataKey="name"
+                  type="category"
+                  tick={{ fill: "#374151", fontSize: isMobile ? 9 : 11 }}
+                  width={isMobile ? 65 : 80}
+                />
+                <Tooltip formatter={(v: number | string) => `${v}%`} />
+                <Bar dataKey="csr" name="CSR %" radius={[0, 6, 6, 0]}>
+                  {motorCsr.map((h, i) => (
+                    <Cell key={i} fill={h.fill} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </div>
       </div>
 
@@ -1432,28 +1281,30 @@ function MotorTab({ selectedYear, isMobile }: { selectedYear: string; isMobile: 
             <h3>Own-Damage Claims by Cause</h3>
             <span className="db-chart-src">General Insurance Claim Portals</span>
           </div>
-          <ResponsiveContainer width="100%" height={260}>
-            <BarChart
-              data={MOTOR_CLAIM_CATEGORIES}
-              margin={{ top: 5, right: 10, left: isMobile ? -15 : 10, bottom: isMobile ? 65 : 5 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
-              <XAxis
-                dataKey="type"
-                tick={{ fill: "#374151", fontSize: isMobile ? 8 : 11 }}
-                angle={isMobile ? -35 : 0}
-                textAnchor={isMobile ? "end" : "middle"}
-                interval={0}
-              />
-              <YAxis tick={{ fill: "#374151", fontSize: 11 }} tickFormatter={(v) => `${v}%`} />
-              <Tooltip formatter={(v: number | string) => `${v}%`} />
-              <Bar dataKey="volume" name="Claims Volume %" radius={[6, 6, 0, 0]}>
-                {MOTOR_CLAIM_CATEGORIES.map((c, i) => (
-                  <Cell key={i} fill={c.color} />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
+          <div style={{ height: 260 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                data={MOTOR_CLAIM_CATEGORIES}
+                margin={{ top: 5, right: 10, left: isMobile ? -15 : 10, bottom: isMobile ? 65 : 5 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
+                <XAxis
+                  dataKey="type"
+                  tick={{ fill: "#374151", fontSize: isMobile ? 8 : 11 }}
+                  angle={isMobile ? -35 : 0}
+                  textAnchor={isMobile ? "end" : "middle"}
+                  interval={0}
+                />
+                <YAxis tick={{ fill: "#374151", fontSize: 11 }} tickFormatter={(v) => `${v}%`} />
+                <Tooltip formatter={(v: number | string) => `${v}%`} />
+                <Bar dataKey="volume" name="Claims Volume %" radius={[6, 6, 0, 0]}>
+                  {MOTOR_CLAIM_CATEGORIES.map((c, i) => (
+                    <Cell key={i} fill={c.color} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </div>
 
         {/* Claim Rejection Reasons Pie */}
@@ -1462,24 +1313,26 @@ function MotorTab({ selectedYear, isMobile }: { selectedYear: string; isMobile: 
             <h3>Common Motor Rejection Reasons</h3>
             <span className="db-chart-src">IRDAI Grievance Reports</span>
           </div>
-          <ResponsiveContainer width="100%" height={180}>
-            <PieChart>
-              <Pie
-                data={MOTOR_REJECTION_REASONS}
-                cx="50%"
-                cy="50%"
-                outerRadius={70}
-                innerRadius={40}
-                dataKey="percentage"
-                nameKey="reason"
-              >
-                {MOTOR_REJECTION_REASONS.map((r, i) => (
-                  <Cell key={i} fill={r.color} />
-                ))}
-              </Pie>
-              <Tooltip formatter={(v: number | string) => `${v}%`} />
-            </PieChart>
-          </ResponsiveContainer>
+          <div style={{ height: 180 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={MOTOR_REJECTION_REASONS}
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={70}
+                  innerRadius={40}
+                  dataKey="percentage"
+                  nameKey="reason"
+                >
+                  {MOTOR_REJECTION_REASONS.map((r, i) => (
+                    <Cell key={i} fill={r.color} />
+                  ))}
+                </Pie>
+                <Tooltip formatter={(v: number | string) => `${v}%`} />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
           <div
             className="db-pie-legend"
             style={{ marginTop: "10px", gridTemplateColumns: "1fr 1fr", gap: "8px 16px" }}
