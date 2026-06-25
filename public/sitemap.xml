@@ -6,7 +6,7 @@
 
   <!-- Homepage -->
   <url>
-    <loc>https://nktinsurance.in/</loc>
+    <loc>https://nkt-insurance-urow.vercel.app/</loc>
     <lastmod>2026-06-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -14,7 +14,7 @@
 
   <!-- About -->
   <url>
-    <loc>https://nktinsurance.in/about</loc>
+    <loc>https://nkt-insurance-urow.vercel.app/about</loc>
     <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -22,7 +22,7 @@
 
   <!-- Services -->
   <url>
-    <loc>https://nktinsurance.in/services</loc>
+    <loc>https://nkt-insurance-urow.vercel.app/services</loc>
     <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
@@ -30,7 +30,7 @@
 
   <!-- Health Insurance -->
   <url>
-    <loc>https://nktinsurance.in/health-insurance</loc>
+    <loc>https://nkt-insurance-urow.vercel.app/health-insurance</loc>
     <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
@@ -38,7 +38,7 @@
 
   <!-- Life Insurance -->
   <url>
-    <loc>https://nktinsurance.in/life-insurance</loc>
+    <loc>https://nkt-insurance-urow.vercel.app/life-insurance</loc>
     <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
@@ -46,7 +46,7 @@
 
   <!-- Motor Insurance -->
   <url>
-    <loc>https://nktinsurance.in/motor-insurance</loc>
+    <loc>https://nkt-insurance-urow.vercel.app/motor-insurance</loc>
     <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -54,7 +54,7 @@
 
   <!-- Claims -->
   <url>
-    <loc>https://nktinsurance.in/claims</loc>
+    <loc>https://nkt-insurance-urow.vercel.app/claims</loc>
     <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -62,7 +62,7 @@
 
   <!-- Contact -->
   <url>
-    <loc>https://nktinsurance.in/contact</loc>
+    <loc>https://nkt-insurance-urow.vercel.app/contact</loc>
     <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

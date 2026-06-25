@@ -1,5 +1,5 @@
 # robots.txt for NKT Insurance Solutions
-# https://nktinsurance.in
+# https://nkt-insurance-urow.vercel.app
 
 User-agent: *
 Allow: /
@@ -24,4 +24,4 @@ Disallow: /_build/
 Disallow: /__data/
 
 # Sitemap location
-Sitemap: https://nktinsurance.in/sitemap.xml
+Sitemap: https://nkt-insurance-urow.vercel.app/sitemap.xml
