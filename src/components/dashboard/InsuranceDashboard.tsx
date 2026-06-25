@@ -179,6 +179,12 @@ export function InsuranceDashboard() {
           </div>
         </div>
 
+        {/* Mobile Back Button (Visible only on mobile header row) */}
+        <a href="/admin/login" className="db-mobile-back-btn">
+          <ArrowLeft size={14} />
+          <span>Back</span>
+        </a>
+
         {/* Analytics nav */}
         <div className="db-nav-section db-nav-section--tabs">
           <div className="db-nav-section-label">Analytics</div>
