@@ -16,8 +16,8 @@ const CATEGORIES = [
   { key: "Individual Death Claims", color: "#4f8ef7", icon: "death", shortKey: "Indl DC" },
   { key: "Group Death Claims", color: "#10b981", icon: "group", shortKey: "Group DC" },
   { key: "Individual Maturity Claims", color: "#f59e0b", icon: "maturity", shortKey: "Maturity" },
-  { key: "Individual Survival Benefit", color: "#a855f7", icon: "survival", shortKey: "Survival" },
-  { key: "Annuity / Pension Claims", color: "#ec4899", icon: "annuity", shortKey: "Annuity" },
+  { key: "Individual Survival Benefit", color: "#3b82f6", icon: "survival", shortKey: "Survival" },
+  { key: "Annuity / Pension Claims", color: "#0ea5e9", icon: "annuity", shortKey: "Annuity" },
   { key: "Micro-Insurance Death Claims", color: "#06b6d4", icon: "micro", shortKey: "Micro DC" },
 ];
 
@@ -429,13 +429,13 @@ export function IRDAIClaimsSection({ selectedYear: propYear }: IRDAIClaimsSectio
           <div className="irdai-stat-card">
             <div
               className="irdai-stat-icon"
-              style={{ background: "rgba(168,85,247,0.15)", color: "#a855f7" }}
+              style={{ background: "rgba(37,99,235,0.1)", color: "#2563eb" }}
             >
               <i className="fa-solid fa-file-invoice" style={{ fontSize: "22px" }}></i>
             </div>
             <div className="irdai-stat-body">
               <span className="irdai-stat-label">Amount Paid</span>
-              <span className="irdai-stat-value" style={{ color: "#a855f7" }}>
+              <span className="irdai-stat-value" style={{ color: "#2563eb" }}>
                 ₹{counts.amtCr.toLocaleString()} Cr
               </span>
               <span className="irdai-stat-sub">Total benefits · {activeYear}</span>

@@ -2,9 +2,10 @@ import { useState, useRef, useEffect, type FormEvent } from "react";
 
 import { createFileRoute } from "@tanstack/react-router";
 import { useScrollReveal } from "../hooks/useScrollReveal";
-import { WA_NUMBER, TEL, TEL_DISPLAY, EMAIL } from "../components/icons";
+import { WA_NUMBER, TEL, TEL_DISPLAY, EMAIL, WhatsAppIcon } from "../components/icons";
 import { Spinner } from "../components/Spinner";
 import { FaqAccordion } from "../components/FaqAccordion";
+import { PhoneCall, Search, FileText, Handshake, ArrowRight, Shield, Heart, Car, Clock, Users, Phone, Mail, Award, CheckCircle2 } from "lucide-react";
 
 import lifeSectionImg from "../assets/images/life_insurance_section.png";
 import lifeSectionWebp from "../assets/images/life_insurance_section.webp";
@@ -603,7 +604,7 @@ function CoverageCalculator({
         onClick={handleCalculate}
         style={{ width: "100%", height: "46px" }}
       >
-        Get Free Expert Consultation <i className="fa-solid fa-arrow-right" style={{ fontSize: "15px", marginLeft: "4px" }} />
+        Get Free Expert Consultation <ArrowRight size={15} style={{ marginLeft: "4px", display: "inline-block", verticalAlign: "middle" }} />
       </button>
     </div>
   );
@@ -890,7 +891,7 @@ function LeadForm({ insType, setInsType, coverAmount, age }: LeadFormProps) {
             gap: "8px",
           }}
         >
-          <i className="fa-brands fa-whatsapp" style={{ fontSize: "16px" }} /> WhatsApp Instead
+          <WhatsAppIcon size={16} /> WhatsApp Instead
         </a>
       </form>
     </div>
@@ -1065,7 +1066,7 @@ function Home() {
                   id="hero-cta-whatsapp"
                   className="hero-wa-btn"
                 >
-                  <i className="fa-brands fa-whatsapp" style={{ fontSize: "16px", color: "var(--color-secondary)" }} /> Chat on
+                  <WhatsAppIcon size={16} style={{ color: "var(--color-secondary)" }} /> Chat on
                   WhatsApp
                 </a>
               </div>
@@ -1212,11 +1213,11 @@ function Home() {
           }}
         >
           {[
-            { icon: <i className="fa-solid fa-certificate" style={{ fontSize: "16px" }} />, text: "IRDAI Authorised" },
-            { icon: <i className="fa-solid fa-award" style={{ fontSize: "16px" }} />, text: "LIC Licensed Partner" },
-            { icon: <i className="fa-solid fa-circle-check" style={{ fontSize: "16px" }} />, text: "Cashless Hospital Network" },
-            { icon: <i className="fa-solid fa-clock" style={{ fontSize: "16px" }} />, text: "24/7 Claim Support" },
-            { icon: <i className="fa-solid fa-users" style={{ fontSize: "16px" }} />, text: "1,000+ Families Served" },
+            { icon: <Shield size={16} />, text: "IRDAI Authorised" },
+            { icon: <Award size={16} />, text: "LIC Licensed Partner" },
+            { icon: <CheckCircle2 size={16} />, text: "Cashless Hospital Network" },
+            { icon: <Clock size={16} />, text: "24/7 Claim Support" },
+            { icon: <Users size={16} />, text: "1,000+ Families Served" },
           ].map(({ icon, text }, i) => (
             <div key={text} style={{ display: "flex", alignItems: "center", gap: "28px" }}>
               <div
@@ -1269,27 +1270,27 @@ function Home() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
                 <div style={{ display: "flex", alignItems: "flex-start", gap: "12px" }}>
-                  <i
-                    className="fa-solid fa-circle-check"
-                    style={{ fontSize: "20px", color: "var(--color-accent)", flexShrink: 0, marginTop: "2px" }}
+                  <CheckCircle2
+                    size={20}
+                    style={{ color: "var(--color-accent)", flexShrink: 0, marginTop: "2px" }}
                   />
                   <span style={{ fontSize: "0.9375rem", color: "var(--color-ink-2)" }}>
                     Compare LIC and private insurers
                   </span>
                 </div>
                 <div style={{ display: "flex", alignItems: "flex-start", gap: "12px" }}>
-                  <i
-                    className="fa-solid fa-circle-check"
-                    style={{ fontSize: "20px", color: "var(--color-accent)", flexShrink: 0, marginTop: "2px" }}
+                  <CheckCircle2
+                    size={20}
+                    style={{ color: "var(--color-accent)", flexShrink: 0, marginTop: "2px" }}
                   />
                   <span style={{ fontSize: "0.9375rem", color: "var(--color-ink-2)" }}>
                     Instant calculation based on current rates
                   </span>
                 </div>
                 <div style={{ display: "flex", alignItems: "flex-start", gap: "12px" }}>
-                  <i
-                    className="fa-solid fa-circle-check"
-                    style={{ fontSize: "20px", color: "var(--color-accent)", flexShrink: 0, marginTop: "2px" }}
+                  <CheckCircle2
+                    size={20}
+                    style={{ color: "var(--color-accent)", flexShrink: 0, marginTop: "2px" }}
                   />
                   <span style={{ fontSize: "0.9375rem", color: "var(--color-ink-2)" }}>
                     Pre-fill consultation form with one click
@@ -1365,7 +1366,7 @@ function Home() {
                   letterSpacing: "0.05em",
                 }}
               >
-                <i className="fa-solid fa-shield-halved" style={{ fontSize: "16px" }} aria-hidden="true" />
+                <Shield size={16} aria-hidden="true" />
                 Life Insurance
               </div>
               <h3
@@ -1413,9 +1414,9 @@ function Home() {
                       color: "var(--color-ink-2)",
                     }}
                   >
-                    <i
-                      className="fa-solid fa-circle-check"
-                      style={{ fontSize: "18px", color: "var(--color-accent)", flexShrink: 0, marginTop: "2px" }}
+                    <CheckCircle2
+                      size={18}
+                      style={{ color: "var(--color-accent)", flexShrink: 0, marginTop: "2px" }}
                     />
                     {item}
                   </li>
@@ -1426,7 +1427,7 @@ function Home() {
                 className="btn btn-outline"
                 style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}
               >
-                Learn More <i className="fa-solid fa-arrow-right" style={{ fontSize: "16px" }} />
+                Learn More <ArrowRight size={16} />
               </a>
             </div>
             <div
@@ -1519,7 +1520,7 @@ function Home() {
                   letterSpacing: "0.05em",
                 }}
               >
-                <i className="fa-solid fa-heart" style={{ fontSize: "16px" }} aria-hidden="true" />
+                <Heart size={16} aria-hidden="true" />
                 Health Insurance
               </div>
               <h3
@@ -1567,9 +1568,9 @@ function Home() {
                       color: "var(--color-ink-2)",
                     }}
                   >
-                    <i
-                      className="fa-solid fa-circle-check"
-                      style={{ fontSize: "18px", color: "var(--color-accent)", flexShrink: 0, marginTop: "2px" }}
+                    <CheckCircle2
+                      size={18}
+                      style={{ color: "var(--color-accent)", flexShrink: 0, marginTop: "2px" }}
                     />
                     {item}
                   </li>
@@ -1580,7 +1581,7 @@ function Home() {
                 className="btn btn-outline"
                 style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}
               >
-                Learn More <i className="fa-solid fa-arrow-right" style={{ fontSize: "16px" }} />
+                Learn More <ArrowRight size={16} />
               </a>
             </div>
           </article>
@@ -1613,7 +1614,7 @@ function Home() {
                   letterSpacing: "0.05em",
                 }}
               >
-                <i className="fa-solid fa-car" style={{ fontSize: "16px" }} aria-hidden="true" />
+                <Car size={16} aria-hidden="true" />
                 Motor Insurance
               </div>
               <h3
@@ -1661,9 +1662,9 @@ function Home() {
                       color: "var(--color-ink-2)",
                     }}
                   >
-                    <i
-                      className="fa-solid fa-circle-check"
-                      style={{ fontSize: "18px", color: "var(--color-accent)", flexShrink: 0, marginTop: "2px" }}
+                    <CheckCircle2
+                      size={18}
+                      style={{ color: "var(--color-accent)", flexShrink: 0, marginTop: "2px" }}
                     />
                     {item}
                   </li>
@@ -1674,7 +1675,7 @@ function Home() {
                 className="btn btn-outline"
                 style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}
               >
-                Learn More <i className="fa-solid fa-arrow-right" style={{ fontSize: "16px" }} />
+                Learn More <ArrowRight size={16} />
               </a>
             </div>
             <div
@@ -2035,9 +2036,9 @@ function Home() {
                       color: "#94A3B8",
                     }}
                   >
-                    <i
-                      className="fa-solid fa-circle-check"
-                      style={{ fontSize: "16px", color: "var(--color-accent)", flexShrink: 0 }}
+                    <CheckCircle2
+                      size={16}
+                      style={{ color: "var(--color-accent)", flexShrink: 0 }}
                     />{" "}
                     {h}
                   </li>
@@ -2051,7 +2052,7 @@ function Home() {
                   id="about-cta-consult"
                   style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}
                 >
-                  Book Consultation <i className="fa-solid fa-arrow-right" style={{ fontSize: "14px" }} />
+                  Book Consultation <ArrowRight size={14} />
                 </a>
                 <a
                   href={`tel:${TEL}`}
@@ -2071,7 +2072,7 @@ function Home() {
                   }}
                   id="about-cta-phone"
                 >
-                  <i className="fa-solid fa-phone" style={{ fontSize: "14px" }} /> {TEL_DISPLAY}
+                  <Phone size={14} /> {TEL_DISPLAY}
                 </a>
               </div>
             </div>
@@ -2133,13 +2134,13 @@ function Home() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
                 {[
-                  { href: `tel:${TEL}`, icon: <i className="fa-solid fa-phone" style={{ fontSize: "16px" }} />, label: TEL_DISPLAY },
+                  { href: `tel:${TEL}`, icon: <Phone size={16} />, label: TEL_DISPLAY },
                   {
                     href: `https://wa.me/${WA_NUMBER}`,
-                    icon: <i className="fa-brands fa-whatsapp" style={{ fontSize: "16px" }} />,
+                    icon: <WhatsAppIcon size={16} />,
                     label: "Chat on WhatsApp",
                   },
-                  { href: `mailto:${EMAIL}`, icon: <i className="fa-solid fa-envelope" style={{ fontSize: "16px" }} />, label: EMAIL },
+                  { href: `mailto:${EMAIL}`, icon: <Mail size={16} />, label: EMAIL },
                 ].map((item) => (
                   <a
                     key={item.href}

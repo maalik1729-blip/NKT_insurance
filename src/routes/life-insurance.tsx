@@ -262,7 +262,7 @@ const MAJOR_LIC_PLANS = [
       "Tax-free annual payouts under 10(10D)",
       "Maturity lump sum returned at age 100",
     ],
-    accent: "#7c3aed",
+    accent: "#0ea5e9",
   },
   {
     name: "LIC Children's Money Back",
@@ -277,7 +277,7 @@ const MAJOR_LIC_PLANS = [
       "Premium Waiver Benefit rider covers parent's untimely death",
       "Ensures child's education funding is uninterrupted",
     ],
-    accent: "#db2777",
+    accent: "#0d9488",
   },
   {
     name: "LIC New Jeevan Shanti",

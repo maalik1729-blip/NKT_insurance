@@ -8,32 +8,44 @@ import { Lead, AdvisorToast } from "./types";
 export function AdminDashboard() {
   const router = useRouter();
 
-  const [advisorEmail, setAdvisorEmail] = useState(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("nkt_advisor_email") || "";
-    }
-    return "";
-  });
-  const [advisorName, setAdvisorName] = useState(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("nkt_advisor_name") || "Mohamed Jiyavutheen";
-    }
-    return "Mohamed Jiyavutheen";
-  });
+  const [advisorEmail, setAdvisorEmail] = useState("");
+  const [advisorName, setAdvisorName] = useState("Mohamed Jiyavutheen");
   const [toasts, setToasts] = useState<AdvisorToast[]>([]);
+  const [leads, setLeads] = useState<Lead[]>([]);
+  const [mounted, setMounted] = useState(false);
 
-  const [leads, setLeads] = useState<Lead[]>(() => {
+  // Load state from localStorage on mount to prevent SSR hydration mismatch
+  useEffect(() => {
+    const storedEmail = localStorage.getItem("nkt_advisor_email") || "";
+    const storedName = localStorage.getItem("nkt_advisor_name") || "Mohamed Jiyavutheen";
+    let storedLeads: Lead[] = [];
     try {
       const stored = localStorage.getItem("nkt_leads");
       const parsed = stored ? JSON.parse(stored) : [];
-      // Clean up any old seed leads from localStorage
-      const filtered = (parsed as Lead[]).filter((l) => !l.id.startsWith("lead_seed_"));
-      localStorage.setItem("nkt_leads", JSON.stringify(filtered));
-      return filtered;
+      
+      // Clean up any old seed leads and specific default mock profiles from localStorage
+      const seedNames = new Set([
+        "Rajesh Sharma",
+        "Priya Patel",
+        "Amit Verma",
+        "Sunita Rao",
+        "Vikram Singh",
+        "Anil Gupta"
+      ]);
+      
+      storedLeads = (parsed as Lead[]).filter(
+        (l) => !l.id.startsWith("lead_seed_") && !seedNames.has(l.name)
+      );
+      localStorage.setItem("nkt_leads", JSON.stringify(storedLeads));
     } catch {
-      return [];
+      storedLeads = [];
     }
-  });
+
+    setAdvisorEmail(storedEmail);
+    setAdvisorName(storedName);
+    setLeads(storedLeads);
+    setMounted(true);
+  }, []);
 
   // Intercept back button when advisor is logged in to stay in Admin panel
   useEffect(() => {
@@ -120,7 +132,7 @@ export function AdminDashboard() {
   const handleAdvisorLoginSuccess = (email: string) => {
     setAdvisorEmail(email);
     const name =
-      email === "advisor@nktinsurance.com" || email === "admin"
+      email === "admin"
         ? "Mohamed Jiyavutheen"
         : email
             .split("@")[0]
@@ -137,6 +149,37 @@ export function AdminDashboard() {
     localStorage.removeItem("nkt_advisor_name");
     router.navigate({ to: "/admin/login" });
   };
+
+  if (!mounted) {
+    return (
+      <div
+        className="admin-portal-loading"
+        style={{
+          minHeight: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          background: "#F8FAFC",
+        }}
+      >
+        <div
+          style={{
+            width: "36px",
+            height: "36px",
+            borderRadius: "50%",
+            border: "3px solid #E2E8F0",
+            borderTopColor: "#2563EB",
+            animation: "spin 1s linear infinite",
+          }}
+        />
+        <style>{`
+          @keyframes spin {
+            to { transform: rotate(360deg); }
+          }
+        `}</style>
+      </div>
+    );
+  }
 
   if (advisorEmail) {
     return (

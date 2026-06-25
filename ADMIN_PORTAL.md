@@ -109,8 +109,8 @@ Two methods are supported:
 - Email + password form with show/hide password toggle (`Eye` / `EyeOff` icons)
 - Hardcoded staging credentials:
   ```
-  Email:    advisor@nktinsurance.com
-  Password: nkt123
+  Username: admin
+  Password: admin123
   ```
 - 800ms simulated async delay
 
@@ -300,7 +300,7 @@ The `GoogleOAuthProvider` wraps the entire route with the app's Client ID (set v
 This is a **demo/staging** portal — not a production authentication system. Key limitations:
 
 - No real server-side auth
-- Advisor credentials are hardcoded (`nkt123`)
+- Advisor credentials are hardcoded (`admin123`)
 - Lead data stored only in browser localStorage (not synced to server)
 - Session resets on page refresh
 - Google OAuth is wired but doesn't gate anything server-side

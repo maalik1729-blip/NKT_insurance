@@ -54,8 +54,8 @@ const PRIVATE_LAPSE_2023 = [
   { name: "SBI Life", lapsed: 258.671, color: "#4f8ef7" },
   { name: "Shriram Life", lapsed: 199.398, color: "#10b981" },
   { name: "HDFC Life", lapsed: 169.513, color: "#f59e0b" },
-  { name: "ICICI Prudential", lapsed: 149.969, color: "#a855f7" },
-  { name: "Axis Max Life", lapsed: 111.381, color: "#ec4899" },
+  { name: "ICICI Prudential", lapsed: 149.969, color: "#0ea5e9" },
+  { name: "Axis Max Life", lapsed: 111.381, color: "#0f766e" },
   { name: "Bajaj Allianz", lapsed: 85.451, color: "#06b6d4" },
   { name: "PNB MetLife", lapsed: 59.004, color: "#f97316" },
   { name: "Kotak Mahindra", lapsed: 70.962, color: "#84cc16" },
@@ -64,9 +64,9 @@ const PRIVATE_LAPSE_2023 = [
 const REGION_COLORS: Record<string, string> = {
   North: "#4f8ef7",
   South: "#10b981",
+  Central: "#0f766e",
   East: "#f59e0b",
-  West: "#a855f7",
-  Central: "#ec4899",
+  West: "#0ea5e9",
   NE: "#06b6d4",
 };
 

@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import { TEL, TEL_DISPLAY, WA_NUMBER, EMAIL } from "./icons";
+import { TEL, TEL_DISPLAY, WA_NUMBER, EMAIL, WhatsAppIcon } from "./icons";
+import { Phone, Mail, ArrowUpRight } from "lucide-react";
 import logoImg from "../assets/images/logo.png";
 
 export function SiteFooter() {
@@ -72,13 +73,13 @@ export function SiteFooter() {
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
               {[
-                { href: `tel:${TEL}`, icon: <i className="fa-solid fa-phone" style={{ fontSize: "13px" }}></i>, label: TEL_DISPLAY },
+                { href: `tel:${TEL}`, icon: <Phone size={13} />, label: TEL_DISPLAY },
                 {
                   href: `https://wa.me/${WA_NUMBER}`,
-                  icon: <i className="fa-brands fa-whatsapp" style={{ fontSize: "13px" }}></i>,
+                  icon: <WhatsAppIcon size={13} />,
                   label: "WhatsApp Chat",
                 },
-                { href: `mailto:${EMAIL}`, icon: <i className="fa-solid fa-envelope" style={{ fontSize: "13px" }}></i>, label: EMAIL },
+                { href: `mailto:${EMAIL}`, icon: <Mail size={13} />, label: EMAIL },
               ].map((item) => (
                 <a
                   key={item.href}
@@ -236,7 +237,7 @@ export function SiteFooter() {
                   transition: "gap 160ms",
                 }}
               >
-                Talk to an Advisor <i className="fa-solid fa-arrow-up-right" style={{ fontSize: "14px" }}></i>
+                Talk to an Advisor <ArrowUpRight size={14} />
               </Link>
             </div>
             <div

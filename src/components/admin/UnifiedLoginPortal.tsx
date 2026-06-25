@@ -70,8 +70,12 @@ export function UnifiedLoginPortal({ onAdvisorLoginSuccess }: UnifiedLoginPortal
         />
 
         {/* Logo */}
-        <Link
-          to="/"
+        <a
+          href="/"
+          onClick={(e) => {
+            e.preventDefault();
+            window.location.href = "/";
+          }}
           style={{
             display: "flex",
             alignItems: "center",
@@ -110,7 +114,7 @@ export function UnifiedLoginPortal({ onAdvisorLoginSuccess }: UnifiedLoginPortal
               Solutions Platform
             </div>
           </div>
-        </Link>
+        </a>
 
         {/* Marketing Hero and Trust Badges grouped for mobile hiding */}
         <div className="login-marketing-content" style={{ display: "contents" }}>

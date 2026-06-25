@@ -1,11 +1,64 @@
 /* ================================================================
    INDIA INSURANCE MARKET SECTION
    ================================================================ */
+
+/* ── Dashboard light-theme context overrides ── */
+/* Card appearance (white bg, border, shadow) is provided by wrapper div inline styles in MarketTab */
+.db-main .mkt-section {
+  background: transparent !important;
+  overflow: visible !important;
+  color: #0f172a !important;
+}
+.db-main .mkt-section::before,.db-main .mkt-section::after { display:none !important; }
+.db-main .mkt-title { color: #0f172a !important; font-family: inherit !important; }
+.db-main .mkt-title span { background: linear-gradient(135deg,#2563eb,#1d4ed8) !important; -webkit-background-clip:text !important; -webkit-text-fill-color:transparent !important; background-clip:text !important; }
+.db-main .mkt-subtitle { color: #475569 !important; }
+.db-main .mkt-badge { background: rgba(37,99,235,0.09) !important; color: #2563eb !important; }
+.db-main .mkt-topstat { background: #f8fafc !important; border: 1px solid rgba(15,23,42,0.1) !important; }
+.db-main .mkt-topstat-value { color: #0f172a !important; font-family: inherit !important; }
+.db-main .mkt-topstat-label { color: #64748b !important; }
+.db-main .mkt-card { background: #f8fafc !important; border: 1px solid rgba(15,23,42,0.08) !important; }
+.db-main .mkt-card-title { color: #0f172a !important; font-family: inherit !important; }
+.db-main .mkt-card-note { color: #64748b !important; }
+.db-main .mkt-donut-pct { color: #0f172a !important; font-family: inherit !important; }
+.db-main .mkt-donut-label strong { color: #0f172a !important; }
+.db-main .mkt-donut-label span { color: #64748b !important; }
+.db-main .mkt-seg-name { color: #334155 !important; }
+.db-main .mkt-seg-track { background: rgba(15,23,42,0.07) !important; }
+.db-main .mkt-seg-val { color: #64748b !important; }
+.db-main .mkt-card-wide { background: #f8fafc !important; border: 1px solid rgba(15,23,42,0.08) !important; }
+.db-main .mkt-trend-total { color: #475569 !important; }
+.db-main .mkt-trend-stack { background: rgba(15,23,42,0.05) !important; }
+.db-main .mkt-trend-yr { color: #64748b !important; }
+.db-main .mkt-trend-legend span { color: #64748b !important; }
+.db-main .mkt-section-header h3 { color: #0f172a !important; font-family: inherit !important; }
+.db-main .mkt-section-header p { color: #64748b !important; }
+.db-main .mkt-plan-card { background: #fff !important; border: 1px solid rgba(15,23,42,0.09) !important; }
+.db-main .mkt-plan-name { color: #0f172a !important; font-family: inherit !important; }
+.db-main .mkt-plan-subname,.db-main .mkt-plan-why,.db-main .mkt-plan-pop-label { color: #64748b !important; }
+.db-main .mkt-plan-users { color: #475569 !important; }
+.db-main .mkt-plan-pop-bar { background: rgba(15,23,42,0.07) !important; }
+.db-main .mkt-plan-detail { border-top: 1px solid rgba(15,23,42,0.07) !important; }
+.db-main .mkt-plan-detail-row { color: #64748b !important; }
+.db-main .mkt-plan-detail-row strong { color: #0f172a !important; }
+.db-main .mkt-plan-example { background: #f1f5f9 !important; color: #475569 !important; border: 1px solid rgba(15,23,42,0.07) !important; }
+.db-main .mkt-claim-card { background: #fff !important; border: 1px solid rgba(15,23,42,0.09) !important; }
+.db-main .mkt-claim-no { color: #0f172a !important; font-family: inherit !important; }
+.db-main .mkt-claim-label,.db-main .mkt-claim-source { color: #64748b !important; }
+.db-main .mkt-claim-amt { color: #475569 !important; }
+.db-main .mkt-claim-bar-track { background: rgba(15,23,42,0.06) !important; }
+.db-main .mkt-footer { color: #94a3b8 !important; }
+.db-main .mkt-header,.db-main .mkt-topstats,.db-main .mkt-overview-grid,.db-main .mkt-section-header,.db-main .mkt-plans-grid,.db-main .mkt-claims-grid,.db-main .mkt-card-wide,.db-main .mkt-footer { max-width:100% !important; padding-inline:0 !important; }
+.db-main .mkt-topstats { grid-template-columns: repeat(2,1fr) !important; }
+@media (min-width:900px) { .db-main .mkt-topstats { grid-template-columns: repeat(4,1fr) !important; } }
+
+/* ── Original dark section styles (standalone page usage) ── */
 .mkt-section {
   padding: clamp(5rem, 10vw, 7rem) 0;
-  background: linear-gradient(180deg, #020817 0%, #0f172a 50%, #1a0533 100%);
+  background: linear-gradient(180deg, #020817 0%, #0f172a 50%, #0f172a 100%);
   position: relative;
   overflow: hidden;
+  color: #f8fafc; /* default for dark-bg standalone usage; overridden by inline style in dashboard */
 }
 .mkt-section::before {
   content: "";
@@ -15,7 +68,7 @@
   width: 600px;
   height: 600px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(168, 85, 247, 0.08) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.08) 0%, transparent 70%);
   pointer-events: none;
 }
 .mkt-section::after {
@@ -41,11 +94,11 @@
   gap: 6px;
   padding: 5px 14px;
   border-radius: 99px;
-  background: rgba(168, 85, 247, 0.15);
-  border: 1px solid rgba(168, 85, 247, 0.3);
+  background: rgba(37, 99, 235, 0.09);
+  border: 1px solid rgba(37, 99, 235, 0.2);
   font-size: 0.72rem;
   font-weight: 700;
-  color: #c084fc;
+  color: #2563eb;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   margin-bottom: 16px;
@@ -54,12 +107,12 @@
   font-family: var(--font-display);
   font-size: clamp(1.8rem, 4vw, 2.8rem);
   font-weight: 900;
-  color: #f8fafc;
+  /* color inherits from .mkt-section */
   letter-spacing: -0.03em;
   margin-bottom: 12px;
 }
 .mkt-title span {
-  background: linear-gradient(135deg, #a855f7, #4f8ef7);
+  background: linear-gradient(135deg, #1d4ed8, #4f8ef7);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -69,7 +122,7 @@
   color: #94a3b8;
 }
 .mkt-link {
-  color: #a855f7;
+  color: #2563eb;
   display: inline-flex;
   align-items: center;
   gap: 3px;
@@ -96,7 +149,7 @@
   font-family: var(--font-display);
   font-size: 1.6rem;
   font-weight: 900;
-  color: #f1f5f9;
+  /* color inherits from .mkt-section */
   letter-spacing: -0.02em;
 }
 .mkt-topstat-label {
@@ -136,7 +189,7 @@
   font-family: var(--font-display);
   font-size: 1rem;
   font-weight: 700;
-  color: #e2e8f0;
+  /* color inherits from .mkt-section */
   margin-bottom: 4px;
 }
 .mkt-card-note {
@@ -177,7 +230,7 @@
   font-family: var(--font-display);
   font-size: 1.1rem;
   font-weight: 900;
-  color: #f1f5f9;
+  /* color inherits from .mkt-section */
 }
 .mkt-donut-label {
   display: flex;
@@ -262,6 +315,7 @@
   display: flex;
   flex-direction: column-reverse;
   width: 40px;
+  height: 180px;
   gap: 2px;
 }
 .mkt-trend-bar {
@@ -312,7 +366,7 @@
   font-family: var(--font-display);
   font-size: 1.3rem;
   font-weight: 800;
-  color: #f1f5f9;
+  /* color inherits from .mkt-section */
   margin-bottom: 4px;
 }
 .mkt-section-header p {
@@ -395,7 +449,7 @@
 .mkt-plan-name {
   font-size: 0.95rem;
   font-weight: 700;
-  color: #f1f5f9;
+  /* color inherits from .mkt-section */
   margin-bottom: 2px;
 }
 .mkt-plan-subname {
@@ -450,9 +504,7 @@
   font-size: 0.75rem;
   color: #94a3b8;
 }
-.mkt-plan-detail-row strong {
-  color: #e2e8f0;
-}
+/* .mkt-plan-detail-row strong — color inherits from .mkt-section */
 .mkt-plan-why {
   font-size: 0.73rem;
   color: #64748b;
@@ -515,7 +567,7 @@
   font-family: var(--font-display);
   font-size: 2rem;
   font-weight: 900;
-  color: #f1f5f9;
+  /* color inherits from .mkt-section */
   letter-spacing: -0.03em;
   line-height: 1;
 }
@@ -554,7 +606,7 @@
   margin: 0 auto;
 }
 .mkt-footer a {
-  color: #a855f7;
+  color: #2563eb;
 }
 
 /* Responsive */

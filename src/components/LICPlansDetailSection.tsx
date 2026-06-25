@@ -10,12 +10,12 @@ const PLAN_CATEGORIES = [
   { key: "term", label: "Term Plans", color: "#4f8ef7", icon: "shield" },
   { key: "endowment", label: "Endowment Plans", color: "#10b981", icon: "trending" },
   { key: "moneyback", label: "Money Back Plans", color: "#f59e0b", icon: "refresh" },
-  { key: "ulip", label: "ULIP Plans", color: "#a855f7", icon: "zap" },
-  { key: "pension", label: "Pension / Annuity", color: "#ec4899", icon: "building" },
+  { key: "ulip", label: "ULIP Plans", color: "#0ea5e9", icon: "zap" },
+  { key: "pension", label: "Pension / Annuity", color: "#0f766e", icon: "building" },
   { key: "child", label: "Child Plans", color: "#f97316", icon: "baby" },
   { key: "group", label: "Group Plans", color: "#06b6d4", icon: "users" },
   { key: "health", label: "Health & Riders", color: "#84cc16", icon: "heart" },
-  { key: "micro", label: "Micro-Insurance", color: "#8b5cf6", icon: "star" },
+  { key: "micro", label: "Micro-Insurance", color: "#475569", icon: "star" },
 ];
 
 const ALL_PLANS: {

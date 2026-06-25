@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Link } from "@tanstack/react-router";
 import {
   AreaChart,
@@ -119,54 +119,78 @@ export function InsuranceDashboard() {
   const [selectedYear, setSelectedYear] = useState<string>("2024-25");
   const [isMobile, setIsMobile] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     setMounted(true);
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
+      const w = window.innerWidth;
+      setIsMobile(w < 768);
+      if (w < 800) setSidebarOpen(false);
     };
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const YEARS = ["2020-21", "2021-22", "2022-23", "2023-24", "2024-25", "2025-26"];
+
+  const NAV_TABS = [
+    { key: "claims", label: "Claims",  icon: ShieldCheck },
+    { key: "plans",  label: "Market",  icon: BarChart2   },
+    { key: "market", label: "Compare", icon: TrendingUp  },
+    { key: "state",  label: "State",   icon: MapPin      },
+    { key: "health", label: "Health",  icon: Heart       },
+    { key: "motor",  label: "Motor",   icon: Car         },
+  ] as const;
+
   return (
     <div className="db-root">
-      {/* Sidebar */}
-      <aside className="db-sidebar">
-        <Link to="/" className="db-logo-link">
-          <div className="db-logo">
-            <img
-              src={logoImg}
-              alt="NKT Logo"
-              style={{ width: "36px", height: "36px", objectFit: "contain", flexShrink: 0 }}
-            />
-            <div className="db-logo-text">
-              <span className="db-logo-name">NKT Insurance</span>
-              <span className="db-logo-sub">LIC · IRDAI Data</span>
-            </div>
-          </div>
-        </Link>
+      {/* ── Sidebar ── */}
+      <aside className={`db-sidebar ${sidebarOpen ? "open" : ""}`}>
+        {/* Toggle chevron button */}
+        <button
+          className="db-sidebar-toggle"
+          onClick={() => setSidebarOpen((v) => !v)}
+          title={sidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
+          aria-label="Toggle sidebar"
+        >
+          {sidebarOpen ? (
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+              <path d="M6.5 1.5L3 5l3.5 3.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          ) : (
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+              <path d="M3.5 1.5L7 5l-3.5 3.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          )}
+        </button>
 
+        {/* Logo */}
+        <div className="db-logo">
+          <img
+            src={logoImg}
+            alt="NKT Logo"
+            style={{ width: "32px", height: "32px", objectFit: "contain", flexShrink: 0 }}
+          />
+          <div className="db-logo-text">
+            <span className="db-logo-name">NKT Insurance</span>
+            <span className="db-logo-sub">LIC · IRDAI Data</span>
+          </div>
+        </div>
+
+        {/* Analytics nav */}
         <div className="db-nav-section db-nav-section--tabs">
           <div className="db-nav-section-label">Analytics</div>
           <nav className="db-nav">
-            {(
-              [
-                { key: "claims", label: "Claims Data", icon: ShieldCheck },
-                { key: "plans", label: "Market & Plans", icon: BarChart2 },
-                { key: "market", label: "Insurer Compare", icon: TrendingUp },
-                { key: "state", label: "State & Lapse", icon: MapPin },
-                { key: "health", label: "Health Claims", icon: Heart },
-                { key: "motor", label: "Motor Claims", icon: Car },
-              ] as const
-            ).map(({ key, label, icon: Icon }) => (
+            {NAV_TABS.map(({ key, label, icon: Icon }) => (
               <button
                 key={key}
                 className={`db-nav-btn ${activeTab === key ? "active" : ""}`}
                 onClick={() => setActiveTab(key)}
+                title={label}
               >
-                <Icon size={15} />
+                <Icon size={16} />
                 <span>{label}</span>
                 <span className="db-nav-btn-dot" />
               </button>
@@ -176,162 +200,185 @@ export function InsuranceDashboard() {
 
         <div className="db-sidebar-divider" />
 
+        {/* Navigation back */}
         <div className="db-nav-section db-nav-section--nav">
           <div className="db-nav-section-label">Navigation</div>
           <nav className="db-nav">
-            <Link to="/" className="db-nav-btn back-btn">
-              <ArrowLeft size={15} />
-              <span>Back to Home</span>
-            </Link>
+            <a href="/admin/login" className="db-nav-btn back-btn" title="Back">
+              <ArrowLeft size={16} />
+              <span>Back</span>
+            </a>
           </nav>
         </div>
 
         <div className="db-sidebar-divider" />
 
+        {/* Footer */}
         <div className="db-sidebar-footer">
           <p>Data Sources:</p>
           <p>
-            <a
-              href="https://irdai.gov.in/en/handbook-of-indian-insurance"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a href="https://irdai.gov.in/en/handbook-of-indian-insurance" target="_blank" rel="noopener noreferrer">
               IRDAI Handbook 2024-25
             </a>
           </p>
           <p>
-            <a
-              href="https://licindia.in/web/guest/annual-report"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a href="https://licindia.in/web/guest/annual-report" target="_blank" rel="noopener noreferrer">
               LIC Annual Report 2023-24
             </a>
           </p>
         </div>
       </aside>
 
-      {/* Main content */}
+      {/* ── Main ── */}
       <main className="db-main">
         {/* Top bar */}
         <div className="db-topbar">
           <div>
-            <h1 className="db-page-title">Insurance Analytics Dashboard</h1>
-            <p className="db-page-sub">
-              Official IRDAI data · Health & Motor Claims · 2020 to 2026
-            </p>
+            <h1 className="db-page-title">Insurance Analytics</h1>
+            <p className="db-page-sub">Official IRDAI data · LIC Annual Reports · 2020–2026</p>
           </div>
           <div className="db-topbar-right">
-            <div
-              className="db-year-selector"
-              style={{ display: "flex", alignItems: "center", gap: "8px" }}
-            >
-              <span style={{ fontSize: "0.85rem", color: "#64748b" }}>Year:</span>
-              <select
-                value={selectedYear}
-                onChange={(e) => setSelectedYear(e.target.value)}
-                style={{
-                  background: "rgba(255, 255, 255, 0.8)",
-                  backdropFilter: "blur(8px)",
-                  border: "1px solid rgba(15, 23, 42, 0.08)",
-                  borderRadius: "8px",
-                  padding: "6px 12px",
-                  fontSize: "0.85rem",
-                  color: "#1e293b",
-                  outline: "none",
-                  cursor: "pointer",
-                  fontWeight: 600,
-                  boxShadow: "0 2px 8px rgba(0,0,0,0.02)",
-                }}
-              >
-                <option value="2020-21">2020-21</option>
-                <option value="2021-22">2021-22</option>
-                <option value="2022-23">2022-23</option>
-                <option value="2023-24">2023-24</option>
-                <option value="2024-25">2024-25</option>
-                <option value="2025-26">2025-26 (Proj)</option>
-              </select>
+            {/* Year pill selector */}
+            <div className="db-year-pills">
+              {YEARS.map((y) => (
+                <button
+                  key={y}
+                  className={`db-year-pill ${selectedYear === y ? "active" : ""}`}
+                  onClick={() => setSelectedYear(y)}
+                >
+                  {y === "2025-26" ? "2025-26★" : y}
+                </button>
+              ))}
             </div>
             <span className="db-live-badge">
               <span className="db-live-dot" />
-              Live Data
+              Live
             </span>
-            <span className="db-updated">Updated: June 2026</span>
+            <span className="db-updated hide-mobile">Jun 2026</span>
           </div>
         </div>
 
-        {/* KPI Cards */}
-        <div className="db-kpi-grid">
-          {KPI_CARDS.map((k) => (
-            <div
-              key={k.label}
-              className="db-kpi-card"
-              style={{ "--kpi-clr": k.color } as React.CSSProperties}
-            >
-              <div className="db-kpi-icon" style={{ background: `${k.color}20`, color: k.color }}>
-                <KPIIcon type={k.icon} />
+        {/* Inner scrollable area */}
+        <div className="db-inner">
+          {/* Global KPI Cards */}
+          <div className="db-kpi-grid">
+            {KPI_CARDS.map((k) => (
+              <div
+                key={k.label}
+                className="db-kpi-card"
+                style={{ "--kpi-clr": k.color } as React.CSSProperties}
+              >
+                <div className="db-kpi-icon" style={{ background: `${k.color}18`, color: k.color }}>
+                  <KPIIcon type={k.icon} size={18} />
+                </div>
+                <div className="db-kpi-body">
+                  <span className="db-kpi-label">{k.label}</span>
+                  <span className="db-kpi-value">{k.value}</span>
+                  <span className={`db-kpi-delta ${k.up ? "up" : "down"}`}>
+                    {k.up ? <ArrowUpRight size={12} /> : <ArrowDownRight size={12} />}
+                    {k.delta} vs prev yr
+                  </span>
+                </div>
               </div>
-              <div className="db-kpi-body">
-                <span className="db-kpi-label">{k.label}</span>
-                <span className="db-kpi-value">{k.value}</span>
-                <span className={`db-kpi-delta ${k.up ? "up" : "down"}`}>
-                  {k.up ? <ArrowUpRight size={12} /> : <ArrowDownRight size={12} />}
-                  {k.delta} vs prev yr
-                </span>
-              </div>
+            ))}
+          </div>
+
+          {/* Horizontal tab bar */}
+          <div className="db-tab-nav">
+            {NAV_TABS.map(({ key, label, icon: Icon }) => (
+              <button
+                key={key}
+                className={`db-tab-btn ${activeTab === key ? "active" : ""}`}
+                onClick={() => setActiveTab(key)}
+              >
+                <Icon size={14} />
+                <span>{label}</span>
+              </button>
+            ))}
+          </div>
+
+          {/* Tab content */}
+          {mounted ? (
+            <>
+              {activeTab === "claims" && <ClaimsTab selectedYear={selectedYear} isMobile={isMobile} />}
+              {activeTab === "plans"  && <MarketTab selectedYear={selectedYear} isMobile={isMobile} />}
+              {activeTab === "market" && <InsurerTab selectedYear={selectedYear} isMobile={isMobile} />}
+              {activeTab === "state"  && <StateTab selectedYear={selectedYear} isMobile={isMobile} />}
+              {activeTab === "health" && <HealthTab selectedYear={selectedYear} isMobile={isMobile} />}
+              {activeTab === "motor"  && <MotorTab selectedYear={selectedYear} isMobile={isMobile} />}
+            </>
+          ) : (
+            <div style={{
+              display: "flex", alignItems: "center", justifyContent: "center",
+              height: "400px", fontSize: "0.9rem", color: "var(--tx-3)"
+            }}>
+              Loading analytics…
             </div>
-          ))}
+          )}
         </div>
-
-        {/* Tab content */}
-        {mounted ? (
-          <>
-            {activeTab === "claims" && (
-              <ClaimsTab selectedYear={selectedYear} isMobile={isMobile} />
-            )}
-            {activeTab === "plans" && <MarketTab selectedYear={selectedYear} isMobile={isMobile} />}
-            {activeTab === "market" && (
-              <InsurerTab selectedYear={selectedYear} isMobile={isMobile} />
-            )}
-            {activeTab === "state" && <StateTab selectedYear={selectedYear} isMobile={isMobile} />}
-            {activeTab === "health" && (
-              <HealthTab selectedYear={selectedYear} isMobile={isMobile} />
-            )}
-            {activeTab === "motor" && <MotorTab selectedYear={selectedYear} isMobile={isMobile} />}
-          </>
-        ) : (
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              height: "400px",
-              fontSize: "0.9rem",
-              color: "var(--db-text-muted)",
-            }}
-          >
-            Loading analytics dashboard...
-          </div>
-        )}
       </main>
     </div>
   );
 }
 
+
+// ── CSR Line Legend Labels ─────────────────────────────────────────
+const CSR_LINES = [
+  { key: "indlDeath", name: "Indl Death", color: COLORS_CSR.indlDeath },
+  { key: "groupDeath", name: "Group Death", color: COLORS_CSR.groupDeath },
+  { key: "maturity", name: "Maturity", color: COLORS_CSR.maturity },
+  { key: "survival", name: "Survival Benf", color: COLORS_CSR.survival },
+  { key: "annuity", name: "Annuity", color: COLORS_CSR.annuity },
+  { key: "industry", name: "Industry Avg", color: COLORS_CSR.industry, dashed: true },
+] as const;
+
 // ── TAB: CLAIMS ────────────────────────────────────────────────────
 function ClaimsTab({ selectedYear, isMobile }: { selectedYear: string; isMobile: boolean }) {
+  const [activeLine, setActiveLine] = useState<string | null>(null);
+
+  const handleLegendClick = useCallback((key: string) => {
+    setActiveLine((prev) => (prev === key ? null : key));
+  }, []);
+
   return (
     <div className="db-tab-content">
       {/* Row 1: High-Level Overview Trends */}
       <div className="db-charts-row">
-        {/* CSR Trend Line Chart */}
+        {/* CSR Trend Line Chart — with click-to-highlight */}
         <div className="db-chart-card db-chart-lg">
           <div className="db-chart-header">
             <h3>Claim Settlement Ratio Trend — All Types (2019-2025)</h3>
             <span className="db-chart-src">IRDAI Handbook 2024-25 + LIC Annual Report</span>
           </div>
+          {/* Custom interactive legend */}
+          <div className="db-csr-legend">
+            {CSR_LINES.map((l) => {
+              const isActive = activeLine === null || activeLine === l.key;
+              return (
+                <button
+                  key={l.key}
+                  className={`db-csr-leg-btn ${!isActive ? "faded" : ""} ${activeLine === l.key ? "selected" : ""}`}
+                  onClick={() => handleLegendClick(l.key)}
+                  title={`Click to highlight ${l.name}`}
+                >
+                  <span
+                    className="db-csr-leg-swatch"
+                    style={{
+                      background: l.color,
+                      opacity: isActive ? 1 : 0.3,
+                      ...("dashed" in l && l.dashed ? { backgroundImage: `repeating-linear-gradient(90deg,${l.color} 0,${l.color} 6px,transparent 6px,transparent 10px)`, background: "none" } : {}),
+                    }}
+                  />
+                  <span style={{ opacity: isActive ? 1 : 0.45 }}>{l.name}</span>
+                </button>
+              );
+            })}
+            {activeLine && (
+              <button className="db-csr-leg-clear" onClick={() => setActiveLine(null)}>✕ Show all</button>
+            )}
+          </div>
           <div style={{ height: 280 }}>
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="99%" height="100%">
               <LineChart
                 data={CSR_TREND}
                 margin={{ top: 5, right: 20, left: isMobile ? -15 : 10, bottom: 5 }}
@@ -339,64 +386,31 @@ function ClaimsTab({ selectedYear, isMobile }: { selectedYear: string; isMobile:
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
                 <XAxis dataKey="year" tick={{ fill: "#374151", fontSize: 11 }} />
                 <YAxis
-                  domain={[88, 100]}
+                  domain={[85, 100]}
                   tick={{ fill: "#374151", fontSize: 11 }}
                   tickFormatter={(v) => `${v}%`}
                 />
                 <Tooltip content={<CustomTooltip />} />
-                <Legend wrapperStyle={{ fontSize: 11, color: "#94a3b8" }} />
-                <Line
-                  type="monotone"
-                  dataKey="indlDeath"
-                  name="Indl Death"
-                  stroke={COLORS_CSR.indlDeath}
-                  strokeWidth={2}
-                  dot={{ r: 3 }}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="groupDeath"
-                  name="Group Death"
-                  stroke={COLORS_CSR.groupDeath}
-                  strokeWidth={2}
-                  dot={{ r: 3 }}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="maturity"
-                  name="Maturity"
-                  stroke={COLORS_CSR.maturity}
-                  strokeWidth={2}
-                  dot={{ r: 3 }}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="survival"
-                  name="Survival Benf"
-                  stroke={COLORS_CSR.survival}
-                  strokeWidth={2}
-                  dot={{ r: 3 }}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="annuity"
-                  name="Annuity"
-                  stroke={COLORS_CSR.annuity}
-                  strokeWidth={2}
-                  dot={{ r: 3 }}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="industry"
-                  name="Industry Avg"
-                  stroke={COLORS_CSR.industry}
-                  strokeWidth={1.5}
-                  strokeDasharray="4 2"
-                  dot={false}
-                />
+                {CSR_LINES.map((l) => {
+                  const isActive = activeLine === null || activeLine === l.key;
+                  return (
+                    <Line
+                      key={l.key}
+                      type="monotone"
+                      dataKey={l.key}
+                      name={l.name}
+                      stroke={l.color}
+                      strokeWidth={activeLine === l.key ? 3 : activeLine ? 1 : 2}
+                      strokeOpacity={isActive ? 1 : 0.15}
+                      dot={isActive ? { r: activeLine === l.key ? 5 : 3 } : false}
+                      strokeDasharray={"dashed" in l && l.dashed ? "4 2" : undefined}
+                    />
+                  );
+                })}
               </LineChart>
             </ResponsiveContainer>
           </div>
+          <p className="db-chart-hint">💡 Click a label above to highlight a single line</p>
         </div>
 
         {/* Death Claims Amount Trend — Verified LIC AR Data */}
@@ -406,7 +420,7 @@ function ClaimsTab({ selectedYear, isMobile }: { selectedYear: string; isMobile:
             <span className="db-chart-src">LIC AR (₹ Crore)</span>
           </div>
           <div style={{ height: 280 }}>
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="99%" height="100%">
               <AreaChart
                 data={DEATH_AMT_TREND}
                 margin={{ top: 5, right: 20, left: isMobile ? -15 : 10, bottom: 5 }}
@@ -436,22 +450,44 @@ function ClaimsTab({ selectedYear, isMobile }: { selectedYear: string; isMobile:
               </AreaChart>
             </ResponsiveContainer>
           </div>
+          <p className="db-chart-hint">📈 COVID-19 peak: ₹36,578 Cr in 2021-22</p>
         </div>
       </div>
 
-      <div style={{ marginTop: "12px" }}>
+
+      <div style={{
+        background: "#ffffff",
+        borderRadius: "16px",
+        border: "1px solid rgba(15,23,42,0.09)",
+        boxShadow: "0 1px 4px rgba(15,23,42,0.06), 0 4px 16px rgba(15,23,42,0.04)",
+        overflow: "hidden",
+        marginTop: "16px",
+        color: "#0f172a",
+      }}>
         <IRDAIClaimsSection selectedYear={selectedYear} />
       </div>
+
     </div>
   );
 }
 
 // ── TAB: MARKET & PLANS ────────────────────────────────────────────
 function MarketTab({ selectedYear, isMobile }: { selectedYear: string; isMobile: boolean }) {
+  const cardStyle: React.CSSProperties = {
+    background: "#ffffff",
+    borderRadius: "16px",
+    border: "1px solid rgba(15,23,42,0.09)",
+    boxShadow: "0 1px 4px rgba(15,23,42,0.06), 0 4px 16px rgba(15,23,42,0.04)",
+    overflow: "visible",
+    color: "#0f172a",
+    position: "relative",
+  };
   return (
     <div className="db-tab-content">
-      <IndiaInsuranceMarketSection selectedYear={selectedYear} />
-      <div style={{ marginTop: "24px" }}>
+      <div style={cardStyle}>
+        <IndiaInsuranceMarketSection selectedYear={selectedYear} />
+      </div>
+      <div style={{ ...cardStyle, marginTop: 0 }}>
         <LICPlansDetailSection selectedYear={selectedYear} />
       </div>
     </div>
@@ -460,6 +496,15 @@ function MarketTab({ selectedYear, isMobile }: { selectedYear: string; isMobile:
 
 // ── TAB: INSURER COMPARE ───────────────────────────────────────────
 function InsurerTab({ selectedYear, isMobile }: { selectedYear: string; isMobile: boolean }) {
+  // CSR-based color: green for ≥99%, blue for ≥98%, amber for ≥97%, slate below
+  const getBarColor = (csr: number) => {
+    if (csr >= 99) return "#10b981";
+    if (csr >= 98.5) return "#4f8ef7";
+    if (csr >= 98) return "#0ea5e9";
+    if (csr >= 97) return "#f59e0b";
+    return "#94a3b8";
+  };
+
   return (
     <div className="db-tab-content">
       <div className="db-charts-row">
@@ -470,12 +515,17 @@ function InsurerTab({ selectedYear, isMobile }: { selectedYear: string; isMobile
               Individual Death Claims · IRDAI Handbook 2024-25, Table 15
             </span>
           </div>
-          <div style={{ height: 320 }}>
-            <ResponsiveContainer width="100%" height="100%">
+          {/* Axis transparency note */}
+          <div className="db-axis-note">
+            <span className="db-axis-note-icon">⚠️</span>
+            X-axis starts at 95% for clarity — actual range is 96.9% to 99.71%. All insurers perform well.
+          </div>
+          <div style={{ height: 340 }}>
+            <ResponsiveContainer width="99%" height="100%">
               <BarChart
                 data={INSURER_CSR}
                 layout="vertical"
-                margin={{ top: 5, right: 15, left: isMobile ? 75 : 100, bottom: 5 }}
+                margin={{ top: 5, right: 60, left: isMobile ? 75 : 110, bottom: 5 }}
               >
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" horizontal={false} />
                 <XAxis
@@ -490,14 +540,29 @@ function InsurerTab({ selectedYear, isMobile }: { selectedYear: string; isMobile
                   tick={{ fill: "#374151", fontSize: isMobile ? 10 : 12 }}
                   width={isMobile ? 85 : 110}
                 />
-                <Tooltip formatter={(v: number | string) => `${v}%`} />
-                <Bar dataKey="csr" name="CSR %" radius={[0, 6, 6, 0]}>
+                <Tooltip formatter={(v: number | string) => [`${v}%`, "CSR"]} />
+                <Bar dataKey="csr" name="CSR %" radius={[0, 6, 6, 0]}
+                  label={{
+                    position: "right",
+                    formatter: (v: number) => `${v}%`,
+                    fill: "#374151",
+                    fontSize: isMobile ? 10 : 11,
+                    fontWeight: 600,
+                  }}
+                >
                   {INSURER_CSR.map((i) => (
-                    <Cell key={i.name} fill={i.fill} />
+                    <Cell key={i.name} fill={getBarColor(i.csr)} />
                   ))}
                 </Bar>
               </BarChart>
             </ResponsiveContainer>
+          </div>
+          {/* Color legend */}
+          <div className="db-bar-color-legend">
+            <span><span className="db-bar-leg-dot" style={{ background: "#10b981" }} />≥ 99% Excellent</span>
+            <span><span className="db-bar-leg-dot" style={{ background: "#4f8ef7" }} />≥ 98.5% Very Good</span>
+            <span><span className="db-bar-leg-dot" style={{ background: "#0ea5e9" }} />≥ 98% Good</span>
+            <span><span className="db-bar-leg-dot" style={{ background: "#f59e0b" }} />≥ 97% Fair</span>
           </div>
         </div>
       </div>
@@ -557,7 +622,7 @@ function InsurerTab({ selectedYear, isMobile }: { selectedYear: string; isMobile
             <span className="db-chart-src">IRDAI Handbook 2024-25</span>
           </div>
           <div style={{ height: 240 }}>
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="99%" height="100%">
               <LineChart
                 data={CSR_TREND}
                 margin={{ top: 5, right: 20, left: isMobile ? -15 : 0, bottom: 5 }}
@@ -609,7 +674,7 @@ function StateTab({ selectedYear, isMobile }: { selectedYear: string; isMobile: 
             <span className="db-chart-src">IRDAI Handbook Table 5 · FY 2022-23</span>
           </div>
           <div style={{ height: 280 }}>
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="99%" height="100%">
               <BarChart
                 data={TOP_STATES}
                 layout="vertical"
@@ -630,7 +695,7 @@ function StateTab({ selectedYear, isMobile }: { selectedYear: string; isMobile: 
                 <Tooltip content={<CustomTooltip />} />
                 <Bar dataKey="premium" name="Premium (₹Cr)" fill="#4f8ef7" radius={[0, 6, 6, 0]}>
                   {TOP_STATES.map((_, i) => (
-                    <Cell key={i} fill={`hsl(${220 + i * 15}, 80%, ${60 - i * 3}%)`} />
+                    <Cell key={i} fill={`hsl(${220 - i * 4}, 75%, ${55 - i * 2}%)`} />
                   ))}
                 </Bar>
               </BarChart>
@@ -645,7 +710,7 @@ function StateTab({ selectedYear, isMobile }: { selectedYear: string; isMobile: 
             <span className="db-chart-src">IRDAI Table 27 · LIC vs Private</span>
           </div>
           <div style={{ height: 280 }}>
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="99%" height="100%">
               <BarChart
                 data={LAPSE_DATA}
                 margin={{ top: 5, right: 20, left: isMobile ? -15 : 0, bottom: 5 }}
@@ -677,7 +742,7 @@ function StateTab({ selectedYear, isMobile }: { selectedYear: string; isMobile: 
             <span className="db-chart-src">IRDAI Handbook Table 27 · Improving year-on-year</span>
           </div>
           <div style={{ height: 220 }}>
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="99%" height="100%">
               <AreaChart
                 data={LAPSE_DATA}
                 margin={{ top: 5, right: 20, left: isMobile ? -15 : 10, bottom: 5 }}
@@ -727,11 +792,39 @@ function StateTab({ selectedYear, isMobile }: { selectedYear: string; isMobile: 
 }
 
 // ── TAB: HEALTH INSURANCE ──────────────────────────────────────────
+function getPrevYear(year: string): string {
+  const ORDER = ["2020-21", "2021-22", "2022-23", "2023-24", "2024-25", "2025-26"];
+  const idx = ORDER.indexOf(year);
+  return idx > 0 ? ORDER[idx - 1] : ORDER[0];
+}
+
 function HealthTab({ selectedYear, isMobile }: { selectedYear: string; isMobile: boolean }) {
-  const currentKpis = KPIS_BY_YEAR[selectedYear] || KPIS_BY_YEAR["2024-25"];
-  const healthMktShare =
-    HEALTH_MARKET_SHARE_ALL[selectedYear] || HEALTH_MARKET_SHARE_ALL["2024-25"];
-  const healthCsr = HEALTH_CSR_ALL[selectedYear] || HEALTH_CSR_ALL["2024-25"];
+  const [subTab, setSubTab] = useState<"overview" | "market" | "claims">("overview");
+  const currentKpis = KPIS_BY_YEAR?.[selectedYear] || KPIS_BY_YEAR?.["2024-25"] || {
+    health_premium_cr: 0,
+    health_premium_growth_pct: 0,
+    health_claims_lakh: 0,
+    health_claims_growth_pct: 0,
+    health_industry_csr_pct: 0,
+    motor_premium_cr: 0,
+    motor_premium_growth_pct: 0,
+    motor_industry_icr_pct: 0,
+  };
+  const prevKpis = KPIS_BY_YEAR?.[getPrevYear(selectedYear)] || KPIS_BY_YEAR?.["2023-24"] || {
+    health_premium_cr: 0,
+    health_premium_growth_pct: 0,
+    health_claims_lakh: 0,
+    health_claims_growth_pct: 0,
+    health_industry_csr_pct: 0,
+    motor_premium_cr: 0,
+    motor_premium_growth_pct: 0,
+    motor_industry_icr_pct: 0,
+  };
+  const healthMktShare = HEALTH_MARKET_SHARE_ALL?.[selectedYear] || HEALTH_MARKET_SHARE_ALL?.["2024-25"] || [];
+  const healthCsr = HEALTH_CSR_ALL?.[selectedYear] || HEALTH_CSR_ALL?.["2024-25"] || [];
+
+  const csrDelta = +(currentKpis.health_industry_csr_pct - prevKpis.health_industry_csr_pct).toFixed(2);
+
   const HEALTH_KPI_CARDS = [
     {
       label: `Total Health Premiums ${selectedYear}`,
@@ -752,24 +845,9 @@ function HealthTab({ selectedYear, isMobile }: { selectedYear: string; isMobile:
     {
       label: "Overall Industry CSR",
       value: `${currentKpis.health_industry_csr_pct.toFixed(1)}%`,
-      delta:
-        selectedYear === "2020-21"
-          ? "Stable"
-          : `${currentKpis.health_industry_csr_pct - (KPIS_BY_YEAR[selectedYear === "2021-22" ? "2020-21" : selectedYear === "2022-23" ? "2021-22" : selectedYear === "2023-24" ? "2022-23" : selectedYear === "2024-25" ? "2023-24" : "2024-25"]?.health_industry_csr_pct || 0) >= 0 ? "+" : ""}${round_val(currentKpis.health_industry_csr_pct - (KPIS_BY_YEAR[selectedYear === "2021-22" ? "2020-21" : selectedYear === "2022-23" ? "2021-22" : selectedYear === "2023-24" ? "2022-23" : selectedYear === "2024-25" ? "2023-24" : "2024-25"]?.health_industry_csr_pct || 0))}%`,
-      up:
-        currentKpis.health_industry_csr_pct >=
-        (KPIS_BY_YEAR[
-          selectedYear === "2021-22"
-            ? "2020-21"
-            : selectedYear === "2022-23"
-              ? "2021-22"
-              : selectedYear === "2023-24"
-                ? "2022-23"
-                : selectedYear === "2024-25"
-                  ? "2023-24"
-                  : "2024-25"
-        ]?.health_industry_csr_pct || 0),
-      color: "#a855f7",
+      delta: selectedYear === "2020-21" ? "Baseline" : `${csrDelta >= 0 ? "+" : ""}${csrDelta}%`,
+      up: csrDelta >= 0,
+      color: "#0ea5e9",
       icon: "shield",
     },
     {
@@ -777,45 +855,28 @@ function HealthTab({ selectedYear, isMobile }: { selectedYear: string; isMobile:
       value: "82.4%",
       delta: "+3.6%",
       up: true,
-      color: "#ec4899",
+      color: "#10b981",
       icon: "heart",
     },
   ];
 
-  function round_val(v: number) {
-    return Math.round(v * 100) / 100;
-  }
-
   return (
     <div className="db-tab-content">
       {/* Mini KPI Cards row for health */}
-      <div className="db-kpi-grid" style={{ marginBottom: "24px" }}>
+      <div className="db-kpi-grid" style={{ marginBottom: "20px" }}>
         {HEALTH_KPI_CARDS.map((k) => (
           <div
             key={k.label}
             className="db-kpi-card"
-            style={
-              {
-                "--kpi-clr": k.color,
-                minHeight: "auto",
-                padding: "16px",
-              } as React.CSSProperties
-            }
+            style={{ "--kpi-clr": k.color, minHeight: "auto", padding: "16px" } as React.CSSProperties}
           >
             <div className="db-kpi-icon" style={{ background: `${k.color}20`, color: k.color }}>
               <KPIIcon type={k.icon} />
             </div>
             <div className="db-kpi-body">
-              <span className="db-kpi-label" style={{ fontSize: "0.75rem" }}>
-                {k.label}
-              </span>
-              <span className="db-kpi-value" style={{ fontSize: "1.3rem" }}>
-                {k.value}
-              </span>
-              <span
-                className={`db-kpi-delta ${k.up ? "up" : "down"}`}
-                style={{ fontSize: "0.68rem" }}
-              >
+              <span className="db-kpi-label" style={{ fontSize: "0.75rem" }}>{k.label}</span>
+              <span className="db-kpi-value" style={{ fontSize: "1.3rem" }}>{k.value}</span>
+              <span className={`db-kpi-delta ${k.up ? "up" : "down"}`} style={{ fontSize: "0.68rem" }}>
                 {k.up ? <ArrowUpRight size={11} /> : <ArrowDownRight size={11} />}
                 {k.delta} vs prev yr
               </span>
@@ -824,217 +885,193 @@ function HealthTab({ selectedYear, isMobile }: { selectedYear: string; isMobile:
         ))}
       </div>
 
-      {/* ── Health Trend Line Chart ── */}
-      <div className="db-charts-row" style={{ marginBottom: "24px" }}>
-        <div className="db-chart-card db-chart-full">
-          <div className="db-chart-header">
-            <h3>Health Insurance Incurred Claims Ratio (ICR) Trend (2020-2026)</h3>
-            <span className="db-chart-src">IRDAI Annual Reports & Standalone Disclosures</span>
-          </div>
-          <div style={{ height: 240 }}>
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart
-                data={HEALTH_CSR_TREND}
-                margin={{ top: 5, right: 20, left: isMobile ? -15 : 0, bottom: 5 }}
-              >
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
-                <XAxis dataKey="year" tick={{ fill: "#374151", fontSize: 11 }} />
-                <YAxis
-                  domain={[60, 110]}
-                  tick={{ fill: "#374151", fontSize: 11 }}
-                  tickFormatter={(v) => `${v}%`}
-                />
-                <Tooltip content={<CustomTooltip />} />
-                <Legend wrapperStyle={{ fontSize: 11, color: "#94a3b8" }} />
-                <Line
-                  type="monotone"
-                  dataKey="standaloneAvg"
-                  name="Standalone Health Avg"
-                  stroke="#16a34a"
-                  strokeWidth={2.5}
-                  dot={{ r: 4 }}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="pvtGeneralAvg"
-                  name="Private General Avg"
-                  stroke="#ea580c"
-                  strokeWidth={2}
-                  dot={{ r: 4 }}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="industryAvg"
-                  name="Industry Avg"
-                  stroke="#64748b"
-                  strokeWidth={1.5}
-                  strokeDasharray="4 2"
-                  dot={false}
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-      </div>
-
-      <div className="db-charts-row">
-        {/* Market Share of Health Insurance */}
-        <div className="db-chart-card db-chart-lg">
-          <div className="db-chart-header">
-            <h3>Health Insurance Market Share ({selectedYear})</h3>
-            <span className="db-chart-src">IRDAI Annual Report (Based on Premium)</span>
-          </div>
-          <div style={{ height: 300 }}>
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart
-                data={healthMktShare}
-                margin={{
-                  top: 5,
-                  right: 10,
-                  left: isMobile ? -15 : 10,
-                  bottom: isMobile ? 85 : 45,
-                }}
-              >
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
-                <XAxis
-                  dataKey="name"
-                  tick={{ fill: "#374151", fontSize: isMobile ? 8 : 10 }}
-                  angle={isMobile ? -45 : -25}
-                  textAnchor="end"
-                  interval={0}
-                />
-                <YAxis tick={{ fill: "#374151", fontSize: 11 }} tickFormatter={(v) => `${v}%`} />
-                <Tooltip formatter={(v: number | string) => `${v}%`} />
-                <Bar dataKey="value" name="Market Share %" radius={[6, 6, 0, 0]}>
-                  {healthMktShare.map((h, i) => (
-                    <Cell key={i} fill={h.color} />
-                  ))}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-
-        {/* Claim Settlement Ratio (CSR) of Top Health Insurers */}
-        <div className="db-chart-card db-chart-sm">
-          <div className="db-chart-header">
-            <h3>Top Health Insurers CSR ({selectedYear})</h3>
-            <span className="db-chart-src">IRDAI Disclosures · Settled by Volume</span>
-          </div>
-          <div style={{ height: 300 }}>
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart
-                data={healthCsr}
-                layout="vertical"
-                margin={{ top: 5, right: 15, left: isMobile ? 55 : 60, bottom: 5 }}
-              >
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" horizontal={false} />
-                <XAxis
-                  type="number"
-                  domain={[85, 100]}
-                  tick={{ fill: "#374151", fontSize: isMobile ? 9 : 11 }}
-                  tickFormatter={(v) => `${v}%`}
-                />
-                <YAxis
-                  dataKey="name"
-                  type="category"
-                  tick={{ fill: "#374151", fontSize: isMobile ? 9 : 11 }}
-                  width={isMobile ? 65 : 80}
-                />
-                <Tooltip formatter={(v: number | string) => `${v}%`} />
-                <Bar dataKey="csr" name="CSR %" radius={[0, 6, 6, 0]}>
-                  {healthCsr.map((h, i) => (
-                    <Cell key={i} fill={h.fill} />
-                  ))}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-      </div>
-
-      <div className="db-charts-row">
-        {/* Claims Volume by Category */}
-        <div className="db-chart-card db-chart-md">
-          <div className="db-chart-header">
-            <h3>Health Claims Volume by Category</h3>
-            <span className="db-chart-src">Industry Claims Distribution</span>
-          </div>
-          <div style={{ height: 260 }}>
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart
-                data={HEALTH_CLAIM_CATEGORIES}
-                margin={{ top: 5, right: 10, left: isMobile ? -15 : 10, bottom: isMobile ? 65 : 5 }}
-              >
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
-                <XAxis
-                  dataKey="type"
-                  tick={{ fill: "#374151", fontSize: isMobile ? 8 : 11 }}
-                  angle={isMobile ? -35 : 0}
-                  textAnchor={isMobile ? "end" : "middle"}
-                  interval={0}
-                />
-                <YAxis tick={{ fill: "#374151", fontSize: 11 }} tickFormatter={(v) => `${v}%`} />
-                <Tooltip formatter={(v: number | string) => `${v}%`} />
-                <Bar dataKey="volume" name="Claims Volume %" radius={[6, 6, 0, 0]}>
-                  {HEALTH_CLAIM_CATEGORIES.map((c, i) => (
-                    <Cell key={i} fill={c.color} />
-                  ))}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-
-        {/* Claim Rejection Reasons Pie */}
-        <div className="db-chart-card db-chart-md">
-          <div className="db-chart-header">
-            <h3>Common Claim Rejection Reasons</h3>
-            <span className="db-chart-src">IRDAI Grievance & Rejection Reports</span>
-          </div>
-          <div style={{ height: 180 }}>
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={HEALTH_REJECTION_REASONS}
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={70}
-                  innerRadius={40}
-                  dataKey="percentage"
-                  nameKey="name"
-                >
-                  {HEALTH_REJECTION_REASONS.map((r, i) => (
-                    <Cell key={i} fill={r.color} />
-                  ))}
-                </Pie>
-                <Tooltip formatter={(v: number | string) => `${v}%`} />
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
-          <div
-            className="db-pie-legend"
-            style={{ marginTop: "10px", gridTemplateColumns: "1fr 1fr", gap: "8px 16px" }}
+      {/* Sub-tab navigation */}
+      <div className="db-subtab-nav">
+        {(["overview", "market", "claims"] as const).map((t) => (
+          <button
+            key={t}
+            className={`db-subtab-btn ${subTab === t ? "active" : ""}`}
+            onClick={() => setSubTab(t)}
           >
-            {HEALTH_REJECTION_REASONS.map((r) => (
-              <div key={r.name} className="db-pie-leg-item" style={{ fontSize: "0.72rem" }}>
-                <span className="db-pie-dot" style={{ background: r.color }} />
-                <span>{r.name}</span>
-                <strong style={{ color: r.color }}>{r.percentage}%</strong>
-              </div>
-            ))}
+            {t === "overview" && "📊 Overview & ICR Trend"}
+            {t === "market" && "🏪 Market Share & CSR"}
+            {t === "claims" && "📋 Claims Detail"}
+          </button>
+        ))}
+      </div>
+
+      {/* ── OVERVIEW sub-tab ── */}
+      {subTab === "overview" && (
+        <div className="db-charts-row" style={{ marginTop: "16px" }}>
+          <div className="db-chart-card db-chart-full">
+            <div className="db-chart-header">
+              <h3>Health Insurance Incurred Claims Ratio (ICR) Trend (2020-2026)</h3>
+              <span className="db-chart-src">IRDAI Annual Reports &amp; Standalone Disclosures</span>
+            </div>
+            <div style={{ height: 260 }}>
+              <ResponsiveContainer width="99%" height="100%">
+                <LineChart
+                  data={HEALTH_CSR_TREND}
+                  margin={{ top: 5, right: 20, left: isMobile ? -15 : 0, bottom: 5 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
+                  <XAxis dataKey="year" tick={{ fill: "#374151", fontSize: 11 }} />
+                  <YAxis
+                    domain={[60, 110]}
+                    tick={{ fill: "#374151", fontSize: 11 }}
+                    tickFormatter={(v) => `${v}%`}
+                  />
+                  <Tooltip content={<CustomTooltip />} />
+                  <Legend wrapperStyle={{ fontSize: 11, color: "#94a3b8" }} />
+                  <Line type="monotone" dataKey="standaloneAvg" name="Standalone Health Avg" stroke="#16a34a" strokeWidth={2.5} dot={{ r: 4 }} />
+                  <Line type="monotone" dataKey="pvtGeneralAvg" name="Private General Avg" stroke="#ea580c" strokeWidth={2} dot={{ r: 4 }} />
+                  <Line type="monotone" dataKey="industryAvg" name="Industry Avg" stroke="#64748b" strokeWidth={1.5} strokeDasharray="4 2" dot={false} />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+            <p className="db-chart-hint">📌 ICR &gt; 100% means the insurer paid more in claims than it collected in premiums (e.g. COVID spike in 2021-22)</p>
           </div>
         </div>
-      </div>
+      )}
+
+      {/* ── MARKET SHARE sub-tab ── */}
+      {subTab === "market" && (
+        <div className="db-charts-row" style={{ marginTop: "16px" }}>
+          {/* Market Share — horizontal bar for readability */}
+          <div className="db-chart-card db-chart-lg">
+            <div className="db-chart-header">
+              <h3>Health Insurance Market Share ({selectedYear})</h3>
+              <span className="db-chart-src">IRDAI Annual Report (Based on Premium)</span>
+            </div>
+            <div style={{ height: 340 }}>
+              <ResponsiveContainer width="99%" height="100%">
+                <BarChart
+                  data={[...healthMktShare].sort((a, b) => b.value - a.value)}
+                  layout="vertical"
+                  margin={{ top: 5, right: 55, left: isMobile ? 90 : 130, bottom: 5 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" horizontal={false} />
+                  <XAxis type="number" tick={{ fill: "#374151", fontSize: 11 }} tickFormatter={(v) => `${v}%`} />
+                  <YAxis dataKey="name" type="category" tick={{ fill: "#374151", fontSize: isMobile ? 9 : 11 }} width={isMobile ? 95 : 130} />
+                  <Tooltip formatter={(v: number | string) => [`${v}%`, "Market Share"]} />
+                  <Bar dataKey="value" name="Market Share %" radius={[0, 6, 6, 0]}
+                    label={{ position: "right", formatter: (v: number) => `${v}%`, fill: "#374151", fontSize: 11, fontWeight: 600 }}
+                  >
+                    {[...healthMktShare].sort((a, b) => b.value - a.value).map((h, i) => (
+                      <Cell key={i} fill={h.color} />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          {/* CSR Horizontal Bar */}
+          <div className="db-chart-card db-chart-sm">
+            <div className="db-chart-header">
+              <h3>Top Health Insurers CSR ({selectedYear})</h3>
+              <span className="db-chart-src">IRDAI Disclosures · Settled by Volume</span>
+            </div>
+            <div style={{ height: 340 }}>
+              <ResponsiveContainer width="99%" height="100%">
+                <BarChart
+                  data={healthCsr}
+                  layout="vertical"
+                  margin={{ top: 5, right: 50, left: isMobile ? 65 : 80, bottom: 5 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" horizontal={false} />
+                  <XAxis type="number" domain={[85, 100]} tick={{ fill: "#374151", fontSize: isMobile ? 9 : 11 }} tickFormatter={(v) => `${v}%`} />
+                  <YAxis dataKey="name" type="category" tick={{ fill: "#374151", fontSize: isMobile ? 9 : 11 }} width={isMobile ? 65 : 80} />
+                  <Tooltip formatter={(v: number | string) => [`${v}%`, "CSR"]} />
+                  <Bar dataKey="csr" name="CSR %" radius={[0, 6, 6, 0]}
+                    label={{ position: "right", formatter: (v: number) => `${v}%`, fill: "#374151", fontSize: 10, fontWeight: 600 }}
+                  >
+                    {healthCsr.map((h, i) => (
+                      <Cell key={i} fill={h.fill} />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── CLAIMS DETAIL sub-tab ── */}
+      {subTab === "claims" && (
+        <div className="db-charts-row" style={{ marginTop: "16px" }}>
+          {/* Claims Volume by Category */}
+          <div className="db-chart-card db-chart-md">
+            <div className="db-chart-header">
+              <h3>Health Claims Volume by Category</h3>
+              <span className="db-chart-src">Industry Claims Distribution</span>
+            </div>
+            <div style={{ height: 280 }}>
+              <ResponsiveContainer width="99%" height="100%">
+                <BarChart
+                  data={HEALTH_CLAIM_CATEGORIES}
+                  margin={{ top: 5, right: 10, left: isMobile ? -15 : 10, bottom: isMobile ? 65 : 5 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
+                  <XAxis dataKey="type" tick={{ fill: "#374151", fontSize: isMobile ? 8 : 11 }} angle={isMobile ? -35 : 0} textAnchor={isMobile ? "end" : "middle"} interval={0} />
+                  <YAxis tick={{ fill: "#374151", fontSize: 11 }} tickFormatter={(v) => `${v}%`} />
+                  <Tooltip formatter={(v: number | string) => [`${v}%`, "Volume"]} />
+                  <Bar dataKey="volume" name="Claims Volume %" radius={[6, 6, 0, 0]}
+                    label={{ position: "top", formatter: (v: number) => `${v}%`, fill: "#374151", fontSize: 11, fontWeight: 700 }}
+                  >
+                    {HEALTH_CLAIM_CATEGORIES.map((c, i) => (
+                      <Cell key={i} fill={c.color} />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          {/* Rejection Reasons — enlarged pie */}
+          <div className="db-chart-card db-chart-md">
+            <div className="db-chart-header">
+              <h3>Common Claim Rejection Reasons</h3>
+              <span className="db-chart-src">IRDAI Grievance &amp; Rejection Reports</span>
+            </div>
+            <div style={{ height: 260 }}>
+              <ResponsiveContainer width="99%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={HEALTH_REJECTION_REASONS}
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={90}
+                    innerRadius={52}
+                    dataKey="percentage"
+                    nameKey="name"
+                    label={({ name, percentage }) => `${percentage}%`}
+                    labelLine={true}
+                  >
+                    {HEALTH_REJECTION_REASONS.map((r, i) => (
+                      <Cell key={i} fill={r.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip formatter={(v: number | string) => [`${v}%`, "Share"]} />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+            <div className="db-pie-legend" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px 16px", marginTop: "8px" }}>
+              {HEALTH_REJECTION_REASONS.map((r) => (
+                <div key={r.name} className="db-pie-leg-item" style={{ fontSize: "0.72rem" }}>
+                  <span className="db-pie-dot" style={{ background: r.color }} />
+                  <span>{r.name}</span>
+                  <strong style={{ color: r.color }}>{r.percentage}%</strong>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       <div
         className="db-insight-bar"
-        style={{
-          marginTop: "16px",
-          background: "#EFF6FF",
-          border: "1px solid #BFDBFE",
-          color: "#1E40AF",
-        }}
+        style={{ marginTop: "16px", background: "#EFF6FF", border: "1px solid #BFDBFE", color: "#1E40AF" }}
       >
         <span className="db-insight-chip good" style={{ background: "#3b82f6", color: "#fff" }}>
           💡 Cashless Settlement Mandate
@@ -1050,9 +1087,32 @@ function HealthTab({ selectedYear, isMobile }: { selectedYear: string; isMobile:
 
 // ── TAB: MOTOR INSURANCE ──────────────────────────────────────────
 function MotorTab({ selectedYear, isMobile }: { selectedYear: string; isMobile: boolean }) {
-  const currentKpis = KPIS_BY_YEAR[selectedYear] || KPIS_BY_YEAR["2024-25"];
-  const motorMktShare = MOTOR_MARKET_SHARE_ALL[selectedYear] || MOTOR_MARKET_SHARE_ALL["2024-25"];
-  const motorCsr = MOTOR_CSR_ALL[selectedYear] || MOTOR_CSR_ALL["2024-25"];
+  const [subTab, setSubTab] = useState<"overview" | "market" | "claims">("overview");
+  const currentKpis = KPIS_BY_YEAR?.[selectedYear] || KPIS_BY_YEAR?.["2024-25"] || {
+    health_premium_cr: 0,
+    health_premium_growth_pct: 0,
+    health_claims_lakh: 0,
+    health_claims_growth_pct: 0,
+    health_industry_csr_pct: 0,
+    motor_premium_cr: 0,
+    motor_premium_growth_pct: 0,
+    motor_industry_icr_pct: 0,
+  };
+  const prevKpis = KPIS_BY_YEAR?.[getPrevYear(selectedYear)] || KPIS_BY_YEAR?.["2023-24"] || {
+    health_premium_cr: 0,
+    health_premium_growth_pct: 0,
+    health_claims_lakh: 0,
+    health_claims_growth_pct: 0,
+    health_industry_csr_pct: 0,
+    motor_premium_cr: 0,
+    motor_premium_growth_pct: 0,
+    motor_industry_icr_pct: 0,
+  };
+  const motorMktShare = MOTOR_MARKET_SHARE_ALL?.[selectedYear] || MOTOR_MARKET_SHARE_ALL?.["2024-25"] || [];
+  const motorCsr = MOTOR_CSR_ALL?.[selectedYear] || MOTOR_CSR_ALL?.["2024-25"] || [];
+
+  const icrDelta = +(currentKpis.motor_industry_icr_pct - prevKpis.motor_industry_icr_pct).toFixed(2);
+
   const MOTOR_KPI_CARDS = [
     {
       label: `Total Motor Premiums ${selectedYear}`,
@@ -1071,25 +1131,10 @@ function MotorTab({ selectedYear, isMobile }: { selectedYear: string; isMobile: 
       icon: "file",
     },
     {
-      label: `Average Industry ICR`,
+      label: "Average Industry ICR",
       value: `${currentKpis.motor_industry_icr_pct.toFixed(1)}%`,
-      delta:
-        selectedYear === "2020-21"
-          ? "Stable"
-          : `${currentKpis.motor_industry_icr_pct - (KPIS_BY_YEAR[selectedYear === "2021-22" ? "2020-21" : selectedYear === "2022-23" ? "2021-22" : selectedYear === "2023-24" ? "2022-23" : selectedYear === "2024-25" ? "2023-24" : "2024-25"]?.motor_industry_icr_pct || 0) >= 0 ? "+" : ""}${round_val(currentKpis.motor_industry_icr_pct - (KPIS_BY_YEAR[selectedYear === "2021-22" ? "2020-21" : selectedYear === "2022-23" ? "2021-22" : selectedYear === "2023-24" ? "2022-23" : selectedYear === "2024-25" ? "2023-24" : "2024-25"]?.motor_industry_icr_pct || 0))}%`,
-      up:
-        currentKpis.motor_industry_icr_pct >=
-        (KPIS_BY_YEAR[
-          selectedYear === "2021-22"
-            ? "2020-21"
-            : selectedYear === "2022-23"
-              ? "2021-22"
-              : selectedYear === "2023-24"
-                ? "2022-23"
-                : selectedYear === "2024-25"
-                  ? "2023-24"
-                  : "2024-25"
-        ]?.motor_industry_icr_pct || 0),
+      delta: selectedYear === "2020-21" ? "Baseline" : `${icrDelta >= 0 ? "+" : ""}${icrDelta}%`,
+      up: icrDelta >= 0,
       color: "#10b981",
       icon: "shield",
     },
@@ -1098,45 +1143,28 @@ function MotorTab({ selectedYear, isMobile }: { selectedYear: string; isMobile: 
       value: "71.4%",
       delta: "+12.6%",
       up: true,
-      color: "#ec4899",
+      color: "#0ea5e9",
       icon: "heart",
     },
   ];
 
-  function round_val(v: number) {
-    return Math.round(v * 100) / 100;
-  }
-
   return (
     <div className="db-tab-content">
       {/* Mini KPI Cards row for motor */}
-      <div className="db-kpi-grid" style={{ marginBottom: "24px" }}>
+      <div className="db-kpi-grid" style={{ marginBottom: "20px" }}>
         {MOTOR_KPI_CARDS.map((k) => (
           <div
             key={k.label}
             className="db-kpi-card"
-            style={
-              {
-                "--kpi-clr": k.color,
-                minHeight: "auto",
-                padding: "16px",
-              } as React.CSSProperties
-            }
+            style={{ "--kpi-clr": k.color, minHeight: "auto", padding: "16px" } as React.CSSProperties}
           >
             <div className="db-kpi-icon" style={{ background: `${k.color}20`, color: k.color }}>
               <KPIIcon type={k.icon} />
             </div>
             <div className="db-kpi-body">
-              <span className="db-kpi-label" style={{ fontSize: "0.75rem" }}>
-                {k.label}
-              </span>
-              <span className="db-kpi-value" style={{ fontSize: "1.3rem" }}>
-                {k.value}
-              </span>
-              <span
-                className={`db-kpi-delta ${k.up ? "up" : "down"}`}
-                style={{ fontSize: "0.68rem" }}
-              >
+              <span className="db-kpi-label" style={{ fontSize: "0.75rem" }}>{k.label}</span>
+              <span className="db-kpi-value" style={{ fontSize: "1.3rem" }}>{k.value}</span>
+              <span className={`db-kpi-delta ${k.up ? "up" : "down"}`} style={{ fontSize: "0.68rem" }}>
                 {k.up ? <ArrowUpRight size={11} /> : <ArrowDownRight size={11} />}
                 {k.delta} vs prev yr
               </span>
@@ -1145,220 +1173,196 @@ function MotorTab({ selectedYear, isMobile }: { selectedYear: string; isMobile: 
         ))}
       </div>
 
-      {/* ── Motor Trend Line Chart ── */}
-      <div className="db-charts-row" style={{ marginBottom: "24px" }}>
-        <div className="db-chart-card db-chart-full">
-          <div className="db-chart-header">
-            <h3>Motor Insurance Incurred Claims Ratio (ICR) Trend (2020-2026)</h3>
-            <span className="db-chart-src">IRDAI General Insurance Annual Reports</span>
-          </div>
-          <div style={{ height: 240 }}>
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart
-                data={MOTOR_CSR_TREND}
-                margin={{ top: 5, right: 20, left: isMobile ? -15 : 0, bottom: 5 }}
-              >
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
-                <XAxis dataKey="year" tick={{ fill: "#374151", fontSize: 11 }} />
-                <YAxis
-                  domain={[70, 115]}
-                  tick={{ fill: "#374151", fontSize: 11 }}
-                  tickFormatter={(v) => `${v}%`}
-                />
-                <Tooltip content={<CustomTooltip />} />
-                <Legend wrapperStyle={{ fontSize: 11, color: "#94a3b8" }} />
-                <Line
-                  type="monotone"
-                  dataKey="pvtGeneralAvg"
-                  name="Private General Avg"
-                  stroke="#0284c7"
-                  strokeWidth={2.5}
-                  dot={{ r: 4 }}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="psuAvg"
-                  name="PSU Insurer Avg"
-                  stroke="#ea580c"
-                  strokeWidth={2}
-                  dot={{ r: 4 }}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="industryAvg"
-                  name="Industry Avg"
-                  stroke="#64748b"
-                  strokeWidth={1.5}
-                  strokeDasharray="4 2"
-                  dot={false}
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-      </div>
-
-      <div className="db-charts-row">
-        {/* Market Share of Motor Insurance */}
-        <div className="db-chart-card db-chart-lg">
-          <div className="db-chart-header">
-            <h3>Motor Insurance Market Share ({selectedYear})</h3>
-            <span className="db-chart-src">GIC Flash Reports (Based on Premium)</span>
-          </div>
-          <div style={{ height: 300 }}>
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart
-                data={motorMktShare}
-                margin={{
-                  top: 5,
-                  right: 10,
-                  left: isMobile ? -15 : 10,
-                  bottom: isMobile ? 85 : 45,
-                }}
-              >
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
-                <XAxis
-                  dataKey="name"
-                  tick={{ fill: "#374151", fontSize: isMobile ? 8 : 10 }}
-                  angle={isMobile ? -45 : -25}
-                  textAnchor="end"
-                  interval={0}
-                />
-                <YAxis tick={{ fill: "#374151", fontSize: 11 }} tickFormatter={(v) => `${v}%`} />
-                <Tooltip formatter={(v: number | string) => `${v}%`} />
-                <Bar dataKey="value" name="Market Share %" radius={[6, 6, 0, 0]}>
-                  {motorMktShare.map((h, i) => (
-                    <Cell key={i} fill={h.color} />
-                  ))}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-
-        {/* Claim Settlement Ratio (CSR) of Top Motor Insurers */}
-        <div className="db-chart-card db-chart-sm">
-          <div className="db-chart-header">
-            <h3>Top Motor Insurers CSR ({selectedYear})</h3>
-            <span className="db-chart-src">IRDAI General Insurance Filings</span>
-          </div>
-          <div style={{ height: 300 }}>
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart
-                data={motorCsr}
-                layout="vertical"
-                margin={{ top: 5, right: 15, left: isMobile ? 55 : 60, bottom: 5 }}
-              >
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" horizontal={false} />
-                <XAxis
-                  type="number"
-                  domain={[90, 100]}
-                  tick={{ fill: "#374151", fontSize: isMobile ? 9 : 11 }}
-                  tickFormatter={(v) => `${v}%`}
-                />
-                <YAxis
-                  dataKey="name"
-                  type="category"
-                  tick={{ fill: "#374151", fontSize: isMobile ? 9 : 11 }}
-                  width={isMobile ? 65 : 80}
-                />
-                <Tooltip formatter={(v: number | string) => `${v}%`} />
-                <Bar dataKey="csr" name="CSR %" radius={[0, 6, 6, 0]}>
-                  {motorCsr.map((h, i) => (
-                    <Cell key={i} fill={h.fill} />
-                  ))}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-      </div>
-
-      <div className="db-charts-row">
-        {/* Own-Damage Claims Volume by Category */}
-        <div className="db-chart-card db-chart-md">
-          <div className="db-chart-header">
-            <h3>Own-Damage Claims by Cause</h3>
-            <span className="db-chart-src">General Insurance Claim Portals</span>
-          </div>
-          <div style={{ height: 260 }}>
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart
-                data={MOTOR_CLAIM_CATEGORIES}
-                margin={{ top: 5, right: 10, left: isMobile ? -15 : 10, bottom: isMobile ? 65 : 5 }}
-              >
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
-                <XAxis
-                  dataKey="type"
-                  tick={{ fill: "#374151", fontSize: isMobile ? 8 : 11 }}
-                  angle={isMobile ? -35 : 0}
-                  textAnchor={isMobile ? "end" : "middle"}
-                  interval={0}
-                />
-                <YAxis tick={{ fill: "#374151", fontSize: 11 }} tickFormatter={(v) => `${v}%`} />
-                <Tooltip formatter={(v: number | string) => `${v}%`} />
-                <Bar dataKey="volume" name="Claims Volume %" radius={[6, 6, 0, 0]}>
-                  {MOTOR_CLAIM_CATEGORIES.map((c, i) => (
-                    <Cell key={i} fill={c.color} />
-                  ))}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-
-        {/* Claim Rejection Reasons Pie */}
-        <div className="db-chart-card db-chart-md">
-          <div className="db-chart-header">
-            <h3>Common Motor Rejection Reasons</h3>
-            <span className="db-chart-src">IRDAI Grievance Reports</span>
-          </div>
-          <div style={{ height: 180 }}>
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={MOTOR_REJECTION_REASONS}
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={70}
-                  innerRadius={40}
-                  dataKey="percentage"
-                  nameKey="reason"
-                >
-                  {MOTOR_REJECTION_REASONS.map((r, i) => (
-                    <Cell key={i} fill={r.color} />
-                  ))}
-                </Pie>
-                <Tooltip formatter={(v: number | string) => `${v}%`} />
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
-          <div
-            className="db-pie-legend"
-            style={{ marginTop: "10px", gridTemplateColumns: "1fr 1fr", gap: "8px 16px" }}
+      {/* Sub-tab navigation */}
+      <div className="db-subtab-nav">
+        {(["overview", "market", "claims"] as const).map((t) => (
+          <button
+            key={t}
+            className={`db-subtab-btn ${subTab === t ? "active" : ""}`}
+            onClick={() => setSubTab(t)}
           >
-            {MOTOR_REJECTION_REASONS.map((r) => (
-              <div key={r.name} className="db-pie-leg-item" style={{ fontSize: "0.72rem" }}>
-                <span className="db-pie-dot" style={{ background: r.color }} />
-                <span>{r.name}</span>
-                <strong style={{ color: r.color }}>{r.percentage}%</strong>
-              </div>
-            ))}
+            {t === "overview" && "📊 Overview & ICR Trend"}
+            {t === "market" && "🏪 Market Share & CSR"}
+            {t === "claims" && "📋 Claims Detail"}
+          </button>
+        ))}
+      </div>
+
+      {/* ── OVERVIEW sub-tab ── */}
+      {subTab === "overview" && (
+        <div className="db-charts-row" style={{ marginTop: "16px" }}>
+          <div className="db-chart-card db-chart-full">
+            <div className="db-chart-header">
+              <h3>Motor Insurance Incurred Claims Ratio (ICR) Trend (2020-2026)</h3>
+              <span className="db-chart-src">IRDAI General Insurance Annual Reports</span>
+            </div>
+            <div style={{ height: 260 }}>
+              <ResponsiveContainer width="99%" height="100%">
+                <LineChart
+                  data={MOTOR_CSR_TREND}
+                  margin={{ top: 5, right: 20, left: isMobile ? -15 : 0, bottom: 5 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
+                  <XAxis dataKey="year" tick={{ fill: "#374151", fontSize: 11 }} />
+                  <YAxis
+                    domain={[70, 115]}
+                    tick={{ fill: "#374151", fontSize: 11 }}
+                    tickFormatter={(v) => `${v}%`}
+                  />
+                  <Tooltip content={<CustomTooltip />} />
+                  <Legend wrapperStyle={{ fontSize: 11, color: "#94a3b8" }} />
+                  <Line type="monotone" dataKey="pvtGeneralAvg" name="Private General Avg" stroke="#0284c7" strokeWidth={2.5} dot={{ r: 4 }} />
+                  <Line type="monotone" dataKey="psuAvg" name="PSU Insurer Avg" stroke="#ea580c" strokeWidth={2} dot={{ r: 4 }} />
+                  <Line type="monotone" dataKey="industryAvg" name="Industry Avg" stroke="#64748b" strokeWidth={1.5} strokeDasharray="4 2" dot={false} />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+            <p className="db-chart-hint">⚠️ PSU insurers show ICR &gt;100% due to legacy portfolio losses — indicates pricing and underwriting challenges</p>
           </div>
         </div>
-      </div>
+      )}
+
+      {/* ── MARKET SHARE sub-tab ── */}
+      {subTab === "market" && (
+        <div className="db-charts-row" style={{ marginTop: "16px" }}>
+          {/* Market Share — horizontal bar */}
+          <div className="db-chart-card db-chart-lg">
+            <div className="db-chart-header">
+              <h3>Motor Insurance Market Share ({selectedYear})</h3>
+              <span className="db-chart-src">GIC Flash Reports (Based on Premium)</span>
+            </div>
+            <div style={{ height: 360 }}>
+              <ResponsiveContainer width="99%" height="100%">
+                <BarChart
+                  data={[...motorMktShare].sort((a, b) => b.value - a.value)}
+                  layout="vertical"
+                  margin={{ top: 5, right: 55, left: isMobile ? 90 : 130, bottom: 5 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" horizontal={false} />
+                  <XAxis type="number" tick={{ fill: "#374151", fontSize: 11 }} tickFormatter={(v) => `${v}%`} />
+                  <YAxis dataKey="name" type="category" tick={{ fill: "#374151", fontSize: isMobile ? 9 : 11 }} width={isMobile ? 95 : 130} />
+                  <Tooltip formatter={(v: number | string) => [`${v}%`, "Market Share"]} />
+                  <Bar dataKey="value" name="Market Share %" radius={[0, 6, 6, 0]}
+                    label={{ position: "right", formatter: (v: number) => `${v}%`, fill: "#374151", fontSize: 11, fontWeight: 600 }}
+                  >
+                    {[...motorMktShare].sort((a, b) => b.value - a.value).map((h, i) => (
+                      <Cell key={i} fill={h.color} />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          {/* CSR Horizontal Bar */}
+          <div className="db-chart-card db-chart-sm">
+            <div className="db-chart-header">
+              <h3>Top Motor Insurers CSR ({selectedYear})</h3>
+              <span className="db-chart-src">IRDAI General Insurance Filings</span>
+            </div>
+            <div style={{ height: 360 }}>
+              <ResponsiveContainer width="99%" height="100%">
+                <BarChart
+                  data={motorCsr}
+                  layout="vertical"
+                  margin={{ top: 5, right: 50, left: isMobile ? 65 : 80, bottom: 5 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" horizontal={false} />
+                  <XAxis type="number" domain={[70, 100]} tick={{ fill: "#374151", fontSize: isMobile ? 9 : 11 }} tickFormatter={(v) => `${v}%`} />
+                  <YAxis dataKey="name" type="category" tick={{ fill: "#374151", fontSize: isMobile ? 9 : 11 }} width={isMobile ? 65 : 80} />
+                  <Tooltip formatter={(v: number | string) => [`${v}%`, "CSR"]} />
+                  <Bar dataKey="csr" name="CSR %" radius={[0, 6, 6, 0]}
+                    label={{ position: "right", formatter: (v: number) => `${v}%`, fill: "#374151", fontSize: 10, fontWeight: 600 }}
+                  >
+                    {motorCsr.map((h, i) => (
+                      <Cell key={i} fill={h.fill} />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── CLAIMS DETAIL sub-tab ── */}
+      {subTab === "claims" && (
+        <div className="db-charts-row" style={{ marginTop: "16px" }}>
+          {/* Own-Damage Claims Volume by Category */}
+          <div className="db-chart-card db-chart-md">
+            <div className="db-chart-header">
+              <h3>Own-Damage Claims by Cause</h3>
+              <span className="db-chart-src">General Insurance Claim Portals</span>
+            </div>
+            <div style={{ height: 280 }}>
+              <ResponsiveContainer width="99%" height="100%">
+                <BarChart
+                  data={MOTOR_CLAIM_CATEGORIES}
+                  margin={{ top: 5, right: 10, left: isMobile ? -15 : 10, bottom: isMobile ? 65 : 5 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
+                  <XAxis dataKey="type" tick={{ fill: "#374151", fontSize: isMobile ? 8 : 11 }} angle={isMobile ? -35 : 0} textAnchor={isMobile ? "end" : "middle"} interval={0} />
+                  <YAxis tick={{ fill: "#374151", fontSize: 11 }} tickFormatter={(v) => `${v}%`} />
+                  <Tooltip formatter={(v: number | string) => [`${v}%`, "Volume"]} />
+                  <Bar dataKey="volume" name="Claims Volume %" radius={[6, 6, 0, 0]}
+                    label={{ position: "top", formatter: (v: number) => `${v}%`, fill: "#374151", fontSize: 11, fontWeight: 700 }}
+                  >
+                    {MOTOR_CLAIM_CATEGORIES.map((c, i) => (
+                      <Cell key={i} fill={c.color} />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          {/* Rejection Reasons Pie — enlarged */}
+          <div className="db-chart-card db-chart-md">
+            <div className="db-chart-header">
+              <h3>Common Motor Rejection Reasons</h3>
+              <span className="db-chart-src">IRDAI Grievance Reports</span>
+            </div>
+            <div style={{ height: 260 }}>
+              <ResponsiveContainer width="99%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={MOTOR_REJECTION_REASONS}
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={90}
+                    innerRadius={52}
+                    dataKey="percentage"
+                    nameKey="reason"
+                    label={({ percentage }) => `${percentage}%`}
+                    labelLine={true}
+                  >
+                    {MOTOR_REJECTION_REASONS.map((r, i) => (
+                      <Cell key={i} fill={r.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip formatter={(v: number | string) => [`${v}%`, "Share"]} />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+            <div className="db-pie-legend" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px 16px", marginTop: "8px" }}>
+              {MOTOR_REJECTION_REASONS.map((r) => (
+                <div key={r.name} className="db-pie-leg-item" style={{ fontSize: "0.72rem" }}>
+                  <span className="db-pie-dot" style={{ background: r.color }} />
+                  <span>{r.name}</span>
+                  <strong style={{ color: r.color }}>{r.percentage}%</strong>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       <div
         className="db-insight-bar"
-        style={{
-          marginTop: "16px",
-          background: "#EFF6FF",
-          border: "1px solid #BFDBFE",
-          color: "#1E40AF",
-        }}
+        style={{ marginTop: "16px", background: "#EFF6FF", border: "1px solid #BFDBFE", color: "#1E40AF" }}
       >
         <span className="db-insight-chip good" style={{ background: "#3b82f6", color: "#fff" }}>
-          💡 AI & Small Claims Ease
+          💡 AI &amp; Small Claims Ease
         </span>
         <span>
           Under IRDAI guidelines, claims below ₹50,000 are increasingly processed using AI/app-based

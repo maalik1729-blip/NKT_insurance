@@ -37,6 +37,7 @@ import {
   Area,
   CartesianGrid,
 } from "recharts";
+import { Link } from "@tanstack/react-router";
 import { Spinner } from "@/components/Spinner";
 import logoImg from "@/assets/images/logo.png";
 import { Lead, TimelineEvent, LeadStatus } from "./types";
@@ -67,6 +68,7 @@ export function AdvisorWorkspace({
   useEffect(() => {
     setMounted(true);
   }, []);
+
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
@@ -80,6 +82,22 @@ export function AdvisorWorkspace({
   const [newInterest, setNewInterest] = useState("life");
   const [newPremium, setNewPremium] = useState("15000");
   const [newNotes, setNewNotes] = useState("");
+
+  // Prevent background scrolling when "Add Lead" modal or "Lead Detail" sidebar is open
+  useEffect(() => {
+    const isModalOpen = isAddOpen || selectedLead !== null;
+    if (isModalOpen) {
+      document.body.style.overflow = "hidden";
+      document.body.classList.add("modal-open");
+    } else {
+      document.body.style.overflow = "";
+      document.body.classList.remove("modal-open");
+    }
+    return () => {
+      document.body.style.overflow = "";
+      document.body.classList.remove("modal-open");
+    };
+  }, [isAddOpen, selectedLead]);
 
   const handleStatusChange = (leadId: string, newStatus: LeadStatus) => {
     const entry: TimelineEvent = {
@@ -373,11 +391,33 @@ export function AdvisorWorkspace({
               cursor: "pointer",
               fontSize: "0.82rem",
               fontWeight: 600,
-              marginBottom: "4px",
+              marginBottom: "6px",
             }}
           >
             <Plus size={16} /> Add Lead
           </button>
+          <Link
+            to="/insurance-dashboard"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+              width: "100%",
+              padding: "10px 12px",
+              borderRadius: "8px",
+              border: "none",
+              background: "rgba(20,83,45,0.08)",
+              color: "var(--color-accent)",
+              cursor: "pointer",
+              fontSize: "0.82rem",
+              fontWeight: 600,
+              textDecoration: "none",
+              boxSizing: "border-box",
+            }}
+            className="advisor-nav-dashboard-link"
+          >
+            <LayoutDashboard size={16} /> View Stats
+          </Link>
         </nav>
         <div style={{ padding: "14px 16px", borderTop: "1px solid #F1F5F9" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
@@ -2204,48 +2244,6 @@ export function AdvisorWorkspace({
                     </span>
                   </div>
                 </div>
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr 1fr",
-                    gap: "12px",
-                    padding: "14px",
-                    background: "#F8FAFC",
-                    borderRadius: "10px",
-                    border: "1px dashed #E2E8F0",
-                  }}
-                >
-                  <div>
-                    <div
-                      style={{
-                        fontSize: "0.65rem",
-                        color: "#94A3B8",
-                        fontWeight: 700,
-                        textTransform: "uppercase",
-                        marginBottom: "4px",
-                      }}
-                    >
-                      Demo Email
-                    </div>
-                    <code style={{ fontSize: "0.82rem", color: "#0F172A" }}>
-                      advisor@nktinsurance.com
-                    </code>
-                  </div>
-                  <div>
-                    <div
-                      style={{
-                        fontSize: "0.65rem",
-                        color: "#94A3B8",
-                        fontWeight: 700,
-                        textTransform: "uppercase",
-                        marginBottom: "4px",
-                      }}
-                    >
-                      Demo Password
-                    </div>
-                    <code style={{ fontSize: "0.82rem", color: "#0F172A" }}>nkt123</code>
-                  </div>
-                </div>
               </div>
               <div
                 style={{
@@ -2763,7 +2761,7 @@ export function AdvisorWorkspace({
           <div
             className="portal-modal"
             onClick={(e) => e.stopPropagation()}
-            style={{ maxWidth: "460px" }}
+            style={{ maxWidth: "460px", maxHeight: "90vh", overflowY: "auto" }}
           >
             <button
               type="button"
@@ -2929,6 +2927,16 @@ export function AdvisorWorkspace({
         .kpi-card:hover { box-shadow: 0 10px 25px -5px rgb(0 0 0 / 0.05), 0 8px 10px -6px rgb(0 0 0 / 0.05) !important; transform: translateY(-3px); border-color: #CBD5E1 !important; }
         @keyframes sidebarSlide { from { transform: translateX(100%); } to { transform: translateX(0); } }
         body { overflow: hidden; }
+        body.modal-open {
+          overflow: hidden !important;
+        }
+        body.modal-open .advisor-root {
+          overflow: hidden !important;
+          height: 100vh !important;
+        }
+        body.modal-open .advisor-main-container > main {
+          overflow: hidden !important;
+        }
 
         /* Login Portal Sleek Styles */
         .nkt-input { transition: all 200ms ease !important; }

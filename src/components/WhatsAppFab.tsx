@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
-import { WA_NUMBER } from "./icons";
+import { WA_NUMBER, WhatsAppIcon } from "./icons";
+import { X, Send } from "lucide-react";
 
 export function WhatsAppFab() {
   const [isOpen, setIsOpen] = useState(false);
@@ -138,7 +139,7 @@ export function WhatsAppFab() {
             onClick={() => setIsOpen(false)}
             aria-label="Close chat widget"
           >
-            <i className="fa-solid fa-xmark" style={{ fontSize: "18px" }}></i>
+            <X size={18} />
           </button>
         </div>
 
@@ -190,7 +191,7 @@ export function WhatsAppFab() {
               onClick={handleSend}
               aria-label="Send WhatsApp message"
             >
-              <i className="fa-solid fa-paper-plane" style={{ fontSize: "15px", marginLeft: "2px" }}></i>
+              <Send size={15} style={{ marginLeft: "2px" }} />
             </button>
           </div>
         </div>
@@ -206,9 +207,9 @@ export function WhatsAppFab() {
         title={isOpen ? "Close chat widget" : "WhatsApp us now"}
       >
         {isOpen ? (
-          <i className="fa-solid fa-xmark" style={{ fontSize: "24px" }}></i>
+          <X size={24} />
         ) : (
-          <i className="fa-brands fa-whatsapp" style={{ fontSize: "26px" }}></i>
+          <WhatsAppIcon size={26} />
         )}
       </button>
     </>

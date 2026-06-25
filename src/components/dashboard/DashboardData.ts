@@ -68,8 +68,8 @@ export const DEATH_AMT_TREND = [
 ];
 
 export const CLAIMS_VOLUME = [
-  { type: "Annuity", volume: 638, amtCr: 70100, csr: 99.93, color: "#ec4899" },
-  { type: "Survival", volume: 325, amtCr: 32000, csr: 98.25, color: "#a855f7" },
+  { type: "Annuity", volume: 638, amtCr: 70100, csr: 99.93, color: "#0ea5e9" },
+  { type: "Survival", volume: 325, amtCr: 32000, csr: 98.25, color: "#3b82f6" },
   { type: "Maturity", volume: 320, amtCr: 130000, csr: 94.1, color: "#f59e0b" },
   { type: "Indl DC", volume: 103, amtCr: 230272, csr: 98.15, color: "#4f8ef7" },
   { type: "Group DC", volume: 24.9, amtCr: 5760, csr: 98.2, color: "#10b981" },
@@ -80,8 +80,8 @@ export const PREMIUM_SEGMENT = [
   { name: "Traditional Life", value: 534304, color: "#4f8ef7" },
   { name: "Pension/Annuity", value: 124526, color: "#10b981" },
   { name: "ULIP", value: 100327, color: "#f59e0b" },
-  { name: "Non-linked Annuity", value: 27856, color: "#a855f7" },
-  { name: "Health Riders", value: 798, color: "#ec4899" },
+  { name: "Non-linked Annuity", value: 27856, color: "#0284c7" },
+  { name: "Health Riders", value: 798, color: "#0ea5e9" },
 ];
 
 export const POLICIES_ISSUED = [
@@ -99,10 +99,10 @@ export const MARKET_SHARE = [
 
 export const INSURER_CSR = [
   { name: "HDFC Life", csr: 99.71, fill: "#4f8ef7" },
-  { name: "Axis Max Life", csr: 99.7, fill: "#6366f1" },
-  { name: "ABSLI", csr: 99.65, fill: "#8b5cf6" },
-  { name: "ICICI Prudential", csr: 99.3, fill: "#a855f7" },
-  { name: "Bajaj Allianz", csr: 99.29, fill: "#ec4899" },
+  { name: "Axis Max Life", csr: 99.7, fill: "#3b82f6" },
+  { name: "ABSLI", csr: 99.65, fill: "#0f766e" },
+  { name: "ICICI Prudential", csr: 99.3, fill: "#0284c7" },
+  { name: "Bajaj Allianz", csr: 99.29, fill: "#f59e0b" },
   { name: "SBI Life", csr: 98.83, fill: "#f97316" },
   { name: "Kotak Mahindra", csr: 98.61, fill: "#f59e0b" },
   { name: "LIC", csr: 98.15, fill: "#10b981" },
@@ -158,7 +158,7 @@ export const KPI_CARDS = [
     value: "99.93%",
     delta: "+0.01%",
     up: true,
-    color: "#a855f7",
+    color: "#0ea5e9",
     icon: "heart",
   },
   {
@@ -166,7 +166,7 @@ export const KPI_CARDS = [
     value: "291.77L",
     delta: "+2.5%",
     up: true,
-    color: "#ec4899",
+    color: "#10b981",
     icon: "users",
   },
   {
@@ -199,8 +199,8 @@ export const COLORS_CSR = {
   indlDeath: "#4f8ef7",
   groupDeath: "#10b981",
   maturity: "#f59e0b",
-  survival: "#a855f7",
-  annuity: "#ec4899",
+  survival: "#3b82f6",
+  annuity: "#0ea5e9",
   industry: "#64748b",
 };
 
@@ -235,7 +235,7 @@ export const HEALTH_CLAIM_CATEGORIES = [
   { type: "Inpatient Hospitalisation", volume: 52.0, color: "#4f8ef7" },
   { type: "Day-Care Procedures", volume: 28.0, color: "#10b981" },
   { type: "Pre & Post Hospital", volume: 12.0, color: "#f59e0b" },
-  { type: "OPD & Checkups", volume: 8.0, color: "#a855f7" },
+  { type: "OPD & Checkups", volume: 8.0, color: "#06b6d4" },
 ];
 
 export const HEALTH_REJECTION_REASONS = [
@@ -266,7 +266,7 @@ export const MOTOR_CSR = [
   { name: "Bajaj Allianz", csr: 91.57, fill: "#f97316" },
   { name: "Go Digit", csr: 90.69, fill: "#3b82f6" },
   { name: "Reliance General", csr: 90.4, fill: "#b45309" },
-  { name: "Acko General", csr: 88.62, fill: "#ec4899" },
+  { name: "Acko General", csr: 88.62, fill: "#0ea5e9" },
   { name: "ICICI Lombard", csr: 80.98, fill: "#0284c7" },
   { name: "Tata AIG", csr: 80.22, fill: "#c2410c" },
 ];
@@ -276,14 +276,14 @@ export const MOTOR_CLAIM_CATEGORIES = [
   { type: "Glass & Windshield", volume: 18.0, color: "#10b981" },
   { type: "Natural Calamities", volume: 7.0, color: "#f59e0b" },
   { type: "Theft / Total Loss", volume: 4.0, color: "#ef4444" },
-  { type: "Engine Water Ingress", volume: 3.0, color: "#a855f7" },
+  { type: "Engine Water Ingress", volume: 3.0, color: "#0ea5e9" },
 ];
 
 export const MOTOR_REJECTION_REASONS = [
   { name: "Invalid License/Influence", percentage: 32, color: "#ef4444" },
   { name: "Lapsed Policy", percentage: 24, color: "#f97316" },
   { name: "Delayed Intimation", percentage: 18, color: "#f59e0b" },
-  { name: "Consequential Damage", percentage: 14, color: "#a855f7" },
+  { name: "Consequential Damage", percentage: 14, color: "#64748b" },
   { name: "Misrepresentation", percentage: 12, color: "#64748b" },
 ];
 
@@ -547,7 +547,7 @@ export const MOTOR_CSR_ALL: Record<string, typeof MOTOR_CSR> = {
     { name: "Go Digit", csr: 81.36, fill: "#3b82f6" },
     { name: "ICICI Lombard", csr: 76.87, fill: "#0284c7" },
     { name: "Reliance General", csr: 76.8, fill: "#b45309" },
-    { name: "Acko General", csr: 74.15, fill: "#ec4899" },
+    { name: "Acko General", csr: 74.15, fill: "#0ea5e9" },
   ],
   "2021-22": [
     { name: "New India Assurance", csr: 93.04, fill: "#0369a1" },
@@ -557,12 +557,12 @@ export const MOTOR_CSR_ALL: Record<string, typeof MOTOR_CSR> = {
     { name: "Tata AIG", csr: 83.17, fill: "#c2410c" },
     { name: "Go Digit", csr: 81.86, fill: "#3b82f6" },
     { name: "ICICI Lombard", csr: 80.43, fill: "#0284c7" },
-    { name: "Acko General", csr: 73.15, fill: "#ec4899" },
+    { name: "Acko General", csr: 73.15, fill: "#0ea5e9" },
   ],
   "2022-23": [
     { name: "HDFC ERGO", csr: 94.32, fill: "#ea580c" },
     { name: "New India Assurance", csr: 93.13, fill: "#0369a1" },
-    { name: "Acko General", csr: 88.2, fill: "#ec4899" },
+    { name: "Acko General", csr: 88.2, fill: "#0ea5e9" },
     { name: "Go Digit", csr: 87.71, fill: "#3b82f6" },
     { name: "ICICI Lombard", csr: 85.44, fill: "#0284c7" },
     { name: "Reliance General", csr: 84.55, fill: "#b45309" },
@@ -575,7 +575,7 @@ export const MOTOR_CSR_ALL: Record<string, typeof MOTOR_CSR> = {
     { name: "Bajaj Allianz", csr: 92.18, fill: "#f97316" },
     { name: "New India Assurance", csr: 92.07, fill: "#0369a1" },
     { name: "Go Digit", csr: 90.69, fill: "#3b82f6" },
-    { name: "Acko General", csr: 87.87, fill: "#ec4899" },
+    { name: "Acko General", csr: 87.87, fill: "#0ea5e9" },
     { name: "ICICI Lombard", csr: 80.97, fill: "#0284c7" },
     { name: "Tata AIG", csr: 79.59, fill: "#c2410c" },
   ],
@@ -585,7 +585,7 @@ export const MOTOR_CSR_ALL: Record<string, typeof MOTOR_CSR> = {
     { name: "Bajaj Allianz", csr: 91.57, fill: "#f97316" },
     { name: "Go Digit", csr: 90.69, fill: "#3b82f6" },
     { name: "Reliance General", csr: 90.4, fill: "#b45309" },
-    { name: "Acko General", csr: 88.62, fill: "#ec4899" },
+    { name: "Acko General", csr: 88.62, fill: "#0ea5e9" },
     { name: "ICICI Lombard", csr: 80.98, fill: "#0284c7" },
     { name: "Tata AIG", csr: 80.22, fill: "#c2410c" },
   ],
@@ -595,7 +595,7 @@ export const MOTOR_CSR_ALL: Record<string, typeof MOTOR_CSR> = {
     { name: "Reliance General", csr: 93.33, fill: "#b45309" },
     { name: "HDFC ERGO", csr: 93.11, fill: "#ea580c" },
     { name: "Go Digit", csr: 92.18, fill: "#3b82f6" },
-    { name: "Acko General", csr: 88.83, fill: "#ec4899" },
+    { name: "Acko General", csr: 88.83, fill: "#0ea5e9" },
     { name: "Tata AIG", csr: 79.35, fill: "#c2410c" },
     { name: "ICICI Lombard", csr: 78.75, fill: "#0284c7" },
   ],

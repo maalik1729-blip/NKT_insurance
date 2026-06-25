@@ -2,6 +2,7 @@ import { Link, useRouter } from "@tanstack/react-router";
 import { WA_NUMBER, TEL, TEL_DISPLAY } from "./icons";
 import { useState, useEffect, useRef } from "react";
 import logoImg from "../assets/images/logo.png";
+import { ChevronDown, Shield, Heart, Car, LayoutDashboard, Phone, ArrowRight, X, Menu, ChevronLeft } from "lucide-react";
 
 export function SiteNav() {
   const [scrolled, setScrolled] = useState(false);
@@ -110,8 +111,12 @@ export function SiteNav() {
           }}
         >
           {/* Brand */}
-          <Link
-            to="/"
+          <a
+            href="/"
+            onClick={(e) => {
+              e.preventDefault();
+              window.location.href = "/";
+            }}
             style={{
               display: "flex",
               alignItems: "center",
@@ -151,7 +156,7 @@ export function SiteNav() {
                 LIC · Health · Motor
               </div>
             </div>
-          </Link>
+          </a>
 
           {/* Desktop links */}
           <nav
@@ -194,10 +199,9 @@ export function SiteNav() {
                 onClick={() => setDropdownOpen((o) => !o)}
               >
                 Insurance Plans{" "}
-                <i
-                  className="fa-solid fa-chevron-down"
+                <ChevronDown
+                  size={13}
                   style={{
-                    fontSize: "13px",
                     transform: dropdownOpen ? "rotate(180deg)" : "none",
                     transition: "transform 200ms",
                   }}
@@ -224,19 +228,19 @@ export function SiteNav() {
                   {[
                     {
                       to: "/life-insurance",
-                      icon: <i className="fa-solid fa-shield-halved" style={{ fontSize: "15px" }}></i>,
+                      icon: <Shield size={15} />,
                       title: "Life Insurance (LIC)",
                       desc: "Term cover, savings & retirement plans.",
                     },
                     {
                       to: "/health-insurance",
-                      icon: <i className="fa-solid fa-heart" style={{ fontSize: "15px" }}></i>,
+                      icon: <Heart size={15} />,
                       title: "Health Insurance",
                       desc: "Cashless treatment & family cover.",
                     },
                     {
                       to: "/motor-insurance",
-                      icon: <i className="fa-solid fa-car" style={{ fontSize: "15px" }}></i>,
+                      icon: <Car size={15} />,
                       title: "Motor Insurance",
                       desc: "Quick policies for cars & bikes.",
                     },
@@ -326,26 +330,7 @@ export function SiteNav() {
                 {link.label}
               </Link>
             ))}
-            <Link
-              to="/insurance-dashboard"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "5px",
-                fontSize: "0.875rem",
-                fontWeight: 600,
-                color: "var(--color-accent)",
-                padding: "7px 14px",
-                borderRadius: "8px",
-                textDecoration: "none",
-                background: "var(--color-accent-bg)",
-                border: "1px solid var(--color-accent-line)",
-                transition: "all 160ms",
-              }}
-              className="nav__link dashboard-btn"
-            >
-              <i className="fa-solid fa-chart-simple" style={{ fontSize: "13px" }}></i> Dashboard
-            </Link>
+
           </nav>
 
           {/* Actions */}
@@ -369,14 +354,14 @@ export function SiteNav() {
               }}
               className="nav__phone"
             >
-              <i className="fa-solid fa-phone" style={{ fontSize: "13px" }}></i> {TEL_DISPLAY}
+              <Phone size={13} /> {TEL_DISPLAY}
             </a>
             <Link
               to="/contact"
               className="btn btn-primary btn-sm"
               style={{ display: "inline-flex", alignItems: "center", gap: "5px" }}
             >
-              Get a Quote <i className="fa-solid fa-arrow-right" style={{ fontSize: "13px" }}></i>
+              Get a Quote <ArrowRight size={13} />
             </Link>
           </div>
 
@@ -402,9 +387,9 @@ export function SiteNav() {
             className="nav__hamburger"
           >
             {menuOpen ? (
-              <i className="fa-solid fa-xmark" style={{ fontSize: "18px" }}></i>
+              <X size={18} />
             ) : (
-              <i className="fa-solid fa-bars" style={{ fontSize: "18px" }}></i>
+              <Menu size={18} />
             )}
           </button>
         </div>
@@ -460,13 +445,17 @@ export function SiteNav() {
             }}
             className="nav__mobile-back-btn"
           >
-            <i className="fa-solid fa-chevron-left" style={{ fontSize: "16px" }}></i> Back
+            <ChevronLeft size={16} /> Back
           </button>
 
           {/* Centered Brand / Logo */}
-          <Link
-            to="/"
-            onClick={() => setMenuOpen(false)}
+          <a
+            href="/"
+            onClick={(e) => {
+              e.preventDefault();
+              setMenuOpen(false);
+              window.location.href = "/";
+            }}
             style={{
               display: "flex",
               alignItems: "center",
@@ -489,7 +478,7 @@ export function SiteNav() {
             >
               NKT Insurance
             </span>
-          </Link>
+          </a>
 
           {/* Close button on the right */}
           <button
@@ -510,7 +499,7 @@ export function SiteNav() {
             }}
             aria-label="Close menu"
           >
-            <i className="fa-solid fa-xmark" style={{ fontSize: "16px" }}></i>
+            <X size={16} />
           </button>
         </div>
 
@@ -530,17 +519,17 @@ export function SiteNav() {
           {[
             {
               to: "/life-insurance",
-              icon: <i className="fa-solid fa-shield-halved" style={{ fontSize: "14px" }}></i>,
+              icon: <Shield size={14} />,
               label: "Life Insurance (LIC)",
             },
             {
               to: "/health-insurance",
-              icon: <i className="fa-solid fa-heart" style={{ fontSize: "14px" }}></i>,
+              icon: <Heart size={14} />,
               label: "Health Insurance",
             },
             {
               to: "/motor-insurance",
-              icon: <i className="fa-solid fa-car" style={{ fontSize: "14px" }}></i>,
+              icon: <Car size={14} />,
               label: "Motor Insurance",
             },
           ].map((item) => {
@@ -599,31 +588,7 @@ export function SiteNav() {
               </Link>
             );
           })}
-          {(() => {
-            const isActive = router.state.location.pathname === "/insurance-dashboard";
-            return (
-              <Link
-                to="/insurance-dashboard"
-                onClick={() => setMenuOpen(false)}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "8px",
-                  padding: "12px 10px",
-                  borderRadius: "10px",
-                  textDecoration: "none",
-                  fontSize: "0.95rem",
-                  fontWeight: 600,
-                  color: "var(--color-accent)",
-                  background: isActive ? "var(--color-accent-bg)" : "transparent",
-                  transition: "all 150ms ease",
-                }}
-                className={`nav__mobile-link ${isActive ? "active" : ""}`}
-              >
-                <i className="fa-solid fa-chart-simple" style={{ fontSize: "14px" }}></i> Insurance Dashboard
-              </Link>
-            );
-          })()}
+
 
           <div style={{ height: "1px", background: "#F1F5F9", margin: "8px 0" }} />
 
@@ -641,7 +606,7 @@ export function SiteNav() {
                 height: "46px",
               }}
             >
-              Get a Free Quote <i className="fa-solid fa-arrow-right" style={{ fontSize: "14px" }}></i>
+              Get a Free Quote <ArrowRight size={14} />
             </Link>
             <a
               href={`tel:${TEL}`}
@@ -657,7 +622,7 @@ export function SiteNav() {
                 gap: "6px",
               }}
             >
-              <i className="fa-solid fa-phone" style={{ fontSize: "13px" }}></i> {TEL_DISPLAY}
+              <Phone size={13} /> {TEL_DISPLAY}
             </a>
           </div>
         </div>

@@ -13,8 +13,8 @@ const PREMIUM_BY_SEGMENT = [
   { name: "Traditional Life", value: 534304, pct: 77.1, color: "#4f8ef7", icon: "life" },
   { name: "Pension / Annuity", value: 124526, pct: 18.0, color: "#10b981", icon: "pension" },
   { name: "ULIP (Linked)", value: 100327, pct: 14.5, color: "#f59e0b", icon: "ulip" },
-  { name: "Health Riders", value: 798, pct: 0.1, color: "#a855f7", icon: "health" },
-  { name: "Annuity (Non-Link)", value: 27856, pct: 4.0, color: "#ec4899", icon: "annuity" },
+  { name: "Health Riders", value: 798, pct: 0.1, color: "#0ea5e9", icon: "health" },
+  { name: "Annuity (Non-Link)", value: 27856, pct: 4.0, color: "#0f766e", icon: "annuity" },
 ];
 
 // ── Policies Issued (Lakhs) — Table 9 ────────────────────────────────
@@ -92,7 +92,7 @@ const POPULAR_PLANS = [
     users: "1.9 Cr+",
     avgPremium: "₹25,000–1,00,000/yr",
     examples: ["LIC SIIP", "LIC Index Plus", "HDFC Click 2 Wealth"],
-    color: "#a855f7",
+    color: "#0ea5e9",
     why: "Higher returns via equity + debt — NAV-based maturity",
     badge: "Wealth Builder",
   },
@@ -107,7 +107,7 @@ const POPULAR_PLANS = [
     users: "1.2 Cr+",
     avgPremium: "₹50,000–5,00,000 (single)",
     examples: ["LIC Jeevan Akshay", "LIC Jeevan Shanti", "LIC New Jeevan Nidhi"],
-    color: "#ec4899",
+    color: "#0f766e",
     why: "Guaranteed pension for life — popular post-retirement",
     badge: "Retirement Plan",
   },
@@ -165,7 +165,7 @@ const CLAIM_VOLUME_2024 = [
     type: "Annuity / Pension",
     no: 6380000,
     csr: 99.93,
-    color: "#ec4899",
+    color: "#0ea5e9",
     amtCr: 70100,
     src: "LIC AR 2024",
   },
@@ -173,7 +173,7 @@ const CLAIM_VOLUME_2024 = [
     type: "Individual Survival Benefit",
     no: 3250000,
     csr: 98.5,
-    color: "#a855f7",
+    color: "#3b82f6",
     amtCr: 32000,
     src: "LIC AR 2024",
   },
@@ -244,7 +244,10 @@ export function IndiaInsuranceMarketSection({ selectedYear }: IndiaInsuranceMark
   const [activePlan, setActivePlan] = useState<number | null>(null);
 
   return (
-    <section className="mkt-section">
+    <section
+      className="mkt-section"
+      style={{ color: "#0f172a" }}
+    >
       {/* Header */}
       <div className="mkt-header">
         <div className="mkt-badge">
