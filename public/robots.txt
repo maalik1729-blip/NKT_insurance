@@ -1,0 +1,27 @@
+# robots.txt for NKT Insurance Solutions
+# https://nktinsurance.in
+
+User-agent: *
+Allow: /
+
+# Public pages
+Allow: /about
+Allow: /services
+Allow: /contact
+Allow: /claims
+Allow: /health-insurance
+Allow: /life-insurance
+Allow: /motor-insurance
+
+# Block admin & internal routes
+Disallow: /admin
+Disallow: /admin/login
+Disallow: /insurance-dashboard
+
+# Block common crawler traps
+Disallow: /api/
+Disallow: /_build/
+Disallow: /__data/
+
+# Sitemap location
+Sitemap: https://nktinsurance.in/sitemap.xml
