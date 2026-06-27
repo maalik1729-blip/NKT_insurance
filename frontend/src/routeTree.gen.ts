@@ -16,7 +16,6 @@ import { Route as InsuranceDashboardRouteImport } from './routes/insurance-dashb
 import { Route as HealthInsuranceRouteImport } from './routes/health-insurance'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ClaimsRouteImport } from './routes/claims'
-import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
@@ -56,11 +55,6 @@ const ClaimsRoute = ClaimsRouteImport.update({
   path: '/claims',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminRoute = AdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -72,15 +66,14 @@ const IndexRoute = IndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => AdminRoute,
+  id: '/admin/login',
+  path: '/admin/login',
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/admin': typeof AdminRouteWithChildren
   '/claims': typeof ClaimsRoute
   '/contact': typeof ContactRoute
   '/health-insurance': typeof HealthInsuranceRoute
@@ -93,7 +86,6 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/admin': typeof AdminRouteWithChildren
   '/claims': typeof ClaimsRoute
   '/contact': typeof ContactRoute
   '/health-insurance': typeof HealthInsuranceRoute
@@ -107,7 +99,6 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/admin': typeof AdminRouteWithChildren
   '/claims': typeof ClaimsRoute
   '/contact': typeof ContactRoute
   '/health-insurance': typeof HealthInsuranceRoute
@@ -122,7 +113,6 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
-    | '/admin'
     | '/claims'
     | '/contact'
     | '/health-insurance'
@@ -135,7 +125,6 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
-    | '/admin'
     | '/claims'
     | '/contact'
     | '/health-insurance'
@@ -148,7 +137,6 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
-    | '/admin'
     | '/claims'
     | '/contact'
     | '/health-insurance'
@@ -162,7 +150,6 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  AdminRoute: typeof AdminRouteWithChildren
   ClaimsRoute: typeof ClaimsRoute
   ContactRoute: typeof ContactRoute
   HealthInsuranceRoute: typeof HealthInsuranceRoute
@@ -170,6 +157,7 @@ export interface RootRouteChildren {
   LifeInsuranceRoute: typeof LifeInsuranceRoute
   MotorInsuranceRoute: typeof MotorInsuranceRoute
   ServicesRoute: typeof ServicesRoute
+  AdminLoginRoute: typeof AdminLoginRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -223,13 +211,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ClaimsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin': {
-      id: '/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AdminRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -246,28 +227,17 @@ declare module '@tanstack/react-router' {
     }
     '/admin/login': {
       id: '/admin/login'
-      path: '/login'
+      path: '/admin/login'
       fullPath: '/admin/login'
       preLoaderRoute: typeof AdminLoginRouteImport
-      parentRoute: typeof AdminRoute
+      parentRoute: typeof rootRouteImport
     }
   }
 }
 
-interface AdminRouteChildren {
-  AdminLoginRoute: typeof AdminLoginRoute
-}
-
-const AdminRouteChildren: AdminRouteChildren = {
-  AdminLoginRoute: AdminLoginRoute,
-}
-
-const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  AdminRoute: AdminRouteWithChildren,
   ClaimsRoute: ClaimsRoute,
   ContactRoute: ContactRoute,
   HealthInsuranceRoute: HealthInsuranceRoute,
@@ -275,6 +245,7 @@ const rootRouteChildren: RootRouteChildren = {
   LifeInsuranceRoute: LifeInsuranceRoute,
   MotorInsuranceRoute: MotorInsuranceRoute,
   ServicesRoute: ServicesRoute,
+  AdminLoginRoute: AdminLoginRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

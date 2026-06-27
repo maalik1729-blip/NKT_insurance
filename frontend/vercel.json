@@ -6,10 +6,6 @@
   "env": {
     "NITRO_PRESET": "vercel"
   },
-  "redirects": [
-    { "source": "/admin", "destination": "/admin/login", "permanent": true },
-    { "source": "/admin/", "destination": "/admin/login", "permanent": true }
-  ],
   "rewrites": [
     { "source": "/admin/:path*", "destination": "https://nkt-insurance-an58.vercel.app/:path*" }
   ]
