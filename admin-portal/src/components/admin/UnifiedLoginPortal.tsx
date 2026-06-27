@@ -197,7 +197,7 @@ export function UnifiedLoginPortal({ onAdvisorLoginSuccess }: UnifiedLoginPortal
               {[
                 "Full CRM with per-lead activity timeline",
                 "Interactive leads & conversion analytics",
-                "One-click WhatsApp, call & email actions",
+                "One-click WhatsApp & phone call actions",
                 "CSV export & follow-up management",
               ].map((feat, i) => (
                 <div key={i} style={{ display: "flex", alignItems: "center", gap: "10px" }}>
