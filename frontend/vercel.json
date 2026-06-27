@@ -7,6 +7,9 @@
     "NITRO_PRESET": "vercel"
   },
   "rewrites": [
-    { "source": "/admin/:path*", "destination": "https://nkt-insurance-an58.vercel.app/:path*" }
+    { "source": "/admin/assets/:path*", "destination": "https://nkt-insurance-an58.vercel.app/assets/:path*" },
+    { "source": "/admin/login", "destination": "https://nkt-insurance-an58.vercel.app/" },
+    { "source": "/admin/favicon.png", "destination": "https://nkt-insurance-an58.vercel.app/favicon.png" },
+    { "source": "/admin/icons.svg", "destination": "https://nkt-insurance-an58.vercel.app/icons.svg" }
   ]
 }
