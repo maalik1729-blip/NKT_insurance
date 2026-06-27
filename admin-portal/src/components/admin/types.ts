@@ -12,7 +12,6 @@ export interface Lead {
   id: string;
   name: string;
   phone: string;
-  email: string;
   interest: string;
   status: LeadStatus;
   premium: number;

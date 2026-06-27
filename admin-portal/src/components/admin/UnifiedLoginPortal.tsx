@@ -1,8 +1,9 @@
-import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { CheckCircle2, UserCircle, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
-import { Spinner } from "@/components/Spinner";
-import logoImg from "@/assets/images/logo.png";
+import { Spinner } from "../Spinner";
+import logoImg from "../../assets/images/logo.png";
+
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 interface UnifiedLoginPortalProps {
   onAdvisorLoginSuccess: (username: string) => void;
@@ -16,27 +17,41 @@ export function UnifiedLoginPortal({ onAdvisorLoginSuccess }: UnifiedLoginPortal
   const [advisorLoading, setAdvisorLoading] = useState(false);
   const [advisorMsg, setAdvisorMsg] = useState("");
 
-  const handleAdvisorLoginSubmit = (e: React.FormEvent) => {
+  const handleAdvisorLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setAdvisorLoading(true);
     setAdvisorMsg("");
 
-    setTimeout(() => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/admin/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: advisorUsername.trim(),
+          password: advisorPassword,
+        }),
+      });
+
+      const data = await response.json();
       setAdvisorLoading(false);
-      const userClean = advisorUsername.trim();
-      if (userClean === "admin" && advisorPassword === "admin123") {
+
+      if (response.ok && data.success) {
         setAdvisorMsg("Accessing Advisor Workspace...");
         setTimeout(() => {
-          onAdvisorLoginSuccess(userClean);
+          onAdvisorLoginSuccess(data.username);
         }, 600);
       } else {
-        setAdvisorMsg("Invalid credentials. Please use the staging details below.");
+        setAdvisorMsg(data.error || "Invalid credentials.");
       }
-    }, 800);
+    } catch (err) {
+      setAdvisorLoading(false);
+      setAdvisorMsg("Error connecting to login server.");
+    }
   };
 
   const accentColor = "var(--color-accent)";
-  const accentBg = "var(--color-accent-bg)";
   const accentBorder = "var(--color-accent-line)";
 
   return (
@@ -71,10 +86,10 @@ export function UnifiedLoginPortal({ onAdvisorLoginSuccess }: UnifiedLoginPortal
 
         {/* Logo */}
         <a
-          href="/"
+          href="http://localhost:8080/"
           onClick={(e) => {
             e.preventDefault();
-            window.location.href = "/";
+            window.location.href = "http://localhost:8080/";
           }}
           style={{
             display: "flex",
@@ -303,7 +318,7 @@ export function UnifiedLoginPortal({ onAdvisorLoginSuccess }: UnifiedLoginPortal
                       letterSpacing: "0.07em",
                       display: "block",
                       marginBottom: "7px",
-                    }}
+                     }}
                   >
                     Username
                   </label>

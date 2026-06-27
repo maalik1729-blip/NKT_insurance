@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import { useRouter } from "@tanstack/react-router";
 import { X } from "lucide-react";
 import { UnifiedLoginPortal } from "./UnifiedLoginPortal";
 import { AdvisorWorkspace } from "./AdvisorWorkspace";
-import { Lead, AdvisorToast } from "./types";
+import type { Lead, AdvisorToast } from "./types";
+
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 export function AdminDashboard() {
-  const router = useRouter();
 
   const [advisorEmail, setAdvisorEmail] = useState("");
   const [advisorName, setAdvisorName] = useState("Mohamed Jiyavutheen");
@@ -14,36 +14,26 @@ export function AdminDashboard() {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [mounted, setMounted] = useState(false);
 
-  // Load state from localStorage on mount to prevent SSR hydration mismatch
+  // Load state from localStorage on mount and fetch leads from MongoDB
   useEffect(() => {
     const storedEmail = localStorage.getItem("nkt_advisor_email") || "";
     const storedName = localStorage.getItem("nkt_advisor_name") || "Mohamed Jiyavutheen";
-    let storedLeads: Lead[] = [];
-    try {
-      const stored = localStorage.getItem("nkt_leads");
-      const parsed = stored ? JSON.parse(stored) : [];
-      
-      // Clean up any old seed leads and specific default mock profiles from localStorage
-      const seedNames = new Set([
-        "Rajesh Sharma",
-        "Priya Patel",
-        "Amit Verma",
-        "Sunita Rao",
-        "Vikram Singh",
-        "Anil Gupta"
-      ]);
-      
-      storedLeads = (parsed as Lead[]).filter(
-        (l) => !l.id.startsWith("lead_seed_") && !seedNames.has(l.name)
-      );
-      localStorage.setItem("nkt_leads", JSON.stringify(storedLeads));
-    } catch {
-      storedLeads = [];
-    }
-
     setAdvisorEmail(storedEmail);
     setAdvisorName(storedName);
-    setLeads(storedLeads);
+
+    const fetchLeads = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/leads`);
+        if (response.ok) {
+          const data = await response.json();
+          setLeads(data);
+        }
+      } catch (err) {
+        console.error("Error fetching initial leads:", err);
+      }
+    };
+
+    fetchLeads();
     setMounted(true);
   }, []);
 
@@ -65,58 +55,65 @@ export function AdminDashboard() {
     };
   }, [advisorEmail]);
 
-  // Cross-tab real-time sync with browser Audio notifies and custom toast slider pops
+  // Poll Express API for real-time lead updates from MongoDB (replaces localStorage storage listener)
   useEffect(() => {
-    const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === "nkt_leads") {
-        try {
-          const newValue = e.newValue ? JSON.parse(e.newValue) : [];
+    if (!advisorEmail) return;
 
-          setLeads((prevLeads) => {
-            const prevIds = new Set(prevLeads.map((l) => l.id));
-            const newLeads = (newValue as Lead[]).filter((l) => !prevIds.has(l.id));
+    const pollInterval = setInterval(async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/leads`);
+        if (!response.ok) return;
+        const latestLeads = await response.json();
 
-            if (newLeads.length > 0 && advisorEmail) {
-              newLeads.forEach((lead) => {
-                const toastId = `toast_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
-                setToasts((prevToasts) => [
-                  ...prevToasts,
-                  {
-                    id: toastId,
-                    message: `Product: ${lead.interest === "life" ? "Life Insurance 🛡️" : lead.interest === "health" ? "Health Insurance 🏥" : "Motor Insurance 🚗"}`,
-                    leadName: lead.name,
-                    interest: lead.interest,
-                  },
-                ]);
+        setLeads((prevLeads) => {
+          // If previous list is empty (e.g. during initial loading), load the new leads
+          if (prevLeads.length === 0) return latestLeads;
 
-                // Play a high-quality notification chime using Web Audio API
-                try {
-                  const audioCtx = new (
-                    window.AudioContext || (window as any).webkitAudioContext
-                  )();
-                  const osc = audioCtx.createOscillator();
-                  const gain = audioCtx.createGain();
+          const prevIds = new Set(prevLeads.map((l) => l.id));
+          const newLeads = (latestLeads as Lead[]).filter((l) => !prevIds.has(l.id));
 
-                  osc.connect(gain);
-                  gain.connect(audioCtx.destination);
+          if (newLeads.length > 0) {
+            newLeads.forEach((lead) => {
+              const toastId = `toast_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+              setToasts((prevToasts) => [
+                ...prevToasts,
+                {
+                  id: toastId,
+                  message: `Product: ${lead.interest === "life" ? "Life Insurance 🛡️" : lead.interest === "health" ? "Health Insurance 🏥" : "Motor Insurance 🚗"}`,
+                  leadName: lead.name,
+                  interest: lead.interest,
+                },
+              ]);
 
-                  osc.type = "sine";
-                  osc.frequency.setValueAtTime(659.25, audioCtx.currentTime); // E5
-                  gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
-                  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.4);
+              // Play a high-quality notification chime using Web Audio API
+              try {
+                const audioCtx = new (
+                  window.AudioContext || (window as any).webkitAudioContext
+                )();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
 
-                  osc.start();
-                  osc.stop(audioCtx.currentTime + 0.4);
-                } catch (err) {}
-              });
-            }
-            return newValue;
-          });
-        } catch (err) {}
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                osc.type = "sine";
+                osc.frequency.setValueAtTime(659.25, audioCtx.currentTime); // E5
+                gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.4);
+
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.4);
+              } catch (err) {}
+            });
+          }
+          return latestLeads;
+        });
+      } catch (err) {
+        console.error("Error polling leads:", err);
       }
-    };
-    window.addEventListener("storage", handleStorageChange);
-    return () => window.removeEventListener("storage", handleStorageChange);
+    }, 8000); // Poll every 8 seconds
+
+    return () => clearInterval(pollInterval);
   }, [advisorEmail]);
 
   // Toast Auto-expiration timer
@@ -147,7 +144,6 @@ export function AdminDashboard() {
     setAdvisorEmail("");
     localStorage.removeItem("nkt_advisor_email");
     localStorage.removeItem("nkt_advisor_name");
-    router.navigate({ to: "/admin/login" });
   };
 
   if (!mounted) {

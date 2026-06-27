@@ -1,45 +1,20 @@
+# Dependencies
+node_modules/
+
+# Local env files
+.env
+.env.local
+
+# Build outputs
+dist/
+.vercel/
+
 # Logs
-logs
-*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-.output
-.vinxi
-.tanstack/**
-.nitro
-*.local
-
-# Wrangler / Cloudflare
-.wrangler/
-.dev.vars
-
-# Vercel
-.vercel
-
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-!.vscode/settings.json
-.idea
+# Editors
+.vscode/settings.json
+.idea/
 .DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-.gstack/
-
-# AI tooling state (local-only)
-.kiro/
-.impeccable/
-.lovable/
-
-# Data scraping cache
-docs/fetched/

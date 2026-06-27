@@ -12,7 +12,6 @@ import {
   X,
   MessageCircle,
   Phone,
-  Mail,
   Heart,
   Car,
   ChevronRight,
@@ -20,7 +19,6 @@ import {
   Clock,
   ShieldCheck,
   TrendingUp,
-  AlertCircle,
   ArrowRight,
 } from "lucide-react";
 import {
@@ -37,10 +35,10 @@ import {
   Area,
   CartesianGrid,
 } from "recharts";
-import { Link } from "@tanstack/react-router";
-import { Spinner } from "@/components/Spinner";
-import logoImg from "@/assets/images/logo.png";
-import { Lead, TimelineEvent, LeadStatus } from "./types";
+import logoImg from "../../assets/images/logo.png";
+import type { Lead, TimelineEvent, LeadStatus } from "./types";
+
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 interface AdvisorWorkspaceProps {
   advisorEmail: string;
@@ -50,8 +48,7 @@ interface AdvisorWorkspaceProps {
   onLogout: () => void;
 }
 
-const makeTimeline = (events: Omit<TimelineEvent, "id">[]): TimelineEvent[] =>
-  events.map((e, i) => ({ ...e, id: `te_seed_${i}` }));
+
 
 export function AdvisorWorkspace({
   advisorEmail,
@@ -78,9 +75,9 @@ export function AdvisorWorkspace({
   const [newTimelineType, setNewTimelineType] = useState<TimelineEvent["type"]>("note");
   const [newName, setNewName] = useState("");
   const [newPhone, setNewPhone] = useState("");
-  const [newEmail, setNewEmail] = useState("");
+
   const [newInterest, setNewInterest] = useState("life");
-  const [newPremium, setNewPremium] = useState("15000");
+  const [newPremium, setNewPremium] = useState("");
   const [newNotes, setNewNotes] = useState("");
 
   // Prevent background scrolling when "Add Lead" modal or "Lead Detail" sidebar is open
@@ -99,7 +96,10 @@ export function AdvisorWorkspace({
     };
   }, [isAddOpen, selectedLead]);
 
-  const handleStatusChange = (leadId: string, newStatus: LeadStatus) => {
+  const handleStatusChange = async (leadId: string, newStatus: LeadStatus) => {
+    const targetLead = leads.find((l) => l.id === leadId);
+    if (!targetLead) return;
+
     const entry: TimelineEvent = {
       id: `te_${Date.now()}`,
       type: "status",
@@ -107,26 +107,48 @@ export function AdvisorWorkspace({
       timestamp: new Date().toISOString(),
       actor: advisorEmail,
     };
-    const updated = leads.map((l) =>
-      l.id === leadId ? { ...l, status: newStatus, timeline: [...(l.timeline || []), entry] } : l,
-    );
-    setLeads(updated);
-    if (selectedLead?.id === leadId)
-      setSelectedLead({
-        ...selectedLead,
-        status: newStatus,
-        timeline: [...(selectedLead.timeline || []), entry],
+    const updatedTimeline = [...(targetLead.timeline || []), entry];
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/leads/${leadId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: newStatus, timeline: updatedTimeline }),
       });
+      if (response.ok) {
+        const data = await response.json();
+        const updatedLead = data.lead;
+        setLeads(leads.map((l) => (l.id === leadId ? updatedLead : l)));
+        if (selectedLead?.id === leadId) setSelectedLead(updatedLead);
+      }
+    } catch (err) {
+      console.error("Error updating status:", err);
+    }
   };
 
-  const handleFollowUpChange = (leadId: string, date: string) => {
-    const updated = leads.map((l) => (l.id === leadId ? { ...l, followUpDate: date } : l));
-    setLeads(updated);
-    if (selectedLead?.id === leadId) setSelectedLead({ ...selectedLead, followUpDate: date });
+  const handleFollowUpChange = async (leadId: string, date: string) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/leads/${leadId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ followUpDate: date }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        const updatedLead = data.lead;
+        setLeads(leads.map((l) => (l.id === leadId ? updatedLead : l)));
+        if (selectedLead?.id === leadId) setSelectedLead(updatedLead);
+      }
+    } catch (err) {
+      console.error("Error updating follow-up date:", err);
+    }
   };
 
-  const handleAddTimelineNote = (leadId: string, message: string, type: TimelineEvent["type"]) => {
+  const handleAddTimelineNote = async (leadId: string, message: string, type: TimelineEvent["type"]) => {
     if (!message.trim()) return;
+    const targetLead = leads.find((l) => l.id === leadId);
+    if (!targetLead) return;
+
     const entry: TimelineEvent = {
       id: `te_${Date.now()}`,
       type,
@@ -134,61 +156,94 @@ export function AdvisorWorkspace({
       timestamp: new Date().toISOString(),
       actor: advisorEmail,
     };
-    const updated = leads.map((l) =>
-      l.id === leadId ? { ...l, timeline: [...(l.timeline || []), entry] } : l,
-    );
-    setLeads(updated);
-    if (selectedLead?.id === leadId)
-      setSelectedLead({ ...selectedLead, timeline: [...(selectedLead.timeline || []), entry] });
-    setNewTimelineNote("");
+    const updatedTimeline = [...(targetLead.timeline || []), entry];
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/leads/${leadId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ timeline: updatedTimeline }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        const updatedLead = data.lead;
+        setLeads(leads.map((l) => (l.id === leadId ? updatedLead : l)));
+        if (selectedLead?.id === leadId) setSelectedLead(updatedLead);
+        setNewTimelineNote("");
+      }
+    } catch (err) {
+      console.error("Error adding timeline note:", err);
+    }
   };
 
-  const handleAddNewLead = (e: React.FormEvent) => {
+  const handleAddNewLead = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newName || !newPhone) return;
-    const newLead: Lead = {
-      id: "lead_" + Date.now() + "_" + Math.random().toString(36).substring(2, 9),
+
+    const rawLeadData = {
       name: newName,
       phone: newPhone,
-      email: newEmail || `${newName.toLowerCase().replace(/[^a-z0-9]/g, ".")}@example.com`,
+
       interest: newInterest,
-      status: "new",
-      premium: parseFloat(newPremium) || 15000,
+      premium: newPremium ? parseFloat(newPremium) : undefined,
       notes: newNotes || "Manually added via advisor dashboard.",
-      createdAt: new Date().toISOString(),
       assignedAdvisor: advisorName,
-      followUpDate: "",
       source: "manual",
-      timeline: makeTimeline([
+      timeline: [
         {
+          id: `te_${Date.now()}`,
           type: "system",
           message: "Lead manually added by advisor.",
           timestamp: new Date().toISOString(),
         },
-      ]),
+      ],
     };
-    setLeads([newLead, ...leads]);
-    setNewName("");
-    setNewPhone("");
-    setNewEmail("");
-    setNewInterest("life");
-    setNewPremium("15000");
-    setNewNotes("");
-    setIsAddOpen(false);
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/leads`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(rawLeadData),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        const createdLead = data.lead;
+        setLeads([createdLead, ...leads]);
+        setNewName("");
+        setNewPhone("");
+
+        setNewInterest("life");
+        setNewPremium("");
+        setNewNotes("");
+        setIsAddOpen(false);
+      }
+    } catch (err) {
+      console.error("Error creating manual lead:", err);
+    }
   };
 
-  const handleDeleteLead = (leadId: string) => {
+  const handleDeleteLead = async (leadId: string) => {
     if (!window.confirm("Delete this lead?")) return;
-    setLeads(leads.filter((l) => l.id !== leadId));
-    setSelectedLead(null);
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/leads/${leadId}`, {
+        method: "DELETE",
+      });
+      if (response.ok) {
+        setLeads(leads.filter((l) => l.id !== leadId));
+        setSelectedLead(null);
+      }
+    } catch (err) {
+      console.error("Error deleting lead:", err);
+    }
   };
 
   const handleExportCSV = () => {
-    const h = "Date,Name,Phone,Email,Product,Premium,Status,Notes\r\n";
+    const h = "Date,Name,Phone,Product,Status,Notes\r\n";
     const r = filteredLeads
       .map(
         (l) =>
-          `"${new Date(l.createdAt).toLocaleDateString()}","${l.name}","${l.phone}","${l.email}","${l.interest}","${l.premium}","${l.status}","${l.notes.replace(/"/g, '""')}"`,
+          `"${new Date(l.createdAt).toLocaleDateString()}","${l.name}","${l.phone}","${l.interest}","${l.status}","${l.notes.replace(/"/g, '""')}"`,
       )
       .join("\r\n");
     const blob = new Blob([h + r], { type: "text/csv;charset=utf-8;" });
@@ -206,8 +261,7 @@ export function AdvisorWorkspace({
     const ms =
       !q ||
       lead.name.toLowerCase().includes(q) ||
-      lead.phone.includes(q) ||
-      lead.email.toLowerCase().includes(q);
+      lead.phone.includes(q);
     return (
       ms &&
       (statusFilter === "all" || lead.status === statusFilter) &&
@@ -396,8 +450,8 @@ export function AdvisorWorkspace({
           >
             <Plus size={16} /> Add Lead
           </button>
-          <Link
-            to="/insurance-dashboard"
+          <a
+            href="http://localhost:8080/insurance-dashboard"
             style={{
               display: "flex",
               alignItems: "center",
@@ -417,7 +471,7 @@ export function AdvisorWorkspace({
             className="advisor-nav-dashboard-link"
           >
             <LayoutDashboard size={16} /> View Stats
-          </Link>
+          </a>
         </nav>
         <div style={{ padding: "14px 16px", borderTop: "1px solid #F1F5F9" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
@@ -2384,7 +2438,7 @@ export function AdvisorWorkspace({
                 <h3 style={{ fontSize: "1rem", fontWeight: 700, color: "#0F172A", margin: 0 }}>
                   {selectedLead.name}
                 </h3>
-                <span style={{ fontSize: "0.72rem", color: "#94A3B8" }}>{selectedLead.email}</span>
+                <span style={{ fontSize: "0.72rem", color: "#94A3B8" }}>{selectedLead.phone}</span>
               </div>
               <button
                 type="button"
@@ -2493,28 +2547,7 @@ export function AdvisorWorkspace({
                 >
                   <Phone size={13} /> Call
                 </a>
-                <a
-                  href={`mailto:${selectedLead.email}`}
-                  onClick={() => handleAddTimelineNote(selectedLead.id, "Email sent.", "email")}
-                  style={{
-                    flex: 1,
-                    height: "36px",
-                    background: "var(--color-accent-bg)",
-                    color: "var(--color-accent)",
-                    border: "1px solid var(--color-accent-line)",
-                    borderRadius: "8px",
-                    fontWeight: 700,
-                    fontSize: "0.78rem",
-                    cursor: "pointer",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: "6px",
-                    textDecoration: "none",
-                  }}
-                >
-                  <Mail size={13} /> Email
-                </a>
+
               </div>
               <div style={{ marginBottom: "14px" }}>
                 <label
@@ -2794,14 +2827,7 @@ export function AdvisorWorkspace({
                   set: setNewPhone,
                   ph: "+91 XXXXX XXXXX",
                 },
-                {
-                  id: "nl-email",
-                  label: "Email",
-                  type: "email",
-                  val: newEmail,
-                  set: setNewEmail,
-                  ph: "email@example.com",
-                },
+
               ].map((f) => (
                 <div key={f.id}>
                   <label
