@@ -10,6 +10,8 @@ interface UnifiedLoginPortalProps {
 }
 
 export function UnifiedLoginPortal({ onAdvisorLoginSuccess }: UnifiedLoginPortalProps) {
+  const clientWebsiteUrl = import.meta.env.VITE_CLIENT_WEBSITE_URL || "http://localhost:8080/";
+
   // Advisor Form states
   const [advisorUsername, setAdvisorUsername] = useState("");
   const [advisorPassword, setAdvisorPassword] = useState("");
@@ -86,10 +88,10 @@ export function UnifiedLoginPortal({ onAdvisorLoginSuccess }: UnifiedLoginPortal
 
         {/* Logo */}
         <a
-          href="http://localhost:8080/"
+          href={clientWebsiteUrl}
           onClick={(e) => {
             e.preventDefault();
-            window.location.href = "http://localhost:8080/";
+            window.location.href = clientWebsiteUrl;
           }}
           style={{
             display: "flex",
