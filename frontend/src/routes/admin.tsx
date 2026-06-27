@@ -7,16 +7,14 @@ export const Route = createFileRoute("/admin")({
 });
 
 function RedirectToAdminPortal() {
-  const adminUrl = import.meta.env.VITE_ADMIN_PORTAL_URL || "http://localhost:8081";
-  
   useEffect(() => {
-    window.location.href = adminUrl;
-  }, [adminUrl]);
+    window.location.href = "/admin/login";
+  }, []);
 
   return (
     <div style={{ padding: "40px", textAlign: "center", fontFamily: "sans-serif" }}>
       <h2>Redirecting to NKT Insurance Advisor Platform...</h2>
-      <p>If you are not redirected automatically, <a href={adminUrl}>click here</a>.</p>
+      <p>If you are not redirected automatically, <a href="/admin/login">click here</a>.</p>
     </div>
   );
 }
