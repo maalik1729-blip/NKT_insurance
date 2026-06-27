@@ -71,7 +71,7 @@ async function handleNewLeadProcessing(leadData) {
   // 2️⃣ Trigger WhatsApp Automation
   const PHONE_ID = process.env.VITE_WA_PHONE_NUMBER_ID;
   const TOKEN = process.env.VITE_WA_ACCESS_TOKEN;
-  const ADMIN = process.env.VITE_WA_ADMIN_NUMBER || "919940089442";
+  const ADMIN = process.env.VITE_WA_ADMIN_NUMBER || "919585929914";
 
   if (!PHONE_ID || !TOKEN) {
     console.warn("[WhatsApp] Credentials not configured in .env. Skipping messaging.");
@@ -138,7 +138,7 @@ async function handleNewLeadProcessing(leadData) {
     "We have received your request. Our advisor will call or WhatsApp you within *30 minutes* during business hours (9 AM – 8 PM).",
     "",
     "📞 You can also reach us directly:",
-    "WhatsApp: +91 99400 89442",
+    "WhatsApp: +91 95859 29914",
     "",
     "— NKT Insurance Team 🏥",
   ].join("\n");

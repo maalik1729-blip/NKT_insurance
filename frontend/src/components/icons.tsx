@@ -39,7 +39,7 @@ export function MailIcon({ size = 16 }: { size?: number }) {
   );
 }
 
-export const WA_NUMBER = "919940089442";
+export const WA_NUMBER = "919585929914";
 export const TEL = "+919585929914";
 export const TEL_DISPLAY = "+91 95859 29914";
 export const EMAIL = "contact@nktinsurance.com";

@@ -73,7 +73,7 @@ Ensure the `.env` files are set up in their respective directories before starti
 * `MONGODB_URI`: Connection string for MongoDB Atlas
 * `VITE_WA_ACCESS_TOKEN`: Meta Graph API v18.0 temporary or permanent access token
 * `VITE_WA_PHONE_NUMBER_ID`: WhatsApp Phone Number ID from Meta Developer Console
-* `VITE_WA_ADMIN_NUMBER`: The administrator WhatsApp number to receive lead alerts (e.g., `919940089442`)
+* `VITE_WA_ADMIN_NUMBER`: The administrator WhatsApp number to receive lead alerts (e.g., `919585929914`)
 * `PORT`: Default is `10000` (Render) or `5000` (Local)
 
 ### Frontend Configuration (`frontend/.env`)

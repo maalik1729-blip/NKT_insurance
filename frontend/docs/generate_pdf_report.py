@@ -566,7 +566,7 @@ def create_report(filename):
     
     story.append(Paragraph("WhatsApp Sandbox Credentials", h2_style))
     story.append(Paragraph("• <b>Sandbox Sender</b>: +1 (555) 670-8889", bullet_style))
-    story.append(Paragraph("• <b>Admin Receiver</b>: +91 99400 89442", bullet_style))
+    story.append(Paragraph("• <b>Admin Receiver</b>: +91 95859 29914", bullet_style))
     story.append(Paragraph("• <b>Session Rule</b>: To receive notifications, the admin receiver must opt-in by sending the word 'JOIN' or 'Hi' to the Sandbox Sender number once every 24 hours.", bullet_style))
     
     story.append(Paragraph("WhatsApp Notification Code", h2_style))

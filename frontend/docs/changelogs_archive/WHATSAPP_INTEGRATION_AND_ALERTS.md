@@ -17,7 +17,7 @@ We implemented full integration with the official **Meta WhatsApp Cloud API** (v
 ### 1. Dual-Alert Notification Chain
 Instead of relying on browser redirection to external WhatsApp links, the system performs server-to-server messaging using the Graph API:
 
-- **Admin Notification**: Sends a structured lead alert directly to the administrator phone number (`919940089442` or configured in `.env`). The alert includes the client's name, phone, chosen insurance interest, and the submission time (in IST).
+- **Admin Notification**: Sends a structured lead alert directly to the administrator phone number (`919585929914` or configured in `.env`). The alert includes the client's name, phone, chosen insurance interest, and the submission time (in IST).
 - **Customer Auto-Confirmation**: Sends a warm greeting and auto-confirmation message directly to the customer's phone number, informing them that an advisor will contact them within 30 minutes.
 
 ### 2. Number Parsing and Format Standardization

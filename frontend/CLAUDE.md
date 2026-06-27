@@ -351,5 +351,5 @@ Implemented in [AdminDashboard.tsx](file:///d:/nktinsurance-main/src/components/
 Implemented in [whatsapp.ts](file:///d:/nktinsurance-main/src/lib/whatsapp.ts):
 
 - **Access Tokens:** Configured through `VITE_WA_ACCESS_TOKEN` and `VITE_WA_PHONE_NUMBER_ID` in `.env`.
-- **Admin Alerts:** Sends instant WhatsApp details notification to `919940089442` (admin).
+- **Admin Alerts:** Sends instant WhatsApp details notification to `919585929914` (admin).
 - **Session Rules:** Receivers must send a greeting message like "Hi" to the Sandbox Sender number (`+1 (555) 670-8889`) to open a 24-hour message session window.

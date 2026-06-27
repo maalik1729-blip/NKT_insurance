@@ -141,7 +141,7 @@ export function LeadForm({ heading = "Request a callback" }: { heading?: string 
           8 PM).
         </p>
         <p style={{ fontSize: "0.85rem", color: "var(--color-text-muted, #888)" }}>
-          📱 You can also reach us directly on WhatsApp: <strong>+91 99400 89442</strong>
+          📱 You can also reach us directly on WhatsApp: <strong>+91 95859 29914</strong>
         </p>
         <button
           className="btn btn-primary form-submit"
