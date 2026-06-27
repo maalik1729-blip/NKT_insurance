@@ -120,7 +120,7 @@ async function handleNewLeadProcessing(leadData) {
     if (!adminResponse.ok) {
       console.error("[WhatsApp] Admin alert failed:", await adminResponse.json());
     } else {
-      console.log("[WhatsApp] Admin alert sent successfully to", ADMIN);
+      console.log("[WhatsApp] Admin notification sent successfully to", ADMIN);
     }
   } catch (err) {
     console.error("[WhatsApp] Admin alert exception:", err);
