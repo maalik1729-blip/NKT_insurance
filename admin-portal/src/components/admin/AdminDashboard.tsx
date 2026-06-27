@@ -186,7 +186,7 @@ export function AdminDashboard() {
           leads={leads}
           setLeads={(updated: Lead[]) => {
             setLeads(updated);
-            localStorage.setItem("nkt_leads", JSON.stringify(updated));
+            localStorage.setItem("nkt_leads", btoa(JSON.stringify(updated)));
           }}
           onLogout={handleLogout}
         />

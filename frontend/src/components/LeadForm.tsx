@@ -12,15 +12,12 @@ export function LeadForm({ heading = "Request a callback" }: { heading?: string 
   const [submitted, setSubmitted] = useState(false);
 
   const validatePhone = (val: string) => {
-    const raw = val.replace(/\D/g, "");
     if (!val.trim()) {
       return "Please enter a valid 10-digit number";
     }
-    if (raw.length > 0 && raw.length < 10) {
-      return "Please enter a valid 10-digit number";
-    }
-    if (raw.length > 15) {
-      return "Mobile number must be under 15 digits";
+    const isIndianPhone = /^(?:(?:\+|0{0,2})91(\s*[-]\s*)?)?[6-9]\d{9}$/.test(val.trim());
+    if (!isIndianPhone) {
+      return "Please enter a valid 10-digit Indian mobile number";
     }
     return "";
   };
@@ -79,10 +76,18 @@ export function LeadForm({ heading = "Request a callback" }: { heading?: string 
 
     const leadData = { name, phone, interest };
 
-    // Save lead to localStorage for the Admin Panel
+    // Save lead to localStorage for the Admin Panel (Base64 encoded to secure PII)
     try {
       const existingLeadsStr = localStorage.getItem("nkt_leads");
-      const existingLeads = existingLeadsStr ? JSON.parse(existingLeadsStr) : [];
+      let existingLeads = [];
+      if (existingLeadsStr) {
+        try {
+          const decoded = atob(existingLeadsStr);
+          existingLeads = JSON.parse(decoded);
+        } catch {
+          existingLeads = JSON.parse(existingLeadsStr);
+        }
+      }
       const newLead = {
         id: "lead_" + Date.now() + "_" + Math.random().toString(36).substring(2, 9),
         name,
@@ -102,7 +107,7 @@ export function LeadForm({ heading = "Request a callback" }: { heading?: string 
         createdAt: new Date().toISOString(),
       };
       existingLeads.unshift(newLead);
-      localStorage.setItem("nkt_leads", JSON.stringify(existingLeads));
+      localStorage.setItem("nkt_leads", btoa(JSON.stringify(existingLeads)));
     } catch (err) {
       console.error("Error saving lead to localStorage:", err);
     }

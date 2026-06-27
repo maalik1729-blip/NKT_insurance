@@ -85,6 +85,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "author", content: "NKT Insurance Solutions" },
       { property: "og:type", content: "website" },
+      { property: "og:image", content: "https://www.nktinsurance.co.in/favicon.png" },
+      { property: "og:image:width", content: "512" },
+      { property: "og:image:height", content: "512" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
@@ -115,12 +118,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         type: "application/ld+json",
         children: JSON.stringify({
           "@context": "https://schema.org",
-          "@type": "LocalBusiness",
+          "@type": "InsuranceAgency",
           name: "NKT Insurance Solutions",
           description:
-            "Licensed insurance advisor offering life, health, and motor insurance guidance.",
+            "IRDAI certified licensed independent insurance advisor in India. Expert consultations across Life, Health, and Motor insurance.",
           telephone: "+91-9585929914",
           email: "contact@nktinsurance.com",
+          url: "https://www.nktinsurance.co.in",
+          logo: "https://www.nktinsurance.co.in/favicon.png",
+          knowsAbout: ["Life Insurance", "Health Insurance", "Motor Insurance", "LIC Plans"],
           address: {
             "@type": "PostalAddress",
             streetAddress: "25/293 A M G Street, Newtown",
@@ -128,6 +134,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
             addressRegion: "Tamil Nadu",
             postalCode: "635752",
             addressCountry: "IN",
+          },
+          geo: {
+            "@type": "GeoCoordinates",
+            latitude: "12.6841",
+            longitude: "78.6186",
+          },
+          openingHoursSpecification: {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+            opens: "09:00",
+            closes: "20:00",
           },
         }),
       },

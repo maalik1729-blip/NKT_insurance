@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import dns from "dns";
+import crypto from "crypto";
 import Lead from "./models/Lead.js";
 
 // Force Node.js to use Google & Cloudflare DNS to resolve MongoDB Atlas SRV records
@@ -34,7 +35,87 @@ mongoose
 
 // Enable CORS for frontend applications (client on 8080, admin on 8081, etc.)
 app.use(cors());
-app.use(express.json());
+
+// Configure JSON parser to capture raw body for HMAC signature validation
+app.use(
+  express.json({
+    verify: (req, res, buf) => {
+      req.rawBody = buf;
+    },
+  })
+);
+
+// Simple in-memory rate limiter middleware for spam protection
+const ipRequests = new Map();
+const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
+const MAX_REQUESTS_PER_WINDOW = 15; // Max 15 requests/min per IP
+
+function rateLimiter(req, res, next) {
+  const ip = req.ip || req.headers["x-forwarded-for"] || req.socket.remoteAddress;
+  const now = Date.now();
+
+  if (!ipRequests.has(ip)) {
+    ipRequests.set(ip, []);
+  }
+
+  const timestamps = ipRequests.get(ip);
+  const activeTimestamps = timestamps.filter((t) => now - t < RATE_LIMIT_WINDOW);
+
+  if (activeTimestamps.length >= MAX_REQUESTS_PER_WINDOW) {
+    console.warn(`[RateLimit] Blocked request from IP ${ip}`);
+    return res.status(429).json({ success: false, error: "Too many requests. Please try again later." });
+  }
+
+  activeTimestamps.push(now);
+  ipRequests.set(ip, activeTimestamps);
+  next();
+}
+
+// HMAC Webhook signature verification middleware
+function verifyWebhookSignature(req, res, next) {
+  const signature = req.headers["x-hub-signature-256"];
+  const appSecret = process.env.VITE_WA_APP_SECRET || process.env.WA_APP_SECRET;
+
+  if (!appSecret) {
+    console.warn("[Webhook] WA_APP_SECRET not configured in env. Bypassing signature check.");
+    return next();
+  }
+
+  if (!signature) {
+    console.warn("[Webhook] Missing X-Hub-Signature-256 header.");
+    return res.status(401).send("Signature missing");
+  }
+
+  const elements = signature.split("=");
+  const signatureHash = elements[1];
+  const expectedHash = crypto
+    .createHmac("sha256", appSecret)
+    .update(req.rawBody || "")
+    .digest("hex");
+
+  if (signatureHash !== expectedHash) {
+    console.warn("[Webhook] Signature verification failed.");
+    return res.status(401).send("Signature mismatch");
+  }
+
+  next();
+}
+
+// Input validation middleware for new lead submissions
+function validateLeadInput(req, res, next) {
+  const { name, phone, interest } = req.body;
+  if (!name || !phone || !interest) {
+    return res.status(400).json({ success: false, error: "Missing required fields." });
+  }
+
+  // Regex validation for Indian mobile numbers
+  const isIndianPhone = /^(?:(?:\+|0{0,2})91(\s*[-]\s*)?)?[6-9]\d{9}$/.test(phone.trim());
+  if (!isIndianPhone) {
+    return res.status(400).json({ success: false, error: "Invalid Indian mobile number format." });
+  }
+
+  next();
+}
 
 // Basic health check route
 app.get("/health", (req, res) => {
@@ -187,12 +268,7 @@ app.get("/", (req, res) => {
 });
 
 // Unified POST route for lead submission (supports both endpoints for compatibility)
-app.post("/api/leads", async (req, res) => {
-  const { name, phone, interest } = req.body;
-  if (!name || !phone || !interest) {
-    return res.status(400).json({ success: false, error: "Missing required fields." });
-  }
-
+app.post("/api/leads", rateLimiter, validateLeadInput, async (req, res) => {
   try {
     const result = await handleNewLeadProcessing(req.body);
     res.status(201).json({ success: true, ...result });
@@ -203,12 +279,7 @@ app.post("/api/leads", async (req, res) => {
 });
 
 // Backward compatibility redirect/alias
-app.post("/api/whatsapp/notify", async (req, res) => {
-  const { name, phone, interest } = req.body;
-  if (!name || !phone || !interest) {
-    return res.status(400).json({ success: false, error: "Missing required fields." });
-  }
-
+app.post("/api/whatsapp/notify", rateLimiter, validateLeadInput, async (req, res) => {
   try {
     const result = await handleNewLeadProcessing(req.body);
     res.status(200).json({ success: result.adminAlertSuccess, ...result });
@@ -297,7 +368,7 @@ app.get("/api/webhook", (req, res) => {
 });
 
 // POST route for WhatsApp Webhook event receipt
-app.post("/api/webhook", (req, res) => {
+app.post("/api/webhook", verifyWebhookSignature, (req, res) => {
   const body = req.body;
   console.log("[Webhook] Received event payload:", JSON.stringify(body, null, 2));
   res.status(200).send("EVENT_RECEIVED");
